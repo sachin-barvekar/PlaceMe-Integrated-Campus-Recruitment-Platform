@@ -55,6 +55,7 @@ const ChartScreen: React.FC<ChartScreenProps> = ({
             dataKey="action"
             onAction={onAction}
             actionOptions={actionOptions}
+            tooltip
           />
         </div>
       </div>

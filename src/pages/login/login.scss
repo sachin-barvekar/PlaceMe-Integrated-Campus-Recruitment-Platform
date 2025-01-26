@@ -16,7 +16,7 @@
     }
 
     .right_side {
-      background-color: $background-color-darker-2;
+      background-color: $background-color-lighter;
 
       .innner_box {
         background-color: var(--white);
@@ -29,8 +29,16 @@
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
+        .rs-picker-block{
+          width: 80% !important;
+          margin-bottom: 5px !important;
+          .rs-btn-close .rs-icon{
+            margin-left: 95% !important;
+          }
+        }
+
         .placeme_logo {
-          width: 70%;
+          width: 70%; 
           max-width: 300px;
           margin-bottom: 20px;
         }
@@ -39,9 +47,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 100%;
-          color: $text-color-primary;
-          transition: background-color 0.3s ease;
+          width: 80%;
 
           img.google_logo {
             width: 20px;
@@ -52,7 +58,11 @@
     }
   }
 
+  
   @media (max-width: 768px) {
+    .left_side {
+      display: none !important;
+    }    
     .rs-row {
       flex-direction: column;
     }

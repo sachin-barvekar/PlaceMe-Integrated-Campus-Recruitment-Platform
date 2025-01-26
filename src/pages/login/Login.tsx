@@ -1,15 +1,13 @@
 import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Row } from 'rsuite'
+import { Row, SelectPicker } from 'rsuite'
 import { Button, Loader } from '../../shared'
 import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
-import SelectDropdown from '../../shared/atoms/selectDropdown/SelectDropdown'
 import GoogleLogo from '../../assets/images/google.svg'
 import './login.scss'
 
 const roles = [
-  { label: 'Select Role', value: '' },
   { label: 'Admin', value: 'admin' },
   { label: 'Student', value: 'student' },
   { label: 'Recruiter', value: 'recruiter' }
@@ -56,15 +54,20 @@ function LoginPage() {
             <span>to</span>
 
             <img src={LOGO} className="placeme_logo" alt="placeMe Logo" />
-            <SelectDropdown
+            <SelectPicker
               data={roles}
               searchable={false}
               style={{ width: 224, marginBottom: 20 }}
               placeholder="Select Role"
-              onChange={setSelectedRole}
+              onChange={(value) => setSelectedRole(value ?? '')}
               value={selectedRole}
+              block
             />
-            <Button onClick={handleLogin} disabled={!selectedRole}>
+            <Button
+              onClick={handleLogin}
+              disabled={!selectedRole}
+              appearance="primary"
+            >
               Login with
               <img src={GoogleLogo} className="google_logo" alt="google_logo" />
             </Button>

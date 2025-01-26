@@ -1,0 +1,27 @@
+@use '../abstracts/variables' as *;
+@import 'rsuite/dist/rsuite.min.css';
+@import 'rsuite/Steps/styles/index.css';
+
+.rs-theme-light,
+#root,
+.app {
+  --rs-text-link: #{$text-color-primary};
+  --rs-sidenav-subtle-text: #{$text-color-primary};
+  --rs-dropdown-divider: #{$dropdown-divider-color};
+  --rs-border-primary: #{$divider-color};
+  // Tabs
+  --rs-navs-selected: #{$text-color-primary};
+  --rs-navs-selected-color: #{$text-color-primary};
+  --rs-navs-text: #{$text-color-lighter-2};
+  // divider
+  --rs-divider-border: #{$divider-color};
+
+}
+
+.link-group .rs-table-cell-content {
+  padding: 5px;
+}
+
+.rs-nav-item.rs-nav-item-active {
+  font-weight: 600;
+}

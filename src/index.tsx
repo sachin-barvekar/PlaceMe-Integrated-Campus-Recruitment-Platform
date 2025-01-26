@@ -6,6 +6,7 @@ import { Loader } from './shared'
 import { store } from './redux/store/store'
 import reportWebVitals from './reportWebVitals'
 import App from './App'
+import 'rsuite/dist/rsuite.min.css'
 import './scss/app.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
