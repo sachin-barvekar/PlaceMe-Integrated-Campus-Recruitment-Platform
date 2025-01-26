@@ -9,6 +9,12 @@
   }
 
   .rs-panel {
-    background: #fff ;
+    background: #fff;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout .rs-content {
+    padding: 0.5rem;
   }
 }

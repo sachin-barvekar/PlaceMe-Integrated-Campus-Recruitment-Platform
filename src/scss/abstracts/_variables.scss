@@ -1,50 +1,48 @@
-// Variables
+// Dynamic Colors - Primary and Secondary
+$primary-color: #2B478B;  // Define your primary color (blue)
+$secondary-color: #F99746; // Define your secondary color (orange)
 
-// Colors
+// Text Colors (Dynamic)
+$text-color-primary: darken($primary-color, 20%);
+$text-color-secondary: darken($primary-color, 50%);
+$text-color-lighter: lighten($primary-color, 20%);
+$text-color-lighter-2: lighten($primary-color, 30%);
+$text-color-heading: darken($primary-color, 30%);
+$text-color-content: lighten($primary-color, 10%);
+$text-light-grey: lighten($primary-color, 60%);
+$text-dark-grey: lighten($primary-color, 40%);
+$text-color-light: darken($primary-color, 10%);
+$text-color-lighter-3: lighten($primary-color, 25%);
+$text-color-background: lighten($primary-color, 85%);
+$text-color-helper: darken($primary-color, 15%);
+$text-color-green: lighten($secondary-color, 10%);
+$text-color-orange: lighten($secondary-color, 15%);
+$text-color-green-2: lighten($secondary-color, 80%);
+
+// Button Colors (Dynamic)
+$button-color-primary-gradient-start: lighten($primary-color, 10%);
+$button-color-primary: $secondary-color;
+$button-background-color-subtle: lighten($primary-color, 85%);
+$button-background-color-lighter: lighten($primary-color, 60%);
+$button-color-subtle: lighten($primary-color, 30%);
+$button-background-color-primary: $primary-color;
+$button-background-color-secondary: $secondary-color;
+$button-color-primary-default: lighten($primary-color, 75%);
+$button-border-color: lighten($primary-color, 70%);
+
+// Background Colors (Dynamic)
+$background-color-darker: #e9edf5;
+$background-color-lighter-200: #f3f6f8;
+$background-color-lighter: lighten($primary-color, 50%);
+$background-color-darker-2: darken($primary-color, 20%);
+
+// Divider and Border Colors (Dynamic)
+$divider-color: var(--rs-gray-400);
+$toolbar-border-bottom-color: lighten($primary-color, 85%);
+$border-color: lighten($primary-color, 40%);
+$border-color-darker: darken($primary-color, 30%);
+
+// Additional Variables
 $color-white: #fff;
 $color-black: #000;
-
-// Text Colors (Primary - Grays, Secondary - Blues)
-$text-color-primary: #2c3e50;  // Deep gray-blue, fitting your theme
-$text-color-secondary: #304d70;  // Medium blue-gray for secondary text
-$text-color-lighter: #829cbb;  // Lighter blue for text highlights
-$dropdown-divider-color: #f2f4f6;  // Very light neutral for dividers
-$text-color-lighter-2: #4b6c94;  // Soft blue for subtler text
-$text-color-heading: #243757;  // Stronger blue for headings
-$text-color-content: #417fc9;  // Blue for content highlights
-$text-light-grey: #cbd1ea;  // Light gray for background text
-$text-dark-grey: #a0aec3;  // Dark gray for contrast
-$text-color-light: #616161;  // Neutral medium-gray for lighter text
-$text-color-lighter-3: #6e759f;  // Even lighter gray for text
-$text-color-background: #f8f9fa;  // Background gray-white
-$text-color-helper: #496381;  // Muted blue-gray for helper text
-$text-color-green: #5ea650;  // Accent green
-$text-color-orange: #ff9e3d;  // Accent orange
-$text-color-green-2: #e3ffe7;  // Soft green for lighter accents
-
-// Button Colors
-$button-color-primary-gradient-start: #007acc;  // Start of blue gradient for buttons
-$button-color-secondary: #0099ff;  // Blue for primary buttons
-$button-color-primary: #2c3e50;  
-$button-background-color-subtle: #f2f4f6;  // Soft gray for subtle button backgrounds
-$button-background-color-lighter: #eef1f5;
-$button-color-subtle: #778ca2;  // Subtle button text in blue-gray
-$button-background-color-primary: #2c3e50;  // Dark blue-gray for primary button background
-$button-color-primary-default: #eaedf0;  // Light gray for default button text
-$button-border-color: #dde1eb;  // Light gray border for buttons
-
-// Background Colors
-$background-color-lighter: #f8fafb;  // Very light gray for backgrounds
-$background-color-lighter-200: #f3f6f8;  // Slightly darker light gray
-$background-color-darker: #e9edf5;  // Darker light gray
-$background-color-darker-2: #cdd5e4;  // Even darker neutral gray
-
-// Divider and Border Colors
-$divider-color: #e5effd;  // Light neutral divider color
-$toolbar-border-bottom-color: #f7f7fa;  // Subtle toolbar border color
-
-$border-color: #eaecf0;  // Base border color
-$border-color-darker: #424242;  // Darker border for strong contrast
-
-// Gradient Example (based on your color scheme)
-$linear-gradient: linear-gradient(to right, #9e9e9e 0%, #9e9e9e 50%, #f6f6f6 50%, #f6f6f6 100%);
+$dropdown-divider-color: lighten($primary-color, 90%);

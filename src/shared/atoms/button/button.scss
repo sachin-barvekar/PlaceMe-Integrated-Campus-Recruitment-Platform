@@ -1,11 +1,5 @@
 @use '../../../scss/abstracts/variables' as *;
 
-// .button {
-//   --rs-btn-primary-bg: #{$text-color-green};
-//   --rs-btn-primary-hover-bg: #{$text-color-orange};
-//   --rs-btn-primary-active-bg: #{$text-color-primary};
-//   --rs-btn-default-bg: #{$background-color-darker};
-//   --rs-btn-default-text: #{$text-color-primary};
-//   border-radius: 4px;
-//   // height: 45px;
-// }
+.button{
+    color: $color-white !important ;
+}
