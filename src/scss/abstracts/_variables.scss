@@ -21,7 +21,7 @@ $text-color-green-2: lighten($secondary-color, 80%);
 
 // Button Colors (Dynamic)
 $button-color-primary-gradient-start: lighten($primary-color, 10%);
-$button-color-primary: $secondary-color;
+$button-color-primary: $primary-color;
 $button-background-color-subtle: lighten($primary-color, 85%);
 $button-background-color-lighter: lighten($primary-color, 60%);
 $button-color-subtle: lighten($primary-color, 30%);

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Row, SelectPicker } from 'rsuite'
+import { SelectPicker } from 'rsuite'
 import { Button, Loader } from '../../shared'
 import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
@@ -44,36 +44,34 @@ function LoginPage() {
 
   return (
     <div className="login_page">
-      <Row>
-        <div className="left_side">
-          <img src={LOGIN} className="networkLogo__logo" alt="networkLogo" />
-        </div>
-        <div className="right_side">
-          <div className="innner_box">
-            <h1>Welcome</h1>
-            <span>to</span>
+      <div className="left_side">
+        <img src={LOGIN} className="networkLogo__logo" alt="networkLogo" />
+      </div>
+      <div className="right_side">
+        <div className="innner_box">
+          <h1>Welcome</h1>
+          <span>to</span>
 
-            <img src={LOGO} className="placeme_logo" alt="placeMe Logo" />
-            <SelectPicker
-              data={roles}
-              searchable={false}
-              style={{ width: 224, marginBottom: 20 }}
-              placeholder="Select Role"
-              onChange={(value) => setSelectedRole(value ?? '')}
-              value={selectedRole}
-              block
-            />
-            <Button
-              onClick={handleLogin}
-              disabled={!selectedRole}
-              appearance="primary"
-            >
-              Login with
-              <img src={GoogleLogo} className="google_logo" alt="google_logo" />
-            </Button>
-          </div>
+          <img src={LOGO} className="placeme_logo" alt="placeMe Logo" />
+          <SelectPicker
+            data={roles}
+            searchable={false}
+            style={{ width: 224, marginBottom: 20 }}
+            placeholder="Select Role"
+            onChange={(value) => setSelectedRole(value ?? '')}
+            value={selectedRole}
+            block
+          />
+          <Button
+            onClick={handleLogin}
+            disabled={!selectedRole}
+            appearance="primary"
+          >
+            Login with
+            <img src={GoogleLogo} className="google_logo" alt="google_logo" />
+          </Button>
         </div>
-      </Row>
+      </div>
     </div>
   )
 }

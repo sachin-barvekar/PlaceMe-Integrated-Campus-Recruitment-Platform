@@ -1,11 +1,11 @@
 @use '../../scss/abstracts' as *;
 
 .login_page {
-  .rs-row {
     display: flex;
     height: 100vh;
-    width: 100%;
-    background-color: #F2F6F9;
+    width: 100vw;
+    background-color: white;
+    overflow:  hidden !important;
 
     .left_side,
     .right_side {
@@ -67,4 +67,3 @@
       flex-direction: column;
     }
   }
-}
