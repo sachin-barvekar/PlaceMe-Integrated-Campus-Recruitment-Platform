@@ -15,5 +15,6 @@ export { default as PieChart } from './charts/pieChart/PieChart'
 export { default as BarChart } from './charts/barChart/BarChart'
 export { default as LineChart } from './charts/lineChart/LineChart'
 export { default as ProgressCircle } from './charts/progressCircle/ProgressCircle'
+export { default as Uploader } from './uploader/Uploader'
 
 export * from './InputUnits'
