@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
-import { ButtonToolbar, Col, Uploader, DatePicker } from 'rsuite'
+import { ButtonToolbar, Col, DatePicker } from 'rsuite'
 import { Formik, Form, FormikHelpers, FormikProps } from 'formik'
-import CameraRetroIcon from '@rsuite/icons/legacy/CameraRetro'
 import { notifyError, notifySuccess } from '../../../../utils'
 
 import {
@@ -12,7 +11,8 @@ import {
   TextInput,
   Modal,
   SelectDropdown,
-  Panel
+  Panel,
+  Uploader
 } from '../../../../shared'
 import '../../../../scss/common/forms/Form.scss'
 import {
@@ -81,16 +81,20 @@ const AddStudent: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const renderFormButtons = (formikProps: FormikProps<IStudentForm>) => (
     <ButtonToolbar>
-      <Button className="formButton" onClick={() => formikProps.resetForm()}>
+      <Button
+        className="formButton"
+        id="reset"
+        onClick={() => formikProps.resetForm()}
+      >
         Reset
       </Button>
       <Button
         className="formButton"
-        id="success"
+        appearance="primary"
         type="submit"
         disabled={formikProps.isValidating || formikProps.isSubmitting}
       >
-        Add Student
+        Save
       </Button>
     </ButtonToolbar>
   )
@@ -113,7 +117,7 @@ const AddStudent: React.FC<Props> = ({ isOpen, onClose }) => {
             {(formikProps: FormikProps<IStudentForm>) => (
               <Form className="commonForm">
                 <Panel bordered={false}>
-                  <Section title="Student Details">
+                  <Section title="Details">
                     <Row>
                       <Col xs={12}>
                         <TextInput
@@ -204,7 +208,7 @@ const AddStudent: React.FC<Props> = ({ isOpen, onClose }) => {
                       </Col>
                     </Row>
                   </Section>
-                  <Section title="Upload Profile Photo">
+                  <Section title="Profile Photo">
                     <Row>
                       <Col xs={24}>
                         <Uploader
@@ -217,11 +221,7 @@ const AddStudent: React.FC<Props> = ({ isOpen, onClose }) => {
                               formikProps.setFieldValue(PROFILE_PHOTO, file)
                             }
                           }}
-                        >
-                          <Button appearance="ghost">
-                            <CameraRetroIcon />
-                          </Button>
-                        </Uploader>
+                        />
                         <FormikErrorMessage name={PROFILE_PHOTO} />
                       </Col>
                     </Row>

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ButtonToolbar, Col, Uploader } from 'rsuite'
+import { ButtonToolbar, Col } from 'rsuite'
 import { Formik, Form, FormikHelpers, FormikProps } from 'formik'
 import CameraRetroIcon from '@rsuite/icons/legacy/CameraRetro'
 import { notifyError, notifySuccess } from '../../../utils'
@@ -11,7 +11,8 @@ import {
   Section,
   TextInput,
   Modal,
-  Panel
+  Panel,
+  Uploader
 } from '../../../shared'
 import '../../../scss/common/forms/Form.scss'
 import {

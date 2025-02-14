@@ -43,7 +43,10 @@
           height: 50px;
           background-color: white !important;
           border-radius: 8px;
-          border-color: var(--rs-gray-200);
+          border-color: var(--rs-gray-400);
+          &:hover{
+            border-color: $button-background-color-primary;
+          }
         }
 
         .rs-picker-toggle-placeholder {
@@ -123,7 +126,7 @@
   margin-top: 0.3rem !important;
   margin-bottom: 0.3rem !important;
 }
-#success {
-  background-color: $text-color-primary;
+#reset {
+  background-color: $button-background-color-secondary !important;
   color: white;
 }
