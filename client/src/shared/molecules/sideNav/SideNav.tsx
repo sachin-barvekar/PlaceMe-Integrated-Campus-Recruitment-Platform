@@ -2,27 +2,20 @@ import React from 'react'
 import { Sidebar } from 'rsuite'
 import Sidenav from 'rsuite/Sidenav'
 import Nav from 'rsuite/Nav'
-import { ReactComponent as HelpCircleIcon } from '../../../assets/images/sidenav/help-circle.svg'
-import { ReactComponent as SettingsIcon } from '../../../assets/images/sidenav/settings.svg'
-import { Divider } from '../../atoms'
+import MenuItems, { useFilteredMenuItems } from 'config/MenuItems'
+import { ReactComponent as HelpCircleIcon } from 'assets/images/sidenav/help-circle.svg'
+import { ReactComponent as SettingsIcon } from 'assets/images/sidenav/settings.svg'
+import { Divider } from 'shared/atoms'
 import NavItem from './NavItem'
 import './sideNav.scss'
-import allMenuItems from '../../../config/MenuItems'
-import getRolePermissions from '../../../config/authRoles'
-import useAuth from '../../../hooks/Auth'
 
 const SideNav: React.FC = () => {
-  const { role } = useAuth()
+  const menuItems = useFilteredMenuItems()
   const [activeKey, setActiveKey] = React.useState('1')
   const [expanded, setExpanded] = React.useState(false)
   const clickToggler = () => {
     setExpanded(!expanded)
   }
-
-  const permissions = getRolePermissions(role)
-  const filteredMenuItems = allMenuItems.filter(
-    (item) => item && permissions.menuItems.includes(item.name)
-  )
 
   return (
     <Sidebar
@@ -31,7 +24,7 @@ const SideNav: React.FC = () => {
     >
       <div className="sideNav">
         <Sidenav appearance="subtle" expanded={expanded}>
-          <div className="rs-sidenav-toggle">
+          <div content="AgroBeet 2.0" className="rs-sidenav-toggle">
             <button
               aria-label="Collapse"
               type="button"
@@ -71,27 +64,19 @@ const SideNav: React.FC = () => {
           </div>
           <Sidenav.Body>
             <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              {filteredMenuItems.map((item, index) =>
-                item ? (
-                  <NavItem
-                    key={item.name}
-                    id={item.name}
-                    name={item.name}
-                    link={item.link}
-                    icon={item.icon}
-                  />
-                ) : null
-              )}
+              {menuItems.map(({ id, name, link, icon: Icon }) => (
+                <NavItem key={id} id={id} name={name} link={link} icon={Icon} />
+              ))}
               <Divider />
               <NavItem
                 name="Help"
                 icon={HelpCircleIcon}
-                id={`${filteredMenuItems.length + 1}`}
+                id={`${MenuItems.length + 1}`}
               />
               <NavItem
                 name="Settings"
                 icon={SettingsIcon}
-                id={`${filteredMenuItems.length + 2}`}
+                id={`${MenuItems.length + 2}`}
               />
             </Nav>
           </Sidenav.Body>

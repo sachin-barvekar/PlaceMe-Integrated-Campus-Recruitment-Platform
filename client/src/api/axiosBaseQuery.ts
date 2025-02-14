@@ -7,7 +7,7 @@ type AxiosBaseQueryProps = {
 
 type AxiosInstanceProps = {
   url: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
   data?: any,
   params?: any,
   headers?: any

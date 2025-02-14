@@ -2,11 +2,10 @@ import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { CustomProvider } from 'rsuite'
-import { Loader } from './shared'
-import { store } from './redux/store/store'
+import { Loader } from 'shared'
+import store from 'store/store'
 import reportWebVitals from './reportWebVitals'
 import App from './App'
-import 'rsuite/dist/rsuite.min.css'
 import './scss/app.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

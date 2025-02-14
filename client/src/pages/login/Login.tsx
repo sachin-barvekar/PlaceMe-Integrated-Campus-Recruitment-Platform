@@ -6,6 +6,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
 import GoogleLogo from '../../assets/images/google.svg'
 import './login.scss'
+import { LoginRequest } from './types'
 
 const roles = [
   { label: 'Admin', value: 'admin' },
@@ -27,10 +28,20 @@ function LoginPage() {
 
   const handleLogin = async () => {
     if (authContext) {
+      console.log(authContext)
       try {
         await authContext.login()
-        // eslint-disable-next-line
-        console.log(authContext)
+        // const user = authContext.user
+        // if (!user) {
+        //   throw new Error('User data not found after login.')
+        // }
+
+        // const loginData: LoginRequest = {
+        //   email: user.email,
+        //   name: user.displayName || 'User',
+        //   role: user.role || 'user'
+        // }
+
         navigate('/')
       } catch (error) {
         // eslint-disable-next-line

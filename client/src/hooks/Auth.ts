@@ -7,112 +7,149 @@ import {
   browserLocalPersistence,
   User
 } from 'firebase/auth'
-import { notifySuccess, notifyError } from '../utils'
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'
+import { notifyError, notifySuccess } from 'utils'
 import { auth } from '../config/firebase'
-
-const adminEmails = process.env.REACT_APP_ADMIN_EMAILS?.split(',') || []
-const studentsEmails = process.env.REACT_APP_STUDENTS_EMAILS?.split(',') || []
-const recruitersEmails =
-  process.env.REACT_APP_RECRUITERS_EMAILS?.split(',') || []
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
-  role: 'admin' | 'student' | 'recruiter' | null;
+  role: string | null;
+  token: string | null;
+  isLoggedIn: boolean;
+  loadingRole: boolean;
 }
 
 const useAuth = (): AuthContextType => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-  const [role, setRole] = useState<'admin' | 'student' | 'recruiter' | null>(
-    null
+  const [role, setRole] = useState<string | null>(null)
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem('token')
   )
+  const [loadingRole, setLoadingRole] = useState<boolean>(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true)
-      if (currentUser?.email) {
-        const email = currentUser?.email
-
-        if (adminEmails.includes(email)) {
-          setRole('admin')
-        } else if (studentsEmails.includes(email)) {
-          setRole('student')
-        } else if (recruitersEmails.includes(email)) {
-          setRole('recruiter')
-        } else {
-          setRole(null)
-          signOut(auth)
-          localStorage.clear()
-        }
-        setUser(currentUser)
-        setLoading(false)
+      if (currentUser) {
+        await authenticateUser(currentUser)
       } else {
-        setUser(null)
-        localStorage.clear()
+        clearAuthState()
       }
       setLoading(false)
     })
 
-    auth.setPersistence(browserLocalPersistence).catch((error) => {
-      // eslint-disable-next-line
-      console.error('Persistence failed:', error)
+    auth.setPersistence(browserLocalPersistence).catch(() => {
       setLoading(false)
     })
 
     return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const login = async () => {
-    try {
-      const provider = new GoogleAuthProvider()
-      const result = await signInWithPopup(auth, provider)
-      const userData: User = result.user
-      const email = userData.email ?? ''
+  const clearAuthState = () => {
+    setUser(null)
+    setRole(null)
+    setToken(null)
+    localStorage.clear()
+    setLoading(false)
+    setLoadingRole(false)
+  }
 
-      if (adminEmails.includes(email)) {
-        setRole('admin')
-        localStorage.setItem('role', 'admin')
-      } else if (studentsEmails.includes(email)) {
-        setRole('student')
-        localStorage.setItem('role', 'student')
-      } else if (recruitersEmails.includes(email)) {
-        setRole('recruiter')
-        localStorage.setItem('role', 'recruiter')
-      } else {
-        notifyError('Unauthorized email, login failed')
-        await signOut(auth)
-        localStorage.clear()
-        return
-      }
-      notifySuccess('Login Success')
-      setUser(userData)
-      const accessToken = await userData.getIdToken()
+  const authenticateUser = async (currentUser: User) => {
+    try {
+      await syncUserWithFirestore(currentUser)
+      const accessToken = await currentUser.getIdToken(true)
       localStorage.setItem('token', accessToken)
+      setToken(accessToken)
+      setUser(currentUser)
+      setLoading(false)
     } catch (error) {
       notifyError('Login failed')
     }
   }
 
-  const logout = async () => {
+  const syncUserWithFirestore = async (currentUser: User) => {
+    const db = getFirestore()
+    const userDocRef = doc(db, 'users', currentUser.uid)
+    const userDoc = await getDoc(userDocRef)
+
+    const providerData = currentUser.providerData[0]
+    const defaultUserDetails = {
+      email: providerData?.email || '',
+      fullName: providerData?.displayName || '',
+      mobile: providerData?.phoneNumber || null,
+      photoURL: providerData?.photoURL || null,
+      providerId: providerData?.providerId || '',
+      type: ['ABA']
+    }
+
+    if (!userDoc.exists()) {
+      await setDoc(userDocRef, defaultUserDetails)
+      return defaultUserDetails
+    }
+    const existingUserDetails = userDoc.data() || {}
+    if (
+      !existingUserDetails.type ||
+      !Array.isArray(existingUserDetails.type) ||
+      !existingUserDetails.type.includes('ABA')
+    ) {
+      existingUserDetails.type = Array.isArray(existingUserDetails.type)
+        ? [...existingUserDetails.type, 'ABA']
+        : ['ABA']
+      await setDoc(userDocRef, existingUserDetails, { merge: true })
+    }
+    return existingUserDetails
+  }
+
+  const login = async () => {
     try {
-      await signOut(auth)
-      setUser(null)
-      setRole(null)
-      localStorage.clear()
+      const provider = new GoogleAuthProvider()
+      const result = await signInWithPopup(auth, provider)
+      await authenticateUser(result.user)
+      notifySuccess('Login successful.')
+      setLoading(false)
     } catch (error) {
-      notifyError('Logout failed')
+      notifyError('Login failed')
+      setLoading(false)
     }
   }
+
+  const logout = (() => {
+    let hasLoggedOut = false
+    return async () => {
+      if (hasLoggedOut) {
+        return
+      }
+      hasLoggedOut = true
+      try {
+        await signOut(auth)
+        clearAuthState()
+        setUser(null)
+        setRole(null)
+        localStorage.clear()
+
+        notifySuccess('Logout successful')
+      } catch (error) {
+        notifyError('Logout failed')
+      }
+    }
+  })()
+
+  const isLoggedIn = !!token
 
   return {
     user,
     loading,
     login,
     logout,
-    role
+    role,
+    token,
+    isLoggedIn,
+    loadingRole
   }
 }
 
