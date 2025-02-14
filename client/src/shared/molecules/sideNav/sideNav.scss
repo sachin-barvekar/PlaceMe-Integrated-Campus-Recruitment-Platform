@@ -1,0 +1,78 @@
+@use '../../../scss/abstracts/variables' as *;
+.sideNav {
+  display: flex;
+  height: 100%;
+  background-color: $color-white;
+  transition: width 0.15s ease-in;
+  .rs-sidenav-subtle .rs-sidenav-item.rs-sidenav-item-active {
+    background-color: $button-background-color-lighter;
+    font-weight: 900;
+  }
+}
+
+.sidenav-header {
+  margin-top: 13px;
+  transition: display 0.15s all;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  color: $text-color-green;
+  span {
+    color: $text-color-orange;
+  }
+}
+
+.rs-sidenav-subtle .rs-sidenav-toggle {
+  position: absolute;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  height: 60px;
+}
+
+.rs-sidenav-subtle .rs-sidenav-toggle-button {
+  border-radius: 50%;
+  background-color: $button-color-primary !important;
+  width: 30px;
+  height: 30px;
+  color: var(--color-white) !important;
+  position: absolute;
+  left: 245px;
+  transition: left 0.15s ease-in;
+  vertical-align: middle;
+  z-index: 10;
+}
+
+.rs-sidenav-item-icon {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.sidenav-item__text {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.rs-sidenav-item-divider {
+  background-color: var(--rs-dropdown-divider);
+  height: 1px;
+  margin: 6px 0;
+  overflow: hidden;
+}
+
+.collapsing {
+  flex: 0 !important;
+
+  .sideNav .rs-sidenav-subtle .rs-sidenav-body {
+    margin-top: 55px;
+  }
+
+  .sideNav .rs-sidenav-subtle .rs-sidenav-toggle-button {
+    left: 15px;
+  }
+  .rs-sidenav-subtle .rs-sidenav-item.rs-sidenav-item-active {
+    background-color: $button-background-color-primary;
+    color: $color-white;
+  }
+}

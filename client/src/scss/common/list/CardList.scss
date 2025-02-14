@@ -1,0 +1,23 @@
+@use '../../../scss/abstracts' as *;
+
+.card-list {
+  &__main-container {
+    background-color: $color-white;
+    padding: var(--padding-xl) var(--padding-mid) 0 25px;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--gray-700);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .rs-table-cell-content {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    justify-content: flex-start !important;
+  }
+}

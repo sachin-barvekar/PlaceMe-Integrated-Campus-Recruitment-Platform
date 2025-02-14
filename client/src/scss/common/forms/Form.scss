@@ -1,0 +1,130 @@
+@use '../../abstracts/variables' as *;
+@use '../../abstracts/fonts' as *;
+
+.commonForm {
+  .divider {
+    margin-top: 0;
+  }
+
+  .section {
+    &__heading {
+      margin-bottom: 5px;
+      color: $text-color-heading;
+      font-family: $font-primary;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    &__row {
+      padding-bottom: 20px;
+      gap: 10px;
+
+      .rs-input {
+        height: 50px;
+        margin-bottom: 15px;
+      }
+
+      .rs-picker-date {
+        width: 100%;
+
+        .rs-input-group {
+          height: 52px;
+        }
+      }
+
+      .text-area-input {
+        height: 85px !important;
+      }
+
+      .select-picker {
+        width: 100%;
+
+        .rs-picker-toggle {
+          height: 50px;
+          background-color: white !important;
+          border-radius: 8px;
+          border-color: var(--rs-gray-400);
+          &:hover{
+            border-color: $button-background-color-primary;
+          }
+        }
+
+        .rs-picker-toggle-placeholder {
+          color: var(--rs-gray-600) !important;
+        }
+
+        .rs-picker-caret-icon {
+          top: 1rem !important;
+          color: var(--rs-gray-600) !important;
+        }
+
+        .rs-picker-toggle-value,
+        .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+          color: var(--rs-gray-600) !important;
+        }
+      }
+
+      .rs-uploader-file-item-status {
+        display: none;
+      }
+
+      .rs-uploader-trigger-btn {
+        height: 85px;
+        width: 150px;
+        margin: 0;
+      }
+
+      .rs-uploader-picture .rs-uploader-file-item {
+        height: 85px;
+        width: 100px;
+        margin: 0;
+
+        .rs-uploader-file-item-preview > img {
+          height: auto !important;
+          object-fit: cover;
+        }
+      }
+    }
+
+    &__input {
+      .rs-form-control-wrapper {
+        width: 300px;
+
+        &--full-width {
+          width: 800px;
+        }
+      }
+    }
+
+    &__date-picker {
+      .rs-picker-toggle {
+        height: 4px;
+        background-color: white !important;
+        border-radius: 8px;
+        border-color: var(--rs-gray-200);
+      }
+
+      .rs-picker-toggle-placeholder {
+        color: var(--rs-gray-600) !important;
+      }
+
+      .rs-picker-caret-icon {
+        color: var(--rs-gray-600) !important;
+      }
+
+      .rs-picker-toggle-value,
+      .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+        color: var(--rs-gray-600) !important;
+      }
+    }
+  }
+}
+
+.formButton {
+  margin-top: 0.3rem !important;
+  margin-bottom: 0.3rem !important;
+}
+#reset {
+  background-color: $button-background-color-secondary !important;
+  color: white;
+}
