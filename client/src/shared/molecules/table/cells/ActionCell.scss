@@ -1,8 +1,9 @@
 @use '../../../../scss/abstracts/variables' as *;
+
 .link-group {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 }
 
 .action-icons-wrapper {
@@ -15,19 +16,17 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px 0px;
-  border-radius: 5px;
-  background-color: white;
+  padding: 0px 0px; 
+  border-radius: 5px; 
 }
 
 .icon-container {
   display: flex;
   align-items: center;
-  padding: 5px;
+  padding: 5px; 
   border-radius: 5px;
   background-color: var(--rs-gray-500);
   color: white;
-
   &:hover {
     background-color: $text-color-primary;
     color: white;

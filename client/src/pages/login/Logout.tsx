@@ -8,9 +8,15 @@ const Logout = () => {
 
   useEffect(() => {
     const logout = async () => {
-      if (authContext) {
-        await authContext.logout()
-        navigate('/')
+      try {
+        if (authContext?.logout) {
+          await authContext.logout()
+        }
+      } catch (error) {
+        // eslint-disable-next-line
+        console.error('Logout failed', error)
+      } finally {
+        navigate('/auth')
       }
     }
 

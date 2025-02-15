@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { Loader } from 'shared'
 import useAuth from '../hooks/Auth'
 
 interface RouteGuardProps {
@@ -11,7 +10,6 @@ interface RouteGuardProps {
 const RouteGuard: React.FC<RouteGuardProps> = ({ requiredRoles, children }) => {
   const { role } = useAuth()
   const location = useLocation()
-console.log(role)
   if (!role) {
     return <Navigate to="/auth" state={{ from: location }} replace />
   }

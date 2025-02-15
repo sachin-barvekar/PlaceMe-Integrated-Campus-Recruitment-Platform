@@ -8,6 +8,7 @@ interface AuthContextType {
   login: () => Promise<void>;
   logout: () => Promise<void>;
   role: string | null;
+  setRole: (role: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)

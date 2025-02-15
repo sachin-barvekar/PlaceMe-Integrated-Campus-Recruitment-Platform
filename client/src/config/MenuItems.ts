@@ -10,12 +10,20 @@ import { FaUserGraduate, FaRegHandshake } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
+type SubMenuItemType = {
+  id: string,
+  name: string,
+  link: string,
+  icon?: React.FC<HTMLAttributes<SVGElement>>
+}
+
 type MenuItemType = {
   id: string,
   name: string,
   link?: string,
   icon: React.FC<HTMLAttributes<SVGElement>>,
-  roles: string[]
+  roles: string[],
+  subMenu?: SubMenuItemType[]
 }
 
 const menuItems: MenuItemType[] = [
@@ -24,35 +32,35 @@ const menuItems: MenuItemType[] = [
     name: 'Dashboard',
     link: '/',
     icon: AiOutlineHome,
-    roles: ['ROLE_ADMIN']
+    roles: ['admin']
   },
   {
     id: '2',
     name: 'Students',
     link: '/student',
     icon: UserInfoIcon,
-    roles: ['ROLE_ADMIN']
+    roles: ['admin']
   },
   {
     id: '3',
     name: 'Recruiters',
     link: '/recruiter',
     icon: MdBusiness,
-    roles: ['ROLE_ADMIN']
+    roles: ['admin']
   },
   {
     id: '4',
     name: 'Job Openings',
     link: '/openings',
     icon: FaRegHandshake,
-    roles: ['ROLE_ADMIN']
+    roles: ['admin']
   },
   {
     id: '5',
     name: 'Placed Students',
     link: '/placed-students',
     icon: FaUserGraduate,
-    roles: ['ROLE_ADMIN']
+    roles: ['admin']
   },
   {
     id: '6',

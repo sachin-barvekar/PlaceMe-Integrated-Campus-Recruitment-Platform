@@ -65,6 +65,11 @@
     .rs-btn-icon.rs-btn>.rs-icon {
       font-size: 14px;
     }
+    .toolbar-search{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     .select-picker {
       width: 100%;

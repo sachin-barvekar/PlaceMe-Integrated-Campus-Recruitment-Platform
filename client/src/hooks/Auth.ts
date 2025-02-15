@@ -18,6 +18,7 @@ interface AuthContextType {
   token: string | null;
   isLoggedIn: boolean;
   role: string | null;
+  setRole: (role: string | null) => void;
 }
 
 const useAuth = (): AuthContextType => {
@@ -26,20 +27,25 @@ const useAuth = (): AuthContextType => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
   )
-  const [role, setRole] = useState<string | null>('admin')
+  const [role, setRole] = useState<string | null>(
+    localStorage.getItem('role') || null
+  )
 
   useEffect(() => {
     auth.setPersistence(browserLocalPersistence).catch((error) => {
+      // eslint-disable-next-line
       console.error('Persistence setting failed:', error)
     })
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true)
       if (currentUser) {
+        // eslint-disable-next-line
         const token = await currentUser.getIdToken()
         setUser(currentUser)
         setToken(token)
         localStorage.setItem('token', token)
+        setRole(localStorage.getItem('role') ?? null)
       } else {
         clearAuthState()
       }
@@ -52,18 +58,27 @@ const useAuth = (): AuthContextType => {
   const clearAuthState = () => {
     setUser(null)
     setToken(null)
+    setRole(null)
     localStorage.removeItem('token')
+    localStorage.removeItem('role')
     setLoading(false)
   }
 
   const login = async () => {
     try {
+      if (!role) {
+        notifyError('Please select a role before logging in.')
+        return
+      }
+
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
+      // eslint-disable-next-line
       const token = await result.user.getIdToken()
       setUser(result.user)
       setToken(token)
       localStorage.setItem('token', token)
+      localStorage.setItem('role', role)
       notifySuccess('Login successful.')
     } catch (error) {
       notifyError('Login failed')
@@ -72,17 +87,26 @@ const useAuth = (): AuthContextType => {
     }
   }
 
-  const logout = async () => {
-    try {
-      await signOut(auth)
-      clearAuthState()
-      notifySuccess('Logout successful')
-    } catch (error) {
-      notifyError('Logout failed')
-    }
-  }
+  const logout = (() => {
+    let hasLoggedOut = false
+    return async () => {
+      if (hasLoggedOut) {
+        return
+      }
+      hasLoggedOut = true
+      try {
+        await signOut(auth)
+        clearAuthState()
+        setUser(null)
+        setRole(null)
+        localStorage.clear()
 
-  const isLoggedIn = !!token
+        notifySuccess('Logout successful')
+      } catch (error) {
+        notifyError('Logout failed')
+      }
+    }
+  })()
 
   return {
     user,
@@ -90,8 +114,16 @@ const useAuth = (): AuthContextType => {
     login,
     logout,
     token,
-    isLoggedIn,
-    role
+    isLoggedIn: !!token,
+    role,
+    setRole: (newRole) => {
+      setRole(newRole)
+      if (newRole) {
+        localStorage.setItem('role', newRole)
+      } else {
+        localStorage.removeItem('role')
+      }
+    }
   }
 }
 

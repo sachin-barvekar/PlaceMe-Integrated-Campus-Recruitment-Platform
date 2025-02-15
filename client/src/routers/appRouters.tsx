@@ -1,52 +1,15 @@
-import React, { ReactElement, useContext } from 'react'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import RootLayout from '../layouts/RootLayout'
-import { AuthContext } from '../contexts/AuthContext'
+import { createBrowserRouter } from 'react-router-dom'
+import AuthGuard from 'guards/AuthGuard'
+import RouteGuard from 'guards/RouteGuard'
+import Dashboard from 'pages/dashboard/Dashboard'
+import StudentList from 'pages/students/studentList/StudentList'
+import RecruitersList from 'pages/recruiters/recruitersList/RecruitersList'
+import JobOpeningList from 'pages/jobOpenings/jobOpeningsList/JobOpeningsList'
+import PlaceStudentList from 'pages/placeStudents/placeStudentsList/PlaceStudentsList'
+import LogoutPage from '../pages/login/Logout'
+import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
-import { Loader } from '../shared'
-
-const LoginPage = React.lazy(() => import('../pages/login/Login'))
-const LogoutPage = React.lazy(() => import('../pages/login/Logout'))
-const DashboardPage = React.lazy(() => import('../pages/dashboard/Dashboard'))
-const StudentListPage = React.lazy(
-  () => import('../pages/students/studentList/StudentList')
-)
-const RecruiterListPage = React.lazy(
-  () => import('../pages/recruiters/recruitersList/RecruitersList')
-)
-const JobOpeningListPage = React.lazy(
-  () => import('../pages/jobOpenings/jobOpeningsList/JobOpeningsList')
-)
-const PlacedStudentsListPage = React.lazy(
-  () => import('../pages/placeStudents/placeStudentsList/PlaceStudentsList')
-)
-
-type AuthGuardProps = {
-  children: ReactElement,
-  allowedRoles?: string[]
-}
-
-function AuthGuard({ children, allowedRoles }: AuthGuardProps) {
-  const authContext = useContext(AuthContext)
-
-  if (authContext?.loading) {
-    return <Loader />
-  }
-
-  if (!authContext?.user) {
-    return <Navigate to="/auth" />
-  }
-
-  if (
-    authContext.role !== null &&
-    allowedRoles?.length &&
-    !allowedRoles.includes(authContext.role)
-  ) {
-    return <Navigate to="/unauthorized" />
-  }
-
-  return children
-}
+import RootLayout from '../layouts/RootLayout'
 
 const appRouter = () =>
   createBrowserRouter([
@@ -70,42 +33,38 @@ const appRouter = () =>
           children: [
             {
               path: '/',
-              element: (
-                <AuthGuard allowedRoles={['admin', 'student', 'recruiter']}>
-                  <DashboardPage />
-                </AuthGuard>
-              )
+              element: <Dashboard />
             },
             {
               path: '/student',
               element: (
-                <AuthGuard allowedRoles={['admin']}>
-                  <StudentListPage />
-                </AuthGuard>
+                <RouteGuard requiredRoles={['admin']}>
+                  <StudentList />
+                </RouteGuard>
               )
             },
             {
               path: '/recruiter',
               element: (
-                <AuthGuard allowedRoles={['admin']}>
-                  <RecruiterListPage />
-                </AuthGuard>
+                <RouteGuard requiredRoles={['admin']}>
+                  <RecruitersList />
+                </RouteGuard>
               )
             },
             {
               path: '/openings',
               element: (
-                <AuthGuard allowedRoles={['admin']}>
-                  <JobOpeningListPage />
-                </AuthGuard>
+                <RouteGuard requiredRoles={['admin']}>
+                  <JobOpeningList />
+                </RouteGuard>
               )
             },
             {
               path: '/placed-students',
               element: (
-                <AuthGuard allowedRoles={['admin']}>
-                  <PlacedStudentsListPage />
-                </AuthGuard>
+                <RouteGuard requiredRoles={['admin']}>
+                  <PlaceStudentList />
+                </RouteGuard>
               )
             }
           ]

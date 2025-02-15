@@ -89,8 +89,8 @@ const Toolbar: React.FC<Props> = ({
           </div>
         )}
         {onSearchChange && (
-          <div>
-            <InputGroup size="md" style={{ maxWidth: 200, margin: 10 }}>
+          <div className="toolbar-search">
+            <InputGroup size="md" style={{ maxWidth: 180, margin: 10 }}>
               <Input
                 placeholder="Search"
                 onChange={(value: string) => setSearchValue(value)}
