@@ -18,6 +18,7 @@
     "lint-staged": "^15.2.10",
     "lodash-es": "4.17.21",
     "npm": "^10.8.3",
+    "placeme": "file:..",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-icons": "^3.11.0",
@@ -41,7 +42,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint . --max-warnings=0",
     "lint-fix": "eslint --fix . --max-warnings=0",
-    "prepare": "husky install",
+    "postinstall": "if [ -d .git ]; then husky install; fi",
     "format": "prettier ./src --write"
   },
   "description": "This README would normally document whatever steps are necessary to get your application up and running.",
