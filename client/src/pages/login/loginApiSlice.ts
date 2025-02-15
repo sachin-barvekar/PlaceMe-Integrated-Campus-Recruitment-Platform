@@ -3,10 +3,7 @@ import { LoginRequest } from './types'
 
 const loginApiSlice = loginApi.injectEndpoints({
   endpoints: (build) => ({
-    login: build.mutation<
-        void,
-        LoginRequest
-    >({
+    login: build.mutation<void, LoginRequest>({
       query: (credentials) => ({
         url: '/login',
         method: 'POST',

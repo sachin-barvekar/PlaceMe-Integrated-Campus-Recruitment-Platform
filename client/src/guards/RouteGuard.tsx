@@ -9,13 +9,9 @@ interface RouteGuardProps {
 }
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ requiredRoles, children }) => {
-  const { role, loadingRole } = useAuth()
+  const { role } = useAuth()
   const location = useLocation()
-
-  if (loadingRole) {
-    return <Loader />
-  }
-
+console.log(role)
   if (!role) {
     return <Navigate to="/auth" state={{ from: location }} replace />
   }
