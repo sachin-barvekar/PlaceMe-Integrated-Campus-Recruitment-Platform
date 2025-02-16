@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ['admin', 'student', 'recruiter'],
     },
+    firebaseUid: {
+      type: String,
+      required: true
+    },
   },
   { timestamps: true }
 )

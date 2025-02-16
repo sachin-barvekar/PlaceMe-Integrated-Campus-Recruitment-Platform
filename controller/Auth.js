@@ -3,12 +3,12 @@ require("dotenv").config();
 
 exports.login = async (req, res) => {
   try {
-    const { email, name, role } = req.body;
+    const { email, name, role, firebaseUid } = req.body;
 
-    if (!email || !role || !name) {
+    if (!email || !role || !name || !firebaseUid) {
       return res.status(400).json({
         success: false,
-        message: "Please provide all required fields: email, name, and role",
+        message: "Please provide all required fields: email, name, firebaseUid and role",
       });
     }
 
@@ -35,7 +35,8 @@ exports.login = async (req, res) => {
     user = await User.create({
       email,
       name,
-      role
+      role,
+      firebaseUid
     });
 
     return res.status(201).json({

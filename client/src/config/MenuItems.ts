@@ -92,10 +92,10 @@ const menuItems: MenuItemType[] = [
   },
   {
     id: '10',
-    name: 'Feedback',
-    link: '/feedback',
+    name: 'Profile',
+    link: '/profile',
     icon: MdFeedback,
-    roles: ['ROLE_ADMIN']
+    roles: ['student']
   }
 ]
 

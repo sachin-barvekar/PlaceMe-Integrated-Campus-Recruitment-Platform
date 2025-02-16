@@ -1,11 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import loginApi from 'api/loginApi'
+import profileApi from 'api/profileApi'
 import rootReducer, { RootState } from './rootReducer'
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(loginApi.middleware)
+    getDefaultMiddleware().concat(loginApi.middleware, profileApi.middleware)
 })
 
 export type AppDispatch = typeof store.dispatch

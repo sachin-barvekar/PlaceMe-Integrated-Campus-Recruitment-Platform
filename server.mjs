@@ -1,61 +1,63 @@
-import express from "express";
-import dotenv from "dotenv";
-import { dirname } from "path";
-import path from "path";
-import { fileURLToPath } from "url";
-import dbConnect from "./config/database.js";
-import userRoutes from "./routes/user.js";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import fileUpload from "express-fileupload";
+import express from 'express'
+import dotenv from 'dotenv'
+import { dirname } from 'path'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import dbConnect from './config/database.js'
+import cloudinaryConnect from './config/cloudinary.js'
+import userRoutes from './routes/user.js'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import fileUpload from 'express-fileupload'
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express()
+const PORT = process.env.PORT || 3000
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 // Database Connection
-dbConnect();
+dbConnect()
+cloudinaryConnect()
 
 // CORS Configuration
 app.use(
   cors({
-    origin: "*", // Consider specifying the frontend's origin in production
-  })
-);
+    origin: '*', // Consider specifying the frontend's origin in production
+  }),
+)
 
 // Middleware
-app.use(cookieParser());
+app.use(cookieParser())
 app.use(
   fileUpload({
     useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
-);
-app.use(express.json());
+    tempFileDir: '/tmp/',
+  }),
+)
+app.use(express.json())
 
 // API Routes
-app.use("/api/v1", userRoutes);
+app.use('/api/v1', userRoutes)
 
 // Serve Static Files
-const clientPath = path.join(__dirname, "client", "build");
+const clientPath = path.join(__dirname, 'client', 'build')
 
-app.use(express.static(clientPath));
+app.use(express.static(clientPath))
 
 // Handle All Other Routes for SPA
-app.get("*", (req, res) => {
-  res.sendFile(path.join(clientPath, "index.html"));
-});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'))
+})
 
 // Test Route
-app.get("/", (req, res) => {
-  res.send("<h1>Backend is Running and this is '/' Route</h1>");
-});
+app.get('/', (req, res) => {
+  res.send("<h1>Backend is Running and this is '/' Route</h1>")
+})
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`THE SERVER IS UP AND RUNNING AT PORT ${PORT}`);
-});
+  console.log(`THE SERVER IS UP AND RUNNING AT PORT ${PORT}`)
+})

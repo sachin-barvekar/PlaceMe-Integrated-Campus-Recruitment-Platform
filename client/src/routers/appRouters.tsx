@@ -6,6 +6,7 @@ import StudentList from 'pages/students/studentList/StudentList'
 import RecruitersList from 'pages/recruiters/recruitersList/RecruitersList'
 import JobOpeningList from 'pages/jobOpenings/jobOpeningsList/JobOpeningsList'
 import PlaceStudentList from 'pages/placeStudents/placeStudentsList/PlaceStudentsList'
+import StudentProfile from 'pages/profile/studentProfile/StudentProfile'
 import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
@@ -64,6 +65,14 @@ const appRouter = () =>
               element: (
                 <RouteGuard requiredRoles={['admin']}>
                   <PlaceStudentList />
+                </RouteGuard>
+              )
+            },
+            {
+              path: '/profile',
+              element: (
+                <RouteGuard requiredRoles={['admin', 'student']}>
+                  <StudentProfile />
                 </RouteGuard>
               )
             }

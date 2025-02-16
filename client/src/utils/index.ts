@@ -14,3 +14,16 @@ export interface FileObject {
 export function isFileObject(value: any): value is FileObject {
   return value && typeof value === 'object' && 'blobFile' in value
 }
+
+export function previewFile(
+  file: Blob | undefined,
+  callback: { (value: any): void, (arg0: string | ArrayBuffer | null): void }
+) {
+  const reader = new FileReader()
+  reader.onloadend = () => {
+    callback(reader.result)
+  }
+  if (file) {
+    reader.readAsDataURL(file)
+  }
+}

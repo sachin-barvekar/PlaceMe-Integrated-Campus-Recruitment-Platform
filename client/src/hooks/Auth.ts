@@ -75,7 +75,8 @@ const useAuth = (): AuthContextType => {
       const loginData = {
         email: result.user.email ?? '',
         name: result.user.displayName ?? '',
-        role
+        role,
+        firebaseUid: result?.user?.uid
       }
       const res = await loginMutation(loginData)
       if (res && res.data) {
