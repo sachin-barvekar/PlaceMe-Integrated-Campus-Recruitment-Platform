@@ -7,6 +7,7 @@ import {
   browserLocalPersistence,
   User
 } from 'firebase/auth'
+import { useLoginMutation } from 'pages/login/loginApiSlice'
 import { notifyError, notifySuccess } from 'utils'
 import { auth } from '../config/firebase'
 
@@ -30,6 +31,7 @@ const useAuth = (): AuthContextType => {
   const [role, setRole] = useState<string | null>(
     localStorage.getItem('role') || null
   )
+  const [loginMutation] = useLoginMutation()
 
   useEffect(() => {
     auth.setPersistence(browserLocalPersistence).catch((error) => {
@@ -40,12 +42,7 @@ const useAuth = (): AuthContextType => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true)
       if (currentUser) {
-        // eslint-disable-next-line
-        const token = await currentUser.getIdToken()
         setUser(currentUser)
-        setToken(token)
-        localStorage.setItem('token', token)
-        setRole(localStorage.getItem('role') ?? null)
       } else {
         clearAuthState()
       }
@@ -59,9 +56,8 @@ const useAuth = (): AuthContextType => {
     setUser(null)
     setToken(null)
     setRole(null)
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
     setLoading(false)
+    localStorage.clear()
   }
 
   const login = async () => {
@@ -75,11 +71,22 @@ const useAuth = (): AuthContextType => {
       const result = await signInWithPopup(auth, provider)
       // eslint-disable-next-line
       const token = await result.user.getIdToken()
-      setUser(result.user)
-      setToken(token)
-      localStorage.setItem('token', token)
-      localStorage.setItem('role', role)
-      notifySuccess('Login successful.')
+
+      const loginData = {
+        email: result.user.email ?? '',
+        name: result.user.displayName ?? '',
+        role
+      }
+      const res = await loginMutation(loginData)
+      if (res && res.data) {
+        setUser(result.user)
+        setToken(token)
+        localStorage.setItem('token', token)
+        localStorage.setItem('role', role)
+        notifySuccess('Login successful.')
+      } else {
+        clearAuthState()
+      }
     } catch (error) {
       notifyError('Login failed')
     } finally {

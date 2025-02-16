@@ -1,4 +1,5 @@
 import { isAxiosError } from 'axios'
+import { notifyError } from 'utils'
 import axiosInstance from './axiosInstance'
 
 type AxiosBaseQueryProps = {
@@ -36,6 +37,9 @@ const axiosBaseQuery =
       return result
     } catch (error: unknown) {
       if (isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message ?? 'An unexpected error occurred.'
+        notifyError(errorMessage)
         return {
           error: {
             status: error.response?.status,

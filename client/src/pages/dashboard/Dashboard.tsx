@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard">
-      <PageHeading title="Welcome Admin" />
+      <PageHeading title="Welcome Back" />
       <DashCards data={USER_DATA} onCardClick={() => {}} />
       <div className="report-dash">
         <ChartScreen
