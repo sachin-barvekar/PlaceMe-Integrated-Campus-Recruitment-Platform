@@ -22,19 +22,18 @@ const StudentProfile = () => {
   if (error) return <p>Error loading profile</p>
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'white', padding: '1rem' }}>
       {data?.profileCompletion ? (
-        <p>Profile is complete</p>
+        <div>
+          <p>Profile is Completed</p>
+          <p>Thank you for filling out your profile!</p>
+          <p>
+            We are currently in development mode. Our team, TechThinker, will
+            get back to you soon.
+          </p>
+        </div>
       ) : (
         <p>Profile is incomplete. Please update it.</p>
-      )}
-
-      {data?.student && (
-        <div>
-          <p>Gender: {data.student.gender}</p>
-          <p>Branch: {data.student.branch}</p>
-          {/* Add other fields as needed */}
-        </div>
       )}
       <CreateEditStudentProfile
         isOpen={isModalOpen}
