@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Student = require('../models/Student')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
+const { format } = require('date-fns')
 
 exports.StudentProfileCompletion = async (req, res) => {
   try {
@@ -29,7 +30,9 @@ exports.StudentProfileCompletion = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills
+      !!student.skills &&
+      !!student.linkedIn &&
+      !!student.github
 
     if (student.profileCompletion !== isComplete) {
       student.profileCompletion = isComplete
@@ -54,6 +57,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
     const { firebaseUid } = req.params
     const studentData = JSON.parse(req.body.studentDTO)
     console.log(studentData)
+
     const {
       mobile,
       gender,
@@ -62,9 +66,15 @@ exports.addOrEditStudentProfile = async (req, res) => {
       address,
       academicDetails,
       skills,
+      linkedIn,
+      github,
     } = studentData
-    console.log(req.body)
-    const profilePhoto = req.files.file
+
+    const formattedDateOfBirth = dateOfBirth
+      ? format(new Date(dateOfBirth), 'dd/ MMM/ yyyy')
+      : null
+
+    const profilePhoto = req.files?.file
 
     const user = await User.findOne({ firebaseUid })
     if (!user) {
@@ -74,32 +84,39 @@ exports.addOrEditStudentProfile = async (req, res) => {
 
     let student = await Student.findOne({ userId: uid })
 
-    const uploadedImage = await uploadImageToCloudinary(
-      profilePhoto,
-      process.env.FOLDER_NAME,
-    )
+    let uploadedImage
+    if (profilePhoto) {
+      uploadedImage = await uploadImageToCloudinary(
+        profilePhoto,
+        process.env.FOLDER_NAME,
+      )
+    }
 
     if (!student) {
       student = new Student({
         userId: uid,
         mobile,
         gender,
-        dateOfBirth,
+        dateOfBirth: formattedDateOfBirth,
         branch,
         address,
-        profilePhoto: uploadedImage.secure_url,
+        profilePhoto: uploadedImage ? uploadedImage.secure_url : '',
         academicDetails,
         skills,
+        linkedIn,
+        github,
       })
     } else {
       student.mobile = mobile
       student.gender = gender
-      student.dateOfBirth = dateOfBirth
+      student.dateOfBirth = formattedDateOfBirth
       student.branch = branch
       student.address = address
-      student.profilePhoto = uploadedImage.secure_url
+      if (uploadedImage) student.profilePhoto = uploadedImage.secure_url
       student.academicDetails = academicDetails
       student.skills = skills
+      student.linkedIn = linkedIn
+      student.github = github
     }
 
     const isComplete =
@@ -110,7 +127,9 @@ exports.addOrEditStudentProfile = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills
+      !!student.skills &&
+      !!student.linkedIn &&
+      !!student.github
 
     student.profileCompletion = isComplete
     await student.save()

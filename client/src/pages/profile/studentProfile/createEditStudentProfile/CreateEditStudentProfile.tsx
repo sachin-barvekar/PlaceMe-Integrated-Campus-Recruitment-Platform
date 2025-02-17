@@ -12,6 +12,7 @@ import {
   useUpdateProfileMutation
 } from 'pages/profile/profileApiSlice'
 import { AuthContext } from 'contexts/AuthContext'
+import { format, isAfter } from 'date-fns'
 import {
   STUDENT_FORM_FIELDS,
   defaultStudentFormValues,
@@ -50,7 +51,9 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
     ADDRESS,
     PROFILE_PHOTO,
     SKILLS,
-    ACADEMIC_DETAILS
+    ACADEMIC_DETAILS,
+    LINKEDIN,
+    GITHUB
   } = STUDENT_FORM_FIELDS
 
   const initialValues = useMemo(() => defaultStudentFormValues, [])
@@ -70,11 +73,15 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
       userId: firebaseUid,
       gender: formValues.gender,
       mobile: formValues.mobile,
-      dateOfBirth: formValues.dateOfBirth,
+      dateOfBirth: formValues.dateOfBirth
+        ? format(new Date(formValues.dateOfBirth), 'dd/ MMM/ yyyy')
+        : '',
       branch: formValues.branch,
       address: formValues.address,
       academicDetails: formValues.academicDetails,
-      skills: formValues.skills
+      skills: formValues.skills,
+      linkedIn: formValues.linkedIn,
+      github: formValues.github
     }
     const fileObject = formValues[PROFILE_PHOTO]
     let file: File | null = null
@@ -100,7 +107,10 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
       <Button
         className="formButton"
         id="reset"
-        onClick={() => formikProps.resetForm()}
+        onClick={() => {
+          setFileInfo(undefined)
+          formikProps.resetForm()
+        }}
       >
         Reset
       </Button>
@@ -173,6 +183,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                         }
                         placeholder="Date of Birth"
                         oneTap
+                        shouldDisableDate={(date) => isAfter(date, new Date())}
                       />
                       <FormikErrorMessage name={DATE_OF_BIRTH} />
                     </Col>
@@ -183,6 +194,24 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                         placeholder="Branch"
                       />
                       <FormikErrorMessage name={BRANCH} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12}>
+                      <TextInput
+                        formik={formikProps}
+                        name={GITHUB}
+                        placeholder="GitHub URL"
+                      />
+                      <FormikErrorMessage name={GITHUB} />
+                    </Col>
+                    <Col xs={12}>
+                      <TextInput
+                        formik={formikProps}
+                        name={LINKEDIN}
+                        placeholder="LinkedIn URL"
+                      />
+                      <FormikErrorMessage name={LINKEDIN} />
                     </Col>
                   </Row>
                   <Row>
@@ -209,8 +238,13 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                               // eslint-disable-next-line @typescript-eslint/no-shadow
                               const filteredLevelOptions = level.filter(
                                 (option) =>
-                                  !selectedlevel.includes(option.value) ||
-                                  option.value === type.level
+                                  !selectedlevel.includes(
+                                    option.value as
+                                      | 'SSC'
+                                      | 'HSC'
+                                      | 'DIPLOMA'
+                                      | 'BE'
+                                  ) || option.value === type.level
                               )
                               return (
                                 <Row>
@@ -225,11 +259,9 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                           value
                                         )
                                       }
+                                      disabled={index === 0}
                                       placeholder="Level"
                                       block
-                                    />
-                                    <FormikErrorMessage
-                                      name={`academicDetails[${index}].level`}
                                     />
                                   </Col>
                                   <Col xs={7}>
@@ -244,15 +276,12 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       }
                                       placeholder="Institute Name"
                                     />
-                                    <FormikErrorMessage
-                                      name={`academicDetails[${index}].institutionName`}
-                                    />
                                   </Col>
                                   <Col xs={4}>
                                     <Input
                                       name={`${ACADEMIC_DETAILS}.${index}.marks`}
                                       type="number"
-                                      value={type.marks}
+                                      value={type.marks ?? ''}
                                       onChange={(value) =>
                                         formikProps.setFieldValue(
                                           `${ACADEMIC_DETAILS}.${index}.marks`,
@@ -261,25 +290,19 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       }
                                       placeholder="Mark"
                                     />
-                                    <FormikErrorMessage
-                                      name={`academicDetails[${index}].marks`}
-                                    />
                                   </Col>
                                   <Col xs={5}>
                                     <Input
                                       type="number"
                                       name={`${ACADEMIC_DETAILS}.${index}.passingYear`}
-                                      value={type.passingYear}
+                                      value={type.passingYear ?? ''}
                                       onChange={(value) =>
                                         formikProps.setFieldValue(
                                           `${ACADEMIC_DETAILS}.${index}.passingYear`,
                                           value
                                         )
                                       }
-                                      placeholder="Pass Year"
-                                    />
-                                    <FormikErrorMessage
-                                      name={`academicDetails[${index}].passingYear`}
+                                      placeholder="Passing Year"
                                     />
                                   </Col>
                                   {!(
@@ -304,7 +327,13 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       .length -
                                       1 &&
                                     formikProps.values[ACADEMIC_DETAILS][index]
-                                      .level && (
+                                      .level &&
+                                    formikProps.values[ACADEMIC_DETAILS][index]
+                                      .institutionName &&
+                                    formikProps.values[ACADEMIC_DETAILS][index]
+                                      .marks &&
+                                    formikProps.values[ACADEMIC_DETAILS][index]
+                                      .passingYear && (
                                       <Col xs={2}>
                                         <Button
                                           className="circular-btn"
@@ -332,6 +361,11 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                   </FieldArray>
                   <Row>
                     <Col xs={20}>
+                      <FormikErrorMessage name={ACADEMIC_DETAILS} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={20}>
                       <TextInput
                         formik={formikProps}
                         name={SKILLS}
@@ -343,7 +377,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                 </Section>
                 <Section title="Profile Photo">
                   <Row>
-                    <Col xs={24}>
+                    <Col xs={8}>
                       <Uploader
                         draggable
                         accept=".jpeg,.jpg,.png,.gif,.svg"

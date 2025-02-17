@@ -1,4 +1,5 @@
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
 import classNames from 'classnames'
 import { Modal as RsuiteModal, ModalProps } from 'rsuite'
 import './modal.scss'
@@ -31,6 +32,7 @@ const Modal: React.FC<ReusableModalProps> = ({
       dialogClassName={classNames(dialogClassName, {
         'modal--secondary': secondary
       })}
+      className="responsive-modal"
       {...rest}
     >
       <RsuiteModal.Header>
@@ -38,6 +40,7 @@ const Modal: React.FC<ReusableModalProps> = ({
       </RsuiteModal.Header>
       <RsuiteModal.Body>{body}</RsuiteModal.Body>
       {footer && <RsuiteModal.Footer>{footer}</RsuiteModal.Footer>}
+      <ToastContainer containerId="modalToast" />
     </RsuiteModal>
   )
 }

@@ -3,6 +3,7 @@ export const genderOptions = [
   { label: 'Female', value: 'Female' },
   { label: 'Other', value: 'Other' }
 ]
+
 export const level = [
   { label: 'SSC', value: 'SSC' },
   { label: 'HSC', value: 'HSC' },
@@ -11,22 +12,24 @@ export const level = [
 ]
 
 export interface IAcademicDetail {
-  level: string;
+  level: 'SSC' | 'HSC' | 'DIPLOMA' | 'BE';
   institutionName: string;
-  marks: string;
-  passingYear: string;
+  marks: number | null;
+  passingYear: number | null;
 }
 
 export interface Student {
   userId: string | undefined;
-  gender: string;
+  gender: 'Male' | 'Female' | 'Other' | null;
   mobile: string;
-  dateOfBirth: Date | null;
+  dateOfBirth: Date | null | string;
   branch: string;
   address: string;
-  profilePhoto?: File | null;
+  profilePhoto?: string | File | null;
   academicDetails: IAcademicDetail[];
   skills: string;
+  linkedIn: string;
+  github: string;
 }
 
 export interface StudentProfileResponse {
@@ -37,6 +40,6 @@ export interface StudentProfileResponse {
 }
 
 export type StudentSaveRequest = {
-  studentDTO: Student,
-  file: File | null
+  studentDTO: Omit<Student, 'profilePhoto'>,
+  file?: File | null
 }

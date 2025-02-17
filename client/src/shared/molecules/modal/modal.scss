@@ -8,7 +8,7 @@
   .rs-modal-header {
     padding: 15px;
     border-radius: 6px 6px 0 0;
-    background-color:  $button-color-primary;
+    background-color: $button-color-primary;
 
     .rs-modal-header-close {
       color: $color-white;
@@ -24,5 +24,24 @@
 
   .rs-modal-body {
     margin-top: 0;
+  }
+}
+.rs-modal-wrapper {
+  display: flex;
+  align-items: center;
+}
+.responsive-modal {
+  width: 70% !important;
+
+  @media (max-width: 1200px) {
+    width: 70% !important;
+  }
+
+  @media (max-width: 768px) {
+    width: 90% !important;
+  }
+
+  @media (max-width: 480px) {
+    width: 95% !important;
   }
 }

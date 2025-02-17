@@ -24,6 +24,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  iframe#webpack-dev-server-client-overlay{display:none!important}
 }
 
 
