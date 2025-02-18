@@ -67,11 +67,7 @@ export const studentValidationSchema = () => {
       .nullable()
       .required('Date of Birth is required'),
 
-    [STUDENT_FORM_FIELDS.BRANCH]: Yup.string()
-      .required('Branch is required')
-      .min(2, 'Branch must be at least 2 characters')
-      .max(50, 'Branch cannot exceed 50 characters'),
-
+    [STUDENT_FORM_FIELDS.BRANCH]: Yup.string().required('Branch is required'),
     [STUDENT_FORM_FIELDS.ADDRESS]: Yup.string()
       .required('Address is required')
       .max(255, 'Address cannot exceed 255 characters'),
@@ -89,6 +85,7 @@ export const studentValidationSchema = () => {
 
           institutionName: Yup.string()
             .required('Institution name is required')
+            .min(2, 'Institution name must be at least 2 characters')
             .max(100, 'Institution name cannot exceed 100 characters'),
 
           marks: Yup.number()

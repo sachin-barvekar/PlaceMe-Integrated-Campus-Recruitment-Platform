@@ -5,7 +5,7 @@ import PlusIcon from '@rsuite/icons/Plus'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import '../../../../scss/common/forms/Form.scss'
-import { genderOptions, level, Student } from 'pages/profile/types'
+import { Branch, genderOptions, level, Student } from 'pages/profile/types'
 import { MdRemoveCircle } from 'react-icons/md'
 import {
   useCreateProfileMutation,
@@ -188,10 +188,15 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                       <FormikErrorMessage name={DATE_OF_BIRTH} />
                     </Col>
                     <Col xs={12}>
-                      <TextInput
-                        formik={formikProps}
+                      <SelectDropdown
                         name={BRANCH}
-                        placeholder="Branch"
+                        data={Branch}
+                        searchable={false}
+                        placeholder="Select Branch"
+                        value={formikProps.values[BRANCH]}
+                        onChange={(value) =>
+                          formikProps.setFieldValue(BRANCH, value)
+                        }
                       />
                       <FormikErrorMessage name={BRANCH} />
                     </Col>
@@ -219,7 +224,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                       <TextInput
                         formik={formikProps}
                         name={ADDRESS}
-                        placeholder="Adress"
+                        placeholder="Address"
                       />
                       <FormikErrorMessage name={ADDRESS} />
                     </Col>
@@ -248,7 +253,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                               )
                               return (
                                 <Row>
-                                  <Col xs={4}>
+                                  <Col xs={8} md={4}>
                                     <SelectPicker
                                       searchable={false}
                                       data={filteredLevelOptions}
@@ -264,7 +269,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       block
                                     />
                                   </Col>
-                                  <Col xs={7}>
+                                  <Col xs={16} md={7}>
                                     <Input
                                       name={`${ACADEMIC_DETAILS}.${index}.institutionName`}
                                       value={type.institutionName}
@@ -277,7 +282,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       placeholder="Institute Name"
                                     />
                                   </Col>
-                                  <Col xs={4}>
+                                  <Col xs={8} md={4}>
                                     <Input
                                       name={`${ACADEMIC_DETAILS}.${index}.marks`}
                                       type="number"
@@ -288,10 +293,10 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                           value
                                         )
                                       }
-                                      placeholder="Mark"
+                                      placeholder="Percentage"
                                     />
                                   </Col>
-                                  <Col xs={5}>
+                                  <Col xs={10} md={5}>
                                     <Input
                                       type="number"
                                       name={`${ACADEMIC_DETAILS}.${index}.passingYear`}
@@ -309,7 +314,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                     formikProps.values[ACADEMIC_DETAILS]
                                       .length === 1 || index === 0
                                   ) && (
-                                    <Col xs={2}>
+                                    <Col xs={3} md={2}>
                                       <Button
                                         className="circular-btn"
                                         appearance="subtle"
@@ -334,7 +339,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                                       .marks &&
                                     formikProps.values[ACADEMIC_DETAILS][index]
                                       .passingYear && (
-                                      <Col xs={2}>
+                                      <Col xs={3} md={2}>
                                         <Button
                                           className="circular-btn"
                                           appearance="primary"
@@ -360,16 +365,17 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                     }}
                   </FieldArray>
                   <Row>
-                    <Col xs={20}>
+                    <Col xs={24} md={20}>
                       <FormikErrorMessage name={ACADEMIC_DETAILS} />
                     </Col>
                   </Row>
                   <Row>
-                    <Col xs={20}>
+                    <Col xs={24} md={11}>
                       <TextInput
                         formik={formikProps}
                         name={SKILLS}
                         placeholder="Skills"
+                        as="textarea"
                       />
                       <FormikErrorMessage name={SKILLS} />
                     </Col>
@@ -377,7 +383,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                 </Section>
                 <Section title="Profile Photo">
                   <Row>
-                    <Col xs={8}>
+                    <Col md={8} xs={12}>
                       <Uploader
                         draggable
                         accept=".jpeg,.jpg,.png,.gif,.svg"

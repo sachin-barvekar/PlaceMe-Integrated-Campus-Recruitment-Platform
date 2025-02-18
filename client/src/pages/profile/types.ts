@@ -11,6 +11,13 @@ export const level = [
   { label: 'BE', value: 'BE' }
 ]
 
+export const Branch = [
+  { label: 'Computer Science', value: 'Computer Science' },
+  { label: 'ENTC', value: 'ENTC' },
+  { label: 'Mechanical', value: 'Mechanical' },
+  { label: 'Civil', value: 'Civil' }
+]
+
 export interface IAcademicDetail {
   level: 'SSC' | 'HSC' | 'DIPLOMA' | 'BE';
   institutionName: string;

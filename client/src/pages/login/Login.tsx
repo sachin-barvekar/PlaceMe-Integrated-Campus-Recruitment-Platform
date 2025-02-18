@@ -9,7 +9,7 @@ import GoogleLogo from '../../assets/images/google.svg'
 import './login.scss'
 
 const roles = [
-  { label: 'Admin', value: 'admin' },
+  // { label: 'Admin', value: 'admin' },
   { label: 'Student', value: 'student' }
   // { label: 'Recruiter', value: 'recruiter' }
 ]
