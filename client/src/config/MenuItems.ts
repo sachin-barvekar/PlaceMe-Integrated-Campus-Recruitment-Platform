@@ -30,7 +30,7 @@ const menuItems: MenuItemType[] = [
   {
     id: '1',
     name: 'Dashboard',
-    link: '/',
+    link: '/dashboard',
     icon: AiOutlineHome,
     roles: ['admin']
   },
@@ -93,7 +93,7 @@ const menuItems: MenuItemType[] = [
   {
     id: '10',
     name: 'Profile',
-    link: '/profile',
+    link: '/',
     icon: MdFeedback,
     roles: ['student']
   }

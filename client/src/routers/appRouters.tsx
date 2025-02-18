@@ -33,7 +33,7 @@ const appRouter = () =>
           ),
           children: [
             {
-              path: '/',
+              path: '/yuyyiuy',
               element: <Dashboard />
             },
             {
@@ -69,7 +69,7 @@ const appRouter = () =>
               )
             },
             {
-              path: '/profile',
+              path: '/',
               element: (
                 <RouteGuard requiredRoles={['admin', 'student']}>
                   <StudentProfile />
