@@ -9,7 +9,7 @@ function App() {
       <AuthProvider>
         <RouterProvider router={appRouter()} />
       </AuthProvider>
-      <ToastContainer />
+      <ToastContainer containerId="default" />
     </div>
   )
 }

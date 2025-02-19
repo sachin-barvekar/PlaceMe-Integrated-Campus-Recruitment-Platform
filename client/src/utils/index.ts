@@ -1,8 +1,44 @@
-import { toast } from 'react-toastify'
+import { ToastOptions, toast } from 'react-toastify'
 
-export const notifySuccess = (message: string) => toast.success(message)
+export const notifySuccess = (
+  message: string | JSX.Element,
+  options?: ToastOptions<unknown> | undefined
+) =>
+  toast.success(message, {
+    ...options,
+    containerId: options?.containerId ?? 'default',
+    autoClose: 3000
+  })
 
-export const notifyError = (message: string) => toast.error(message)
+export const notifyInfo = (
+  message: string | JSX.Element,
+  options?: ToastOptions<unknown> | undefined
+) =>
+  toast.info(message, {
+    ...options,
+    containerId: options?.containerId ?? 'default',
+    autoClose: 3000
+  })
+
+export const notifyWarning = (
+  message: string | JSX.Element,
+  options?: ToastOptions<unknown> | undefined
+) =>
+  toast.warning(message, {
+    ...options,
+    containerId: options?.containerId ?? 'default',
+    autoClose: 3000
+  })
+
+export const notifyError = (
+  message: string | JSX.Element,
+  options?: ToastOptions<unknown> | undefined
+) =>
+  toast.error(message, {
+    ...options,
+    containerId: options?.containerId ?? 'default',
+    autoClose: 3000
+  })
 
 export interface FileObject {
   blobFile: File;

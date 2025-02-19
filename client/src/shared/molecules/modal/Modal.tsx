@@ -21,6 +21,7 @@ const Modal: React.FC<ReusableModalProps> = ({
   backdrop = 'static',
   keyboard = false,
   dialogClassName,
+  className,
   ...rest
 }) => {
   return (
@@ -32,7 +33,6 @@ const Modal: React.FC<ReusableModalProps> = ({
       dialogClassName={classNames(dialogClassName, {
         'modal--secondary': secondary
       })}
-      className="responsive-modal"
       {...rest}
     >
       <RsuiteModal.Header>

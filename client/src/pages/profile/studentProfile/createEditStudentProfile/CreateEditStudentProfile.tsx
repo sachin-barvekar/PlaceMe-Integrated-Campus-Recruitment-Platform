@@ -130,7 +130,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
       open={isOpen}
       onClose={onClose}
       title="Create Student Profile"
-      size="sm"
+      size="lg"
       body={
         <Formik
           initialValues={initialValues}

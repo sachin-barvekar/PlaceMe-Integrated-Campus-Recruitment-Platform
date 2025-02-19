@@ -1,0 +1,30 @@
+@use '../../scss/abstracts/' as *;
+@use '../../scss/abstracts/fonts' as *;
+
+.passkey {
+    .divider {
+        margin-top: 0;
+    }
+
+    .section {
+        &__heading {
+            margin-bottom: 5px;
+            color: $text-color-heading;
+            font-family: $font-primary;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        &__row {
+            padding-bottom: 20px;
+            gap: 10px;
+
+            .rs-input-group.rs-input-group-inside {
+                height: 40px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+}

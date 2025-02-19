@@ -30,18 +30,3 @@
   display: flex;
   align-items: center;
 }
-.responsive-modal {
-  width: 70% !important;
-
-  @media (max-width: 1200px) {
-    width: 70% !important;
-  }
-
-  @media (max-width: 768px) {
-    width: 90% !important;
-  }
-
-  @media (max-width: 480px) {
-    width: 95% !important;
-  }
-}

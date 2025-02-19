@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { SelectPicker } from 'rsuite'
 import { notifyError } from 'utils'
@@ -7,6 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
 import GoogleLogo from '../../assets/images/google.svg'
 import './login.scss'
+import PasskeyModal from './PassKey'
 
 const roles = [
   { label: 'Admin', value: 'admin' },
@@ -16,6 +17,8 @@ const roles = [
 
 function LoginPage() {
   const authContext = useContext(AuthContext)
+  const [showPasskeyModal, setShowPasskeyModal] = useState(false)
+  const [isPasskeyValid, setIsPasskeyValid] = useState(false)
   const navigate = useNavigate()
 
   if (authContext?.loading) {
@@ -30,12 +33,26 @@ function LoginPage() {
       notifyError('Please select a role before logging in.')
       return
     }
+    if (authContext.role === 'admin' && !isPasskeyValid) {
+      setShowPasskeyModal(true)
+      return
+    }
 
     try {
       await authContext.login()
       navigate('/')
     } catch (error) {
       notifyError('Login Failed')
+    }
+  }
+  const verifyPasskey = (enteredPasskey: string) => {
+    const adminPassKey = '6122@pvpit'
+    if (enteredPasskey === adminPassKey) {
+      setIsPasskeyValid(true)
+      setShowPasskeyModal(false)
+      handleLogin()
+    } else {
+      throw new Error('Incorrect passkey!')
     }
   }
 
@@ -65,6 +82,12 @@ function LoginPage() {
           </Button>
         </div>
       </div>
+      <PasskeyModal
+        isOpen={showPasskeyModal}
+        role={authContext?.role}
+        onClose={() => setShowPasskeyModal(false)}
+        onVerify={verifyPasskey}
+      />
     </div>
   )
 }
