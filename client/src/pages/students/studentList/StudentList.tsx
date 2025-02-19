@@ -22,7 +22,7 @@ const StudentList: FC = () => {
   const { requestBody, onPageChange, onSearchChange, onSortColumn } =
     useTableHandlers<Students, IListApiRequest<Students>>(
       {
-        page: { size: 10, number: 1 },
+        page: { size: 10, number: 0 },
         filters: []
       },
       'search'

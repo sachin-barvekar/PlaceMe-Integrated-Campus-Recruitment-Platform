@@ -383,7 +383,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                 </Section>
                 <Section title="Profile Photo">
                   <Row>
-                    <Col md={8} xs={12}>
+                    <Col md={8} xs={24}>
                       <Uploader
                         draggable
                         accept=".jpeg,.jpg,.png,.gif,.svg"

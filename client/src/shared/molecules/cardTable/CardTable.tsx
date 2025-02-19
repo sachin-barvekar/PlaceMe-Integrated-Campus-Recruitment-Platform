@@ -93,11 +93,12 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
             {card && (
               <Card
                 imageUrl={item.profilePhoto}
-                name={item.name}
+                name={item?.studentName}
                 Branch={item.branch}
-                CompanyName={item.companyName}
-                Designation={item.designation}
-                Package={item.salary}
+                CompanyName={item?.companyName}
+                CompanyLocation={item?.location}
+                Designation={item?.jobRole}
+                Package={item?.package}
                 onAction={onAction}
                 data={item}
                 actionOptions={actionOptions}

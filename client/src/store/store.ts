@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import loginApi from 'api/loginApi'
 import profileApi from 'api/profileApi'
 import studentApi from 'api/studentApi'
+import PlacementApi from 'api/placementApi'
 import rootReducer, { RootState } from './rootReducer'
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
     getDefaultMiddleware().concat(
       loginApi.middleware,
       profileApi.middleware,
-      studentApi.middleware
+      studentApi.middleware,
+      PlacementApi.middleware
     )
 })
 

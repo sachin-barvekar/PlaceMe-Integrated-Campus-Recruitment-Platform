@@ -28,8 +28,11 @@
       }
 
       .card-body {
-        padding: 1rem;
+        padding: 0.5rem;
         text-align: center;
+        p {
+          margin: 0 !important;
+        }
         .select-button {
           background-color: $text-color-green !important;
           color: var(--white);

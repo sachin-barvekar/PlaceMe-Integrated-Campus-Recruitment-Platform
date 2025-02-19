@@ -10,6 +10,7 @@ interface CardProps {
   CompanyName: string;
   Designation: string;
   Package: string;
+  CompanyLocation: string;
   onAction?: (eventKey: string | undefined, rowData: any) => void;
   data?: any;
   actionOptions?: string[];
@@ -27,6 +28,7 @@ const Card: React.FC<CardProps> = ({
   onAction,
   data,
   actionOptions,
+  CompanyLocation,
   handleSelection,
   selected = false
 }) => {
@@ -38,10 +40,11 @@ const Card: React.FC<CardProps> = ({
 
       <div className="card-body">
         <h3>{name}</h3>
-        <p>Branch: {Branch}</p>
-        <p>{CompanyName}</p>
-        <p>Role: {Designation}</p>
-        <p>Package: {Package}</p>
+        <p>{Branch}</p>
+        <p>Company: {CompanyName ?? '-'}</p>
+        <p>Location: {CompanyLocation ?? '-'}</p>
+        <p>Role: {Designation ?? '-'}</p>
+        <p>Package: {Package ?? '-'}</p>
         {handleSelection && (
           <Button
             className="select-button"
