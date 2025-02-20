@@ -13,7 +13,7 @@ const {
   getAllStudents,
 } = require('../controller/student.controller')
 
-router.post('/login', verifyFirebaseToken, login)
+router.post('/login', login)
 
 router.get(
   '/student-profile/:firebaseUid',
