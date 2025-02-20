@@ -1,45 +1,48 @@
 const mongoose = require('mongoose')
 
-const placementSchema = new mongoose.Schema({
-  studentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'Student ID is required'],
+const placementSchema = new mongoose.Schema(
+  {
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Student ID is required'],
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    companyName: {
+      type: String,
+      default: null,
+      trim: true,
+      maxlength: [100, 'Company name must not exceed 100 characters'],
+    },
+    jobRole: {
+      type: String,
+      required: [true, 'Job role is required'],
+      trim: true,
+      maxlength: [100, 'Job role must not exceed 100 characters'],
+    },
+    package: {
+      type: String,
+      required: [true, 'Package is required'],
+      trim: true,
+      maxlength: [20, 'Package must not exceed 20 characters'],
+    },
+    location: {
+      type: String,
+      trim: true,
+      maxlength: [100, 'Location must not exceed 100 characters'],
+    },
+    status: {
+      type: String,
+      enum: ['Placed', 'Pending', 'Rejected'],
+      default: 'Pending',
+    },
   },
-  companyId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    default: null,
-  },
-  companyName: {
-    type: String,
-    default: null,
-    trim: true,
-    maxlength: [100, 'Company name must not exceed 100 characters'],
-  },
-  jobRole: {
-    type: String,
-    required: [true, 'Job role is required'],
-    trim: true,
-    maxlength: [100, 'Job role must not exceed 100 characters'],
-  },
-  package: {
-    type: String,
-    required: [true, 'Package is required'],
-    trim: true,
-    maxlength: [20, 'Package must not exceed 20 characters'],
-  },
-  location: {
-    type: String,
-    trim: true,
-    maxlength: [100, 'Location must not exceed 100 characters'],
-  },
-  status: {
-    type: String,
-    enum: ['Placed', 'Pending', 'Rejected'],
-    default: 'Pending',
-  }
-}, { timestamps: true })
+  { timestamps: true },
+)
 
 placementSchema.pre('save', async function (next) {
   const User = mongoose.model('User')

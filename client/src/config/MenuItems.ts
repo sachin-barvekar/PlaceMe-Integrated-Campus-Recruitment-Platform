@@ -60,7 +60,7 @@ const menuItems: MenuItemType[] = [
     name: 'Placed Students',
     link: '/placed-students',
     icon: FaUserGraduate,
-    roles: ['admin']
+    roles: ['admin', 'student']
   },
   {
     id: '6',

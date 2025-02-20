@@ -1,26 +1,39 @@
 const express = require('express')
 const router = express.Router()
+const verifyFirebaseToken = require('../middleware/authMiddleware')
 
-const { login } = require('../controller/Auth')
-const {
-  StudentProfileCompletion,
-  addOrEditStudentProfile,
-} = require('../controller/StudentProfileCompletion')
-const { getAllStudents } = require('../controller/GetStudents')
+const { login } = require('../controller/auth.controller')
 const {
   createPlacement,
   getAllPlacements,
 } = require('../controller/placement.controller')
+const {
+  StudentProfileCompletion,
+  addOrEditStudentProfile,
+  getAllStudents,
+} = require('../controller/student.controller')
 
-router.post('/login', login)
+router.post('/login', verifyFirebaseToken, login)
 
-router.get('/student-profile/:firebaseUid', StudentProfileCompletion)
-router.post('/student-profile/:firebaseUid', addOrEditStudentProfile)
-router.put('/student-profile/:firebaseUid', addOrEditStudentProfile)
+router.get(
+  '/student-profile/:firebaseUid',
+  verifyFirebaseToken,
+  StudentProfileCompletion,
+)
+router.post(
+  '/student-profile/:firebaseUid',
+  verifyFirebaseToken,
+  addOrEditStudentProfile,
+)
+router.put(
+  '/student-profile/:firebaseUid',
+  verifyFirebaseToken,
+  addOrEditStudentProfile,
+)
 
-router.get('/students', getAllStudents)
+router.get('/students', verifyFirebaseToken, getAllStudents)
 
-router.post('/placements/create', createPlacement)
-router.get('/placements', getAllPlacements)
+router.get('/placements', verifyFirebaseToken, getAllPlacements)
+router.post('/placements/create', verifyFirebaseToken, createPlacement)
 
 module.exports = router

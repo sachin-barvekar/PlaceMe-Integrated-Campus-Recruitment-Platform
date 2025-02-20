@@ -63,7 +63,7 @@ const appRouter = () =>
             {
               path: '/placed-students',
               element: (
-                <RouteGuard requiredRoles={['admin']}>
+                <RouteGuard requiredRoles={['admin', 'student']}>
                   <PlaceStudentList />
                 </RouteGuard>
               )

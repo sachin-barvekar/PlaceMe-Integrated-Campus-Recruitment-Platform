@@ -1,6 +1,6 @@
 const Placement = require('../models/Placement')
-const User = require('../models/User')
 const Student = require('../models/Student')
+const User = require('../models/User')
 
 exports.createPlacement = async (req, res) => {
   try {
@@ -149,7 +149,6 @@ exports.getAllPlacements = async (req, res) => {
   }
 }
 
-// Get Placement by ID
 exports.getPlacementById = async (req, res) => {
   try {
     const placement = await Placement.findById(req.params.id)
@@ -164,7 +163,6 @@ exports.getPlacementById = async (req, res) => {
   }
 }
 
-// Update Placement
 exports.updatePlacement = async (req, res) => {
   try {
     const placement = await Placement.findByIdAndUpdate(
@@ -183,7 +181,6 @@ exports.updatePlacement = async (req, res) => {
   }
 }
 
-// Delete Placement
 exports.deletePlacement = async (req, res) => {
   try {
     const placement = await Placement.findByIdAndDelete(req.params.id)
