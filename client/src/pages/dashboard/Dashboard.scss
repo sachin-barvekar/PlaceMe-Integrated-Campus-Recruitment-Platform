@@ -1,22 +1,32 @@
+@use '../../scss/abstracts/variables' as *;
+
 .dashboard {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
   .report-dash {
     display: flex;
     flex-wrap: wrap;
+    margin: 2rem 0;
     justify-content: space-between;
-    gap: 2%;
-    margin: 1.5rem 0;
-    .sub-dash {
-      background-color: white;
-      margin: 1rem 0;
-      padding: 0.5rem 1rem;
-      padding-bottom: 1.5rem;
-      border-radius: 5px;
-      width: 47%;
+    gap: 1rem;
+
+    .report-item {
+      width: 49%;
+    }
+
+    @media (max-width: 940px) {
+      flex-direction: column;
+      align-items: center;
+
+      .report-item {
+        width: 100%;
+        justify-content: center;
+      }
     }
   }
+
   .dashboard-icon {
     font-size: 30px;
   }
@@ -25,19 +35,11 @@
     color: var(--rs-green-500);
   }
 
-  .pending {
-    color: var(--rs-orange-500);
+  .recruiter {
+    color: $primary-color;
   }
 
-  .iconcancel {
-    color: var(--rs-color-red);
-  }
-
-  .iconopen {
-    color: var(--rs-yellow-500);
-  }
-
-  .iconinitiated {
-    color: var(--rs-color-blue);
+  .total {
+    color: $secondary-color;
   }
 }

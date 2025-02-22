@@ -2,13 +2,13 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import axiosBaseQuery from './axiosBaseQuery'
 import { baseUrl } from './axiosInstance'
 
-const studentListApi = createApi({
+const dashboardApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl
   }),
-  reducerPath: 'studentListApi',
-  tagTypes: ['studentlist'],
+  reducerPath: 'dashboard',
+  tagTypes: ['dashboard-data'],
   endpoints: () => ({})
 })
 
-export default studentListApi
+export default dashboardApi

@@ -6,7 +6,8 @@ import './dashCards.scss'
 type CardData = {
   title: string,
   description: string | React.ReactNode,
-  icon: string | JSX.Element | React.ReactNode
+  icon: string | JSX.Element | React.ReactNode,
+  onClick?: () => void
 }
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
   onCardClick?: (title: string) => void
 }
 
-const DashCards: FC<Props> = ({ data, onCardClick }: Props) => {
+const DashCards: FC<Props> = ({ data, onCardClick }) => {
   return (
     <Stack
       spacing={15}
@@ -22,13 +23,16 @@ const DashCards: FC<Props> = ({ data, onCardClick }: Props) => {
       alignItems="stretch"
       className="dash-cards"
     >
-      {data.map(({ title, description, icon }) => (
+      {data.map(({ title, description, icon, onClick }) => (
         <DashCard
           key={title}
           title={title}
-          description={description || ''}
+          description={description ?? '-'}
           icon={icon}
-          onClick={() => onCardClick?.(title)}
+          onClick={() => {
+            onClick?.()
+            onCardClick?.(title)
+          }}
         />
       ))}
     </Stack>

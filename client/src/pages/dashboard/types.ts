@@ -1,0 +1,12 @@
+export type StudentQueriesResponse = {
+  success: boolean,
+  totalStudents: number,
+  placedStudents: number,
+  placementPercentage: number,
+  branchWisePlacement: { branch: string, count: number }[],
+  highestPackageData: {
+    year: number,
+    package: number,
+    company: string | null
+  }[]
+}
