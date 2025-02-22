@@ -3,10 +3,11 @@ import { AiOutlineHome } from 'react-icons/ai'
 import {
   MdBusiness,
   MdAssignmentTurnedIn,
-  MdStars,
-  MdFeedback
+  MdFeedback,
+  MdWork
 } from 'react-icons/md'
-import { FaUserGraduate, FaRegHandshake } from 'react-icons/fa'
+import { CgProfile } from 'react-icons/cg'
+import { FaUserGraduate } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
@@ -30,7 +31,7 @@ const menuItems: MenuItemType[] = [
   {
     id: '1',
     name: 'Dashboard',
-    link: '/dashboard',
+    link: '/',
     icon: AiOutlineHome,
     roles: ['admin']
   },
@@ -46,14 +47,14 @@ const menuItems: MenuItemType[] = [
     name: 'Recruiters',
     link: '/recruiter',
     icon: MdBusiness,
-    roles: ['admin']
+    roles: ['admin', 'student']
   },
   {
     id: '4',
     name: 'Job Openings',
     link: '/openings',
-    icon: FaRegHandshake,
-    roles: ['admin']
+    icon: MdWork,
+    roles: ['admin', 'student']
   },
   {
     id: '5',
@@ -67,36 +68,43 @@ const menuItems: MenuItemType[] = [
     name: 'Applied Jobs',
     link: '/applied',
     icon: MdAssignmentTurnedIn,
-    roles: ['ROLE_ADMIN']
-  },
-  {
-    id: '7',
-    name: 'Placement Pro',
-    link: '/placementpro',
-    icon: MdStars,
-    roles: ['ROLE_ADMIN']
+    roles: ['student']
   },
   {
     id: '8',
-    name: 'Jobs',
-    link: '/jobs',
-    icon: MdFeedback,
-    roles: ['ROLE_ADMIN']
-  },
-  {
-    id: '9',
     name: 'Applications',
     link: '/application',
     icon: MdFeedback,
-    roles: ['ROLE_ADMIN']
+    roles: ['recruiter']
   },
   {
-    id: '10',
+    id: '9',
     name: 'Profile',
-    link: '/',
-    icon: MdFeedback,
+    link: '/profile',
+    icon: CgProfile,
     roles: ['student']
   }
+  // {
+  //   id: '10',
+  //   name: 'Placement Pro',
+  //   link: '/placementpro',
+  //   icon: MdStars,
+  //   roles: ['ROLE_ADMIN']
+  // },
+  // {
+  //   id: '11',
+  //   name: 'Profile',
+  //   link: '/',
+  //   icon: MdFeedback,
+  //   roles: ['student']
+  // }
+  // {
+  //   id: '7',
+  //   name: 'Jobs',
+  //   link: '/jobs',
+  //   icon: MdWork,
+  //   roles: ['admin','student']
+  // },
 ]
 
 export const getMenuItemsForRole = (role: string): MenuItemType[] => {
