@@ -2,10 +2,7 @@ import React from 'react'
 import { Sidebar } from 'rsuite'
 import Sidenav from 'rsuite/Sidenav'
 import Nav from 'rsuite/Nav'
-import MenuItems, { useFilteredMenuItems } from 'config/MenuItems'
-import { ReactComponent as HelpCircleIcon } from 'assets/images/sidenav/help-circle.svg'
-import { ReactComponent as SettingsIcon } from 'assets/images/sidenav/settings.svg'
-import { Divider } from 'shared/atoms'
+import { useFilteredMenuItems } from 'config/MenuItems'
 import NavItem from './NavItem'
 import './sideNav.scss'
 
@@ -67,17 +64,6 @@ const SideNav: React.FC = () => {
               {menuItems.map(({ id, name, link, icon: Icon }) => (
                 <NavItem key={id} id={id} name={name} link={link} icon={Icon} />
               ))}
-              <Divider />
-              <NavItem
-                name="Help"
-                icon={HelpCircleIcon}
-                id={`${MenuItems.length + 1}`}
-              />
-              <NavItem
-                name="Settings"
-                icon={SettingsIcon}
-                id={`${MenuItems.length + 2}`}
-              />
             </Nav>
           </Sidenav.Body>
         </Sidenav>

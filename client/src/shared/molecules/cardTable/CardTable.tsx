@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { format } from 'date-fns'
-import { Loader } from 'rsuite'
 import { TableProps, RowDataType, RowKeyType } from 'rsuite-table'
+import { Loader } from 'shared/atoms'
 import TableFooter from '../table/footer/TableFooter'
 import Card from './Card'
 import './CardTable.scss'
 import TextCard from './TextCard'
+import { ReactComponent as NoData } from '../../../assets/images/no-data.svg'
 
 export interface Pagination {
   page: number;
@@ -85,9 +85,14 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
 
   return (
     <div className="card-container">
-      {data.length === 0 && <p>No record found </p>}
+      {data.length === 0 && !loading && (
+        <div className="no-data">
+          <NoData />
+          <div>No Data Found</div>
+        </div>
+      )}
+      {loading && <Loader />}
       <div className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}>
-        {loading && <Loader />}
         {data.map((item) => (
           <div key={item.id}>
             {card && (

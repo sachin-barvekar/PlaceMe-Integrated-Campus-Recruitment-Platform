@@ -1,23 +1,3 @@
-export const genderOptions = [
-  { label: 'Male', value: 'Male' },
-  { label: 'Female', value: 'Female' },
-  { label: 'Other', value: 'Other' }
-]
-
-export const level = [
-  { label: 'SSC', value: 'SSC' },
-  { label: 'HSC', value: 'HSC' },
-  { label: 'DIPLOMA', value: 'DIPLOMA' },
-  { label: 'BE', value: 'BE' }
-]
-
-export const Branch = [
-  { label: 'Computer Science', value: 'Computer Science' },
-  { label: 'ENTC', value: 'ENTC' },
-  { label: 'Mechanical', value: 'Mechanical' },
-  { label: 'Civil', value: 'Civil' }
-]
-
 export interface IAcademicDetail {
   level: 'SSC' | 'HSC' | 'DIPLOMA' | 'BE';
   institutionName: string;
@@ -26,13 +6,13 @@ export interface IAcademicDetail {
 }
 
 export interface Student {
-  userId: string | undefined;
+  userId: any | undefined;
   gender: 'Male' | 'Female' | 'Other' | null;
   mobile: string;
-  dateOfBirth: Date | null | string;
+  dateOfBirth: Date | undefined | string;
   branch: string;
   address: string;
-  profilePhoto?: string | File | null;
+  profilePhoto?: string | undefined;
   academicDetails: IAcademicDetail[];
   skills: string;
   linkedIn: string;

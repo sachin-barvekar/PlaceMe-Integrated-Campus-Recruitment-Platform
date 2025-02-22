@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { SelectPicker } from 'rsuite'
+import { Loader, SelectPicker } from 'rsuite'
 import { notifyError } from 'utils'
-import { Button, Loader } from '../../shared'
+import { Button } from '../../shared'
 import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
 import GoogleLogo from '../../assets/images/google.svg'
@@ -25,7 +25,7 @@ function LoginPage() {
     return <Loader />
   }
   if (authContext?.user) {
-    return <Navigate to="/" />
+    return <Navigate to="/profile" />
   }
 
   const handleLogin = async () => {

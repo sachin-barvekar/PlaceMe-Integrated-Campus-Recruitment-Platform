@@ -1,4 +1,31 @@
 import * as Yup from 'yup'
+import { StudentProfileResponse } from './types'
+
+export enum Tabs {
+  PERSONAL = 'personal',
+  ACADEMIC = 'academic',
+  WHERE_PLACED = 'where-place'
+}
+
+export const genderOptions = [
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+  { label: 'Other', value: 'Other' }
+]
+
+export const level = [
+  { label: 'SSC', value: 'SSC' },
+  { label: 'HSC', value: 'HSC' },
+  { label: 'DIPLOMA', value: 'DIPLOMA' },
+  { label: 'BE', value: 'BE' }
+]
+
+export const Branch = [
+  { label: 'Computer Science', value: 'Computer Science' },
+  { label: 'ENTC', value: 'ENTC' },
+  { label: 'Mechanical', value: 'Mechanical' },
+  { label: 'Civil', value: 'Civil' }
+]
 
 export enum STUDENT_FORM_FIELDS {
   GENDER = 'gender',
@@ -23,10 +50,10 @@ export enum ACADEMIC_DETAILS {
 export interface IStudentForm {
   [STUDENT_FORM_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null;
   [STUDENT_FORM_FIELDS.MOBILE]: string;
-  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: Date | null;
+  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: Date | undefined | string;
   [STUDENT_FORM_FIELDS.BRANCH]: string;
   [STUDENT_FORM_FIELDS.ADDRESS]: string;
-  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: string | File | null;
+  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: string | undefined;
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: {
     level: 'SSC' | 'HSC' | 'BE' | 'DIPLOMA',
     institutionName: string,
@@ -41,10 +68,10 @@ export interface IStudentForm {
 export const defaultStudentFormValues: IStudentForm = {
   [STUDENT_FORM_FIELDS.GENDER]: null,
   [STUDENT_FORM_FIELDS.MOBILE]: '',
-  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: null,
+  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: undefined,
   [STUDENT_FORM_FIELDS.BRANCH]: '',
   [STUDENT_FORM_FIELDS.ADDRESS]: '',
-  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: null,
+  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: undefined,
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: [
     { level: 'SSC', institutionName: '', marks: null, passingYear: null }
   ],
@@ -52,6 +79,30 @@ export const defaultStudentFormValues: IStudentForm = {
   [STUDENT_FORM_FIELDS.LINKEDIN]: '',
   [STUDENT_FORM_FIELDS.GITHUB]: ''
 }
+export const getInitialProfileFormValueFromResponse = (
+  profile: StudentProfileResponse
+): IStudentForm => ({
+  [STUDENT_FORM_FIELDS.GENDER]: profile?.student?.gender ?? null,
+  [STUDENT_FORM_FIELDS.MOBILE]: profile?.student?.mobile ?? '',
+  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]:
+    profile?.student?.dateOfBirth ?? undefined,
+  [STUDENT_FORM_FIELDS.BRANCH]: profile?.student?.branch ?? '',
+  [STUDENT_FORM_FIELDS.ADDRESS]: profile?.student?.address ?? '',
+  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]:
+    profile?.student?.profilePhoto ?? undefined,
+  [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]:
+    profile?.student?.academicDetails?.map((detail: any) => ({
+      level: detail.level ?? '',
+      institutionName: detail.institutionName ?? '',
+      marks: detail.marks ?? null,
+      passingYear: detail.passingYear ?? null
+    })) ?? [
+      { level: 'SSC', institutionName: '', marks: null, passingYear: null }
+    ],
+  [STUDENT_FORM_FIELDS.SKILLS]: profile?.student?.skills ?? '',
+  [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.student?.linkedIn ?? '',
+  [STUDENT_FORM_FIELDS.GITHUB]: profile?.student?.github ?? ''
+})
 
 export const studentValidationSchema = () => {
   return Yup.object().shape({

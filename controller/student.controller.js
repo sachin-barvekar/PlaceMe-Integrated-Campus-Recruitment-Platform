@@ -75,13 +75,13 @@ exports.getAllStudents = async (req, res) => {
 
 exports.StudentProfileCompletion = async (req, res) => {
   try {
-    const { firebaseUid } = req.params
+    const firebaseUid = req.user.user_id;
     const user = await User.findOne({ firebaseUid })
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
     const uid = user?._id
-    let student = await Student.findOne({ userId: uid })
+    let student = await Student.findOne({ userId: uid }).populate('userId')
 
     if (!student) {
       return res.status(200).json({
@@ -124,10 +124,8 @@ exports.StudentProfileCompletion = async (req, res) => {
 
 exports.addOrEditStudentProfile = async (req, res) => {
   try {
-    const { firebaseUid } = req.params
+    const firebaseUid = req.user.user_id;
     const studentData = JSON.parse(req.body.studentDTO)
-    console.log(studentData)
-
     const {
       mobile,
       gender,
@@ -140,18 +138,12 @@ exports.addOrEditStudentProfile = async (req, res) => {
       github,
     } = studentData
 
-    const formattedDateOfBirth = dateOfBirth
-      ? format(new Date(dateOfBirth), 'dd/ MMM/ yyyy')
-      : null
-
     const profilePhoto = req.files?.file
-
     const user = await User.findOne({ firebaseUid })
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
     const uid = user?._id
-
     let student = await Student.findOne({ userId: uid })
 
     let uploadedImage
@@ -167,7 +159,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
         userId: uid,
         mobile,
         gender,
-        dateOfBirth: formattedDateOfBirth,
+        dateOfBirth,
         branch,
         address,
         profilePhoto: uploadedImage ? uploadedImage.secure_url : '',
@@ -179,7 +171,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
     } else {
       student.mobile = mobile
       student.gender = gender
-      student.dateOfBirth = formattedDateOfBirth
+      student.dateOfBirth = dateOfBirth
       student.branch = branch
       student.address = address
       if (uploadedImage) student.profilePhoto = uploadedImage.secure_url

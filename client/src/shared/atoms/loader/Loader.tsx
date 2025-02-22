@@ -1,10 +1,16 @@
 import React from 'react'
-import { Loader as SuiteLoader } from 'rsuite'
+import { ReactComponent as LoaderIcon } from '../../../assets/images/loader.svg'
+import './Loader.scss'
 
 const Loader: React.FC = () => {
   return (
     <div className="loader">
-      <SuiteLoader backdrop vertical center />
+      <div>
+        <LoaderIcon className="loader-icon" />
+      </div>
+      <div>
+        <p>Loading...</p>
+      </div>
     </div>
   )
 }

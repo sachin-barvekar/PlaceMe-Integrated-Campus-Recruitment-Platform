@@ -1,0 +1,345 @@
+@use '../../../../scss/abstracts/' as *;
+
+.user-profile {
+    background-color: $color-white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+    min-height: 60vh;
+
+    .user-profile-header {
+        background: linear-gradient(135deg,
+                $primary-color,
+                darken($primary-color, 10%));
+        padding: 1.5rem;
+        color: $color-white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .user-logo-section {
+            position: relative;
+            display: inline-block;
+
+            .user-logo {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                border: 4px solid $color-white;
+            }
+
+            .edit-button {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                background: $color-white;
+                border-radius: 50%;
+                padding: 8px;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                    background: $background-color-lighter;
+                }
+            }
+        }
+
+        .user-name {
+            margin-top: 1rem;
+
+            .user-name-text {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: $color-white;
+                text-align: center;
+            }
+        }
+    }
+
+    .user-profile-body {
+        margin-top: 1.5rem;
+
+        .tab-header {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+            border: none;
+            justify-content: center;
+
+            .tab-item {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #666;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                position: relative;
+                transition: color 0.3s ease-in-out;
+
+                &:hover {
+                    color: $primary-color;
+                }
+
+                &.active {
+                    color: $primary-color;
+                    font-weight: 700;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        bottom: -3px;
+                        width: 100%;
+                        height: 3px;
+                        background-color: $primary-color;
+                    }
+                }
+            }
+        }
+
+        .tab-content {
+            margin-top: 0.5rem;
+
+            .personal-details {
+                background: $color-white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+                .details-header {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: $primary-color;
+                    text-align: center;
+                    margin-bottom: 1.5rem;
+                }
+
+                .details-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.5rem;
+
+                    .detail-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        background: #f9f9f9;
+                        padding: 1rem;
+                        border-radius: 6px;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            transform: translateY(-3px);
+                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+                        }
+
+                        .icon {
+                            font-size: 1.5rem;
+                            color: $primary-color;
+                        }
+
+                        .text {
+                            display: flex;
+                            flex-direction: column;
+
+                            .label {
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                color: #666;
+                            }
+
+                            .value {
+                                font-size: 1rem;
+                                font-weight: bold;
+                                color: #333;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .education-section {
+                text-align: center;
+
+                .education-timeline {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    padding: 1rem;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+
+                    .education-item {
+                        background: $color-white;
+                        border-radius: 8px;
+                        padding: 1.5rem;
+                        box-shadow: 2px 4px 8px rgba(33, 33, 33, 0.1);
+                        flex: 1 1 300px;
+                        max-width: 400px;
+                        position: relative;
+                        margin: 0 1rem;
+                        transition: transform 0.3s ease-in-out;
+                        border: 1px solid rgba(33, 33, 33, 0.1);
+
+                        &:hover {
+                            transform: translateY(-5px);
+                        }
+
+                        .education-content {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+
+                            .degree {
+                                text-align: center;
+                                font-size: 1.2rem;
+                                font-weight: bold;
+                                color: $primary-color;
+                            }
+
+                            .institution {
+                                font-size: 1rem;
+                                color: #555;
+                            }
+
+                            .years {
+                                font-size: 0.9rem;
+                                color: #888;
+                                margin-bottom: 0.5rem;
+                            }
+                        }
+
+                        .timeline-line {
+                            position: absolute;
+                            width: 80px;
+                            height: 4px;
+                            background: $primary-color;
+                            top: 50%;
+                            left: 100%;
+                            transform: translateY(-50%);
+                        }
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .education-timeline {
+                        flex-direction: column;
+                        gap: 1rem;
+
+                        .education-item {
+                            flex: none;
+                            max-width: 90% !important;
+                            width: 90% !important;
+                            display: flex;
+                            flex-direction: column;
+
+                            .timeline-line {
+                                width: 4px;
+                                height: 90px;
+                                top: 100%;
+                                left: 50%;
+                                transform: translateY(0%);
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            .placement-details-section {
+                background: $color-white;
+                padding: 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+
+                .section-title {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: $primary-color;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                }
+
+                .placement-card {
+                    background: lighten($primary-color, 40%);
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+                    }
+
+                    .placement-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 2px solid darken($primary-color, 10%);
+                        padding-bottom: 0.8rem;
+                        margin-bottom: 1rem;
+
+                        .company-name {
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            color: darken($primary-color, 20%);
+                        }
+
+                        .location {
+                            font-size: 0.9rem;
+                            color: darken($primary-color, 15%);
+                            display: flex;
+                            align-items: center;
+
+                            i {
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+
+                    .placement-body {
+                        font-size: 1rem;
+                        color: darken($primary-color, 25%);
+                        line-height: 1.6;
+
+                        p {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            margin-bottom: 8px;
+
+                            i {
+                                width: 20px;
+                                height: 20px;
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                            }
+                        }
+                    }
+
+                    .placement-footer {
+                        margin-top: 1rem;
+                        text-align: center;
+
+                        .apply-btn {
+                            background: darken($primary-color, 10%);
+                            color: white;
+                            padding: 10px 15px;
+                            border-radius: 6px;
+                            text-decoration: none;
+                            font-weight: 600;
+                            display: inline-block;
+                            transition: background 0.3s ease-in-out;
+
+                            &:hover {
+                                background: darken($primary-color, 20%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

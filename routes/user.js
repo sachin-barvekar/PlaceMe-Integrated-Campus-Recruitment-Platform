@@ -16,21 +16,20 @@ const {
 router.post('/login', login)
 
 router.get(
-  '/student-profile/:firebaseUid',
+  '/student-profile',
   verifyFirebaseToken,
   StudentProfileCompletion,
 )
 router.post(
-  '/student-profile/:firebaseUid',
+  '/student-profile',
   verifyFirebaseToken,
-  addOrEditStudentProfile,
+  addOrEditStudentProfile
 )
 router.put(
-  '/student-profile/:firebaseUid',
+  '/student-profile',
   verifyFirebaseToken,
-  addOrEditStudentProfile,
+  addOrEditStudentProfile
 )
-
 router.get('/students', verifyFirebaseToken, getAllStudents)
 
 router.get('/placements', verifyFirebaseToken, getAllPlacements)

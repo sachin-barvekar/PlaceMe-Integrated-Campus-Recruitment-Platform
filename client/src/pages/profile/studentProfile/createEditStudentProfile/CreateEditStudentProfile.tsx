@@ -1,23 +1,26 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ButtonToolbar, Col, DatePicker, Input, SelectPicker } from 'rsuite'
 import { Formik, Form, FormikHelpers, FormikProps, FieldArray } from 'formik'
 import PlusIcon from '@rsuite/icons/Plus'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import '../../../../scss/common/forms/Form.scss'
-import { Branch, genderOptions, level, Student } from 'pages/profile/types'
+import { Student, StudentProfileResponse } from 'pages/profile/types'
 import { MdRemoveCircle } from 'react-icons/md'
 import {
   useCreateProfileMutation,
   useUpdateProfileMutation
 } from 'pages/profile/profileApiSlice'
-import { AuthContext } from 'contexts/AuthContext'
 import { format, isAfter } from 'date-fns'
 import {
   STUDENT_FORM_FIELDS,
   defaultStudentFormValues,
   IStudentForm,
-  studentValidationSchema
+  studentValidationSchema,
+  getInitialProfileFormValueFromResponse,
+  genderOptions,
+  Branch,
+  level
 } from '../../utils'
 import {
   Button,
@@ -39,10 +42,17 @@ import {
 
 type Props = {
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  profileData: StudentProfileResponse | undefined,
+  isEditMode: boolean
 }
 
-const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
+const CreateEditStudentProfile: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  profileData,
+  isEditMode
+}) => {
   const {
     GENDER,
     MOBILE,
@@ -56,21 +66,30 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
     GITHUB
   } = STUDENT_FORM_FIELDS
 
-  const initialValues = useMemo(() => defaultStudentFormValues, [])
-  const authContext = useContext(AuthContext)
-  const firebaseUid = authContext?.user?.uid ?? undefined
+  const initialValues = useMemo(
+    () =>
+      profileData
+        ? getInitialProfileFormValueFromResponse(profileData)
+        : defaultStudentFormValues,
+    [profileData]
+  )
   const [createStudentProfile] = useCreateProfileMutation()
-  // eslint-disable-next-line
   const [editStudentProfile] = useUpdateProfileMutation()
-  const [fileInfo, setFileInfo] = React.useState<string | undefined>(undefined)
+  const [fileInfo, setFileInfo] = useState<string | undefined>(undefined)
   const maxSize = 2 * 1024 * 1024
+
+  useEffect(() => {
+    if (profileData?.student?.profilePhoto) {
+      setFileInfo(profileData.student.profilePhoto)
+    }
+  }, [profileData?.student?.profilePhoto])
 
   const onSubmit = async (
     formValues: IStudentForm,
     { setSubmitting }: FormikHelpers<IStudentForm>
   ) => {
     const studentDTO: Student = {
-      userId: firebaseUid,
+      userId: profileData?.student?.userId ?? undefined,
       gender: formValues.gender,
       mobile: formValues.mobile,
       dateOfBirth: formValues.dateOfBirth
@@ -86,15 +105,24 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
     const fileObject = formValues[PROFILE_PHOTO]
     let file: File | null = null
 
-    if (isFileObject(fileObject)) {
-      file = fileObject.blobFile
-    } else if (fileObject instanceof File) {
-      file = fileObject
+    if (fileObject) {
+      if (isFileObject(fileObject)) {
+        file = fileObject.blobFile
+      } else if (typeof fileObject !== 'string') {
+        file = fileObject
+      }
     }
 
     try {
-      await createStudentProfile({ studentDTO, file })
-      notifySuccess('Profile updated successfully!')
+      if (profileData) {
+        await editStudentProfile({ studentDTO, file })
+        notifySuccess('Profile Updated successfully!')
+      } else {
+        await createStudentProfile({ studentDTO, file })
+        notifySuccess('Profile Created successfully!')
+      }
+      onClose()
+      setFileInfo(undefined)
     } catch (error) {
       notifyError('Failed to update profile')
     } finally {
@@ -104,24 +132,49 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const renderFormButtons = (formikProps: FormikProps<IStudentForm>) => (
     <ButtonToolbar>
-      <Button
-        className="formButton"
-        id="reset"
-        onClick={() => {
-          setFileInfo(undefined)
-          formikProps.resetForm()
-        }}
-      >
-        Reset
-      </Button>
-      <Button
-        className="formButton"
-        appearance="primary"
-        type="submit"
-        disabled={formikProps.isValidating || formikProps.isSubmitting}
-      >
-        Save
-      </Button>
+      {isEditMode ? (
+        <>
+          <Button
+            className="formButton"
+            id="reset"
+            onClick={() => {
+              setFileInfo(profileData?.student?.profilePhoto ?? undefined)
+              formikProps.resetForm()
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            className="formButton"
+            type="submit"
+            appearance="primary"
+            disabled={formikProps.isValidating || formikProps.isSubmitting}
+          >
+            Save changes
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            className="formButton"
+            id="reset"
+            onClick={() => {
+              setFileInfo(undefined)
+              formikProps.resetForm()
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            className="formButton"
+            appearance="primary"
+            type="submit"
+            disabled={formikProps.isValidating || formikProps.isSubmitting}
+          >
+            Save
+          </Button>
+        </>
+      )}
     </ButtonToolbar>
   )
   return (
@@ -177,7 +230,13 @@ const CreateEditStudentProfile: React.FC<Props> = ({ isOpen, onClose }) => {
                       <DatePicker
                         name={DATE_OF_BIRTH}
                         format="dd/ MMM/ yyyy"
-                        value={formikProps.values[DATE_OF_BIRTH] || null}
+                        value={
+                          formikProps.values[DATE_OF_BIRTH]
+                            ? new Date(
+                                formikProps.values[DATE_OF_BIRTH] as string
+                              )
+                            : null
+                        }
                         onChange={(date) =>
                           formikProps.setFieldValue(DATE_OF_BIRTH, date)
                         }
