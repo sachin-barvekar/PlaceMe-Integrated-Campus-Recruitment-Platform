@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
+import { notifyWarning } from 'utils'
 
 export const baseUrl = process.env.REACT_APP_BASE_URL ?? ''
 
@@ -40,6 +41,7 @@ axiosInstance.interceptors.response.use(
       console.error('Access forbidden:', status)
       localStorage.clear()
       window.location.href = '/auth'
+      notifyWarning('Logged out due to session timeout.')
     } else if (status === 401) {
       // eslint-disable-next-line
       console.error('Unauthorized access:', status)

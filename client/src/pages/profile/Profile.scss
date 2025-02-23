@@ -1,4 +1,4 @@
-@use '../../../../scss/abstracts/' as *;
+@use '../../scss/abstracts/' as *;
 
 .user-profile {
     background-color: $color-white;
@@ -160,6 +160,10 @@
 
             .education-section {
                 text-align: center;
+                background: $color-white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
                 .education-timeline {
                     display: flex;
