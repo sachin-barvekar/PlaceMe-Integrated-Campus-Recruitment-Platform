@@ -75,7 +75,7 @@ const appRouter = () =>
             {
               path: '/profile',
               element: (
-                <RouteGuard requiredRoles={['admin', 'student']}>
+                <RouteGuard requiredRoles={['admin', 'student', 'recruiter']}>
                   <ProfilePage />
                 </RouteGuard>
               )

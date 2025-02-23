@@ -11,8 +11,8 @@ import PasskeyModal from './PassKey'
 
 const roles = [
   { label: 'Admin', value: 'admin' },
-  { label: 'Student', value: 'student' }
-  // { label: 'Recruiter', value: 'recruiter' }
+  { label: 'Student', value: 'student' },
+  { label: 'Recruiter', value: 'recruiter' }
 ]
 
 function LoginPage() {
@@ -34,6 +34,10 @@ function LoginPage() {
       return
     }
     if (authContext.role === 'admin' && !isPasskeyValid) {
+      setShowPasskeyModal(true)
+      return
+    }
+    if (authContext.role === 'recruiter' && !isPasskeyValid) {
       setShowPasskeyModal(true)
       return
     }

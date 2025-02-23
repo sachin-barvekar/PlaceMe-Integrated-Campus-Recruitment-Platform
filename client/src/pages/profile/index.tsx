@@ -5,7 +5,8 @@ import AdminProfilePage from './adminProfile/AdminProfile/AdminProfile'
 
 const profileComponents: Record<string, React.FC> = {
   admin: AdminProfilePage,
-  student: StudentProfilePage
+  student: StudentProfilePage,
+  recruiter: AdminProfilePage
 }
 
 const ProfilePage = () => {
