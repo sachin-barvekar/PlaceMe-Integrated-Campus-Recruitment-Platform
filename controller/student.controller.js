@@ -44,6 +44,7 @@ exports.getAllStudents = async (req, res) => {
             : '-',
         name: userId?.name || '',
         email: userId?.email || '',
+        userId
       }
     })
 

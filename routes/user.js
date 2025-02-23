@@ -6,6 +6,8 @@ const { login } = require('../controller/auth.controller')
 const {
   createPlacement,
   getAllPlacements,
+  updatePlacement,
+  deletePlacement,
 } = require('../controller/placement.controller')
 const {
   StudentProfileCompletion,
@@ -24,5 +26,7 @@ router.get('/student-count', verifyFirebaseToken, getStudentQueries)
 
 router.get('/placements', verifyFirebaseToken, getAllPlacements)
 router.post('/placements/create', verifyFirebaseToken, createPlacement)
+router.put('/placements/edit/:_id', verifyFirebaseToken, updatePlacement)
+router.delete('/placements/delete/:_id', verifyFirebaseToken, deletePlacement)
 
 module.exports = router

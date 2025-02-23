@@ -38,6 +38,8 @@ axiosInstance.interceptors.response.use(
     if (status === 403) {
       // eslint-disable-next-line
       console.error('Access forbidden:', status)
+      localStorage.clear()
+      window.location.href = '/auth'
     } else if (status === 401) {
       // eslint-disable-next-line
       console.error('Unauthorized access:', status)

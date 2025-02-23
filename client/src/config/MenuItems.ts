@@ -82,7 +82,7 @@ const menuItems: MenuItemType[] = [
     name: 'Profile',
     link: '/profile',
     icon: CgProfile,
-    roles: ['student']
+    roles: ['student', 'admin']
   }
   // {
   //   id: '10',

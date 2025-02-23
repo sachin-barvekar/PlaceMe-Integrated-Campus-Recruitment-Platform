@@ -298,6 +298,7 @@ const ProfilePage: React.FC = () => {
             onClose={() => {
               setIsModalOpen(false)
               setIsEditMode(false)
+              setProfileData(undefined)
             }}
           />
         </>
