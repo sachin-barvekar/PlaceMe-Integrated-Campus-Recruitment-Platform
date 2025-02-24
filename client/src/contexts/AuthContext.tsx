@@ -7,6 +7,7 @@ interface AuthContextType {
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
+  refreshToken: () => void;
   role: string | null;
   setRole: (role: string | null) => void;
 }

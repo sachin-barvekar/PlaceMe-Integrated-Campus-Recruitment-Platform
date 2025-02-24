@@ -1,9 +1,9 @@
 import { isAxiosError } from 'axios'
 import { notifyError } from 'utils'
-import axiosInstance from './axiosInstance'
+import axiosInstance, { getAccessToken } from './axiosInstance'
 
 type AxiosBaseQueryProps = {
-  baseUrl: string
+  baseUrl?: string
 }
 
 type AxiosInstanceProps = {
@@ -11,12 +11,14 @@ type AxiosInstanceProps = {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
   data?: any,
   params?: any,
-  headers?: any
+  headers?: any,
+  responseType?: 'json' | 'blob' | 'text',
+  includeAuth?: boolean
 }
 
 export interface IErrorResponse<T> {
   status: number | undefined;
-  data: T;
+  data: T | null;
 }
 
 const axiosBaseQuery =
@@ -25,16 +27,29 @@ const axiosBaseQuery =
       baseUrl: process.env.REACT_APP_BASE_URL ?? ''
     }
   ) =>
-  async ({ url, method, data, params, headers }: AxiosInstanceProps) => {
+  async ({
+    url,
+    method,
+    data,
+    params,
+    headers = {},
+    responseType = 'json',
+    includeAuth = true
+  }: AxiosInstanceProps) => {
     try {
       const result = await axiosInstance({
         url: `${baseUrl}${url}`,
         method,
         data,
         params,
-        headers
+        headers: {
+          ...headers,
+          Authorization: includeAuth ? `Bearer ${getAccessToken()}` : undefined
+        },
+        responseType
       })
-      return result
+
+      return { data: result.data }
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         const errorMessage =
@@ -43,7 +58,7 @@ const axiosBaseQuery =
         return {
           error: {
             status: error.response?.status,
-            data: error.response?.data
+            data: error.response?.data || null
           } as IErrorResponse<T>
         }
       }

@@ -92,41 +92,45 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
         </div>
       )}
       {loading && <Loader />}
-      <div className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}>
-        {data.map((item) => (
-          <div key={item.id}>
-            {card && (
-              <Card
-                imageUrl={item.profilePhoto}
-                name={item?.studentName}
-                Branch={item.branch}
-                CompanyName={item?.companyName}
-                CompanyLocation={item?.location}
-                Designation={item?.jobRole}
-                Package={item?.package}
-                onAction={onAction}
-                data={item}
-                actionOptions={actionOptions}
-                handleSelection={handleSelection}
-                selected={selected.some((value) => value.uid === item.uid)}
-              />
-            )}
-            {textCard && (
-              <TextCard
-                title={item.name}
-                subtitle={item.cropName}
-                date={format(new Date(item.createdAt), 'MMMM dd, yyyy')}
-                totalIncome={item.creditAmountTotal}
-                totalExpense={item.debitAmountTotal}
-                onAction={onAction}
-                handleSelection={handleSelection}
-                actionOptions={actionOptions}
-                data={item}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+      {!loading && (
+        <div
+          className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}
+        >
+          {data.map((item) => (
+            <div key={item.id}>
+              {card && (
+                <Card
+                  imageUrl={item.profilePhoto}
+                  name={item?.studentName}
+                  Branch={item.branch}
+                  CompanyName={item?.companyName}
+                  CompanyLocation={item?.location}
+                  Designation={item?.jobRole}
+                  Package={item?.package}
+                  onAction={onAction}
+                  data={item}
+                  actionOptions={actionOptions}
+                  handleSelection={handleSelection}
+                  selected={selected.some((value) => value.uid === item.uid)}
+                />
+              )}
+              {textCard && (
+                <TextCard
+                  title={item.name}
+                  subtitle={item.cropName}
+                  date={format(new Date(item.createdAt), 'MMMM dd, yyyy')}
+                  totalIncome={item.creditAmountTotal}
+                  totalExpense={item.debitAmountTotal}
+                  onAction={onAction}
+                  handleSelection={handleSelection}
+                  actionOptions={actionOptions}
+                  data={item}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
       {paginated && (
         <TableFooter
           total={total}

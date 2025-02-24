@@ -6,7 +6,7 @@ const profileApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl
   }),
-  reducerPath: 'profile',
+  reducerPath: 'profileApi',
   tagTypes: ['student-profile', 'admin-profile'],
   endpoints: () => ({})
 })

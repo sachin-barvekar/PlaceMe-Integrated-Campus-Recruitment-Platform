@@ -12,7 +12,10 @@ export interface IListApiRequest<T> {
   filters?: IFilter<T>[];
   sort?: ISortBy<T>[];
   page?: Ipage;
+  searchKey?: string;
+  id?: string | number;
 }
+
 export interface IFilter<T> {
   fieldName: keyof T;
   operator: string;

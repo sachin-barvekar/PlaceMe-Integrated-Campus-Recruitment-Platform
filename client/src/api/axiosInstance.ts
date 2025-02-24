@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
-import { notifyWarning } from 'utils'
+import { redirect } from 'react-router-dom'
 
 export const baseUrl = process.env.REACT_APP_BASE_URL ?? ''
 
-export const getAccessToken = (): string | null => localStorage.getItem('token')
-export const updateAccessToken = (token: string) => {
-  axiosInstance.defaults.headers.Authorization = `Bearer ${token}`
+export const getAccessToken = () => {
+  return localStorage.getItem('token')
 }
+
 const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {
@@ -17,11 +17,15 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken()
-    if (config.headers) {
+
+    if (config.headers.Authorization !== false && token) {
       ;(config.headers as AxiosHeaders).set(
         'Authorization',
         token ? `Bearer ${token}` : ''
       )
+    } else {
+      // eslint-disable-next-line
+      delete config.headers.Authorization
     }
 
     return config
@@ -33,25 +37,14 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
     const status = error.response?.status
 
     if (status === 403) {
-      // eslint-disable-next-line
-      console.error('Access forbidden:', status)
       localStorage.clear()
-      window.location.href = '/auth'
-      notifyWarning('Logged out due to session timeout.')
-    } else if (status === 401) {
-      // eslint-disable-next-line
-      console.error('Unauthorized access:', status)
-      // window.location.href = '/logout'
-    } else {
-      // eslint-disable-next-line
-      console.error('Unexpected error:', error.message)
+      return redirect('/auth')
     }
-
-    return Promise.reject(error)
+    throw error
   }
 )
 
