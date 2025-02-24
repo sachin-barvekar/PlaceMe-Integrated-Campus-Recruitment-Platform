@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
-import { redirect } from 'react-router-dom'
 
 export const baseUrl = process.env.REACT_APP_BASE_URL ?? ''
 
@@ -42,7 +41,6 @@ axiosInstance.interceptors.response.use(
 
     if (status === 403) {
       localStorage.clear()
-      return redirect('/auth')
     }
     throw error
   }

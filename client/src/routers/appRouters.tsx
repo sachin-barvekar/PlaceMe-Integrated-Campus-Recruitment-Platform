@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import AuthGuard from 'guards/AuthGuard'
 import RouteGuard from 'guards/RouteGuard'
 import Dashboard from 'pages/dashboard/Dashboard'
@@ -24,6 +24,10 @@ const appRouter = () =>
         {
           path: '/logout',
           element: <LogoutPage />
+        },
+        {
+          path: '*',
+          element: <Navigate to="/auth" replace />
         },
         {
           element: (
