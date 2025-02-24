@@ -19,6 +19,7 @@ const {
   addOrEditAdminProfile,
   AdminProfileCompletion,
 } = require('../controller/admin.controller')
+const exchangeToken = require('../controller/whatsapp.controller')
 
 router.post('/login', login)
 
@@ -37,5 +38,7 @@ router.delete('/placements/delete/:_id', verifyFirebaseToken, deletePlacement)
 router.get('/admin-profile', verifyFirebaseToken, AdminProfileCompletion)
 router.post('/admin-profile', verifyFirebaseToken, addOrEditAdminProfile)
 router.put('/admin-profile', verifyFirebaseToken, addOrEditAdminProfile)
+
+router.post('/whatsapp/exchange_token', verifyFirebaseToken, exchangeToken)
 
 module.exports = router
