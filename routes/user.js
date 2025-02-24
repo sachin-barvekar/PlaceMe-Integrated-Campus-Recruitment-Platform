@@ -12,6 +12,7 @@ const {
   addOrEditStudentProfile,
   getAllStudents,
 } = require('../controller/student.controller')
+const { exchangeToken } = require('../controller/Whatsapp.controller')
 
 router.post('/login', login)
 
@@ -34,5 +35,7 @@ router.get('/students', verifyFirebaseToken, getAllStudents)
 
 router.get('/placements', verifyFirebaseToken, getAllPlacements)
 router.post('/placements/create', verifyFirebaseToken, createPlacement)
+
+router.post('/whatsapp/exchange_token', verifyFirebaseToken, exchangeToken)
 
 module.exports = router
