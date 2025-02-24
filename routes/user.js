@@ -12,25 +12,13 @@ const {
   addOrEditStudentProfile,
   getAllStudents,
 } = require('../controller/student.controller')
-const { exchangeToken } = require('../controller/Whatsapp.controller')
+const exchangeToken = require('../controller/whatsapp.controller')
 
 router.post('/login', login)
 
-router.get(
-  '/student-profile',
-  verifyFirebaseToken,
-  StudentProfileCompletion,
-)
-router.post(
-  '/student-profile',
-  verifyFirebaseToken,
-  addOrEditStudentProfile
-)
-router.put(
-  '/student-profile',
-  verifyFirebaseToken,
-  addOrEditStudentProfile
-)
+router.get('/student-profile', verifyFirebaseToken, StudentProfileCompletion)
+router.post('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
+router.put('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
 router.get('/students', verifyFirebaseToken, getAllStudents)
 
 router.get('/placements', verifyFirebaseToken, getAllPlacements)
