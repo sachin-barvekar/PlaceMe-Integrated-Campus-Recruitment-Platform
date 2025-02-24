@@ -4,13 +4,15 @@ import PlacementApi from 'api/placementApi'
 import profileApi from 'api/profileApi'
 import dashboardApi from 'api/dashboardApi'
 import studentApi from 'api/studentApi'
+import whatsappApi from 'api/whatsappApi'
 
 const rootReducer = combineSlices(
   loginApi,
   profileApi,
   studentApi,
   PlacementApi,
-  dashboardApi
+  dashboardApi,
+  whatsappApi
 )
 
 export type RootState = ReturnType<typeof rootReducer>

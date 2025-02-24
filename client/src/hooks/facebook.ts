@@ -65,9 +65,8 @@ export const FbAuthProvider = (): FbAuthProviderReturnType => {
             notifyError('❌ Error:', data.data.error_message)
           }
         }
-      } catch (error) {
-        notifyError('🚨 Non-JSON Response:', event.data)
-      }
+        // eslint-disable-next-line
+      } catch (error) {}
     }
 
     window.addEventListener('message', handleMessage)

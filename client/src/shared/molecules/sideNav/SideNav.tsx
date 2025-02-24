@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Sidebar } from 'rsuite'
 import Sidenav from 'rsuite/Sidenav'
 import Nav from 'rsuite/Nav'
@@ -7,13 +7,22 @@ import NavItem from './NavItem'
 import './sideNav.scss'
 
 const SideNav: React.FC = () => {
-  const menuItems = useFilteredMenuItems()
   const [activeKey, setActiveKey] = React.useState('1')
   const [expanded, setExpanded] = React.useState(false)
+  const menuItems = useFilteredMenuItems()
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setExpanded(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
   const clickToggler = () => {
     setExpanded(!expanded)
   }
-
   return (
     <Sidebar
       className={`${expanded ? '' : 'collapsing'}`}
@@ -61,8 +70,15 @@ const SideNav: React.FC = () => {
           </div>
           <Sidenav.Body>
             <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              {menuItems.map(({ id, name, link, icon: Icon }) => (
-                <NavItem key={id} id={id} name={name} link={link} icon={Icon} />
+              {menuItems.map(({ id, name, link, icon: Icon, subMenu }) => (
+                <NavItem
+                  key={id}
+                  id={id}
+                  name={name}
+                  link={link}
+                  icon={Icon}
+                  subMenu={subMenu}
+                />
               ))}
             </Nav>
           </Sidenav.Body>
@@ -71,5 +87,4 @@ const SideNav: React.FC = () => {
     </Sidebar>
   )
 }
-
 export default SideNav

@@ -6,6 +6,7 @@ import StudentList from 'pages/students/studentList/StudentList'
 import ProfilePage from 'pages/profile'
 import RecruitersList from 'pages/recruiters/recruitersList/RecruitersList'
 import JobOpeningList from 'pages/jobOpenings/jobOpeningsList/JobOpeningsList'
+import WhatsAppConfig from 'pages/whatsApp/whatsAppConfig/WhatsAppConfig'
 import PlaceStudentList from 'pages/placeStudents/placeStudentsList/PlaceStudentsList'
 import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
@@ -83,7 +84,23 @@ const appRouter = () =>
                   <ProfilePage />
                 </RouteGuard>
               )
+            },
+            {
+              path: '/settings/WhatsApp',
+              element: (
+                <RouteGuard requiredRoles={['admin']}>
+                  <WhatsAppConfig />
+                </RouteGuard>
+              )
             }
+            // {
+            //   path: '/settings/template',
+            //   element: (
+            //     <RouteGuard requiredRoles={['admin']}>
+            //       <WPTemplateList />
+            //     </RouteGuard>
+            //   )
+            // }
           ]
         }
       ]

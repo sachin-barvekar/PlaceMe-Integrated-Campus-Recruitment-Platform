@@ -1,12 +1,23 @@
 @use '../../../scss/abstracts/variables' as *;
+
 .sideNav {
   display: flex;
   height: 100%;
   background-color: $color-white;
   transition: width 0.15s ease-in;
+
   .rs-sidenav-subtle .rs-sidenav-item.rs-sidenav-item-active {
     background-color: $button-background-color-lighter;
-    font-weight: 900;
+    font-weight: 700;
+  }
+
+  .rs-dropdown-header {
+    display: none;
+  }
+
+  .rs-dropdown-item.rs-dropdown-item-active {
+    background-color: $button-background-color-lighter !important;
+    font-weight: 700 !important;
   }
 }
 
@@ -17,6 +28,7 @@
   font-weight: 600;
   line-height: 24px;
   color: $text-color-green;
+
   span {
     color: $text-color-orange;
   }
@@ -71,6 +83,7 @@
   .sideNav .rs-sidenav-subtle .rs-sidenav-toggle-button {
     left: 15px;
   }
+
   .rs-sidenav-subtle .rs-sidenav-item.rs-sidenav-item-active {
     background-color: $button-background-color-primary;
     color: $color-white;

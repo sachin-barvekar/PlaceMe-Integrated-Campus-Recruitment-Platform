@@ -1,8 +1,14 @@
 import { HTMLAttributes } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
-import { MdBusiness, MdAssignmentTurnedIn, MdWork } from 'react-icons/md'
+import {
+  MdBusiness,
+  MdAssignmentTurnedIn,
+  MdWork,
+  MdSettings,
+  MdDescription
+} from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
-import { FaClipboardList, FaUserGraduate } from 'react-icons/fa'
+import { FaClipboardList, FaUserGraduate, FaWhatsapp } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
@@ -92,7 +98,29 @@ const menuItems: MenuItemType[] = [
     link: '/profile',
     icon: CgProfile,
     roles: ['student', 'admin', 'recruiter']
+  },
+  {
+    id: '11',
+    name: 'Configuration',
+    link: '/settings',
+    icon: MdSettings,
+    roles: ['admin'],
+    subMenu: [
+      {
+        id: '11-1',
+        name: 'WhatsApp',
+        link: '/settings/WhatsApp',
+        icon: FaWhatsapp
+      },
+      {
+        id: '11-2',
+        name: 'Template',
+        link: '/settings/template',
+        icon: MdDescription
+      }
+    ]
   }
+
   // {
   //   id: '10',
   //   name: 'Placement Pro',
