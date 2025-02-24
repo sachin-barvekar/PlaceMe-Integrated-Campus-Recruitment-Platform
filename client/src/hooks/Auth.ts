@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -23,6 +23,7 @@ interface AuthContextType {
 }
 
 const useAuth = (): AuthContextType => {
+  const hasLoggedOutRef = useRef(false)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [token, setToken] = useState<string | null>(
@@ -69,8 +70,7 @@ const useAuth = (): AuthContextType => {
 
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
-      // eslint-disable-next-line
-      const token = await result.user.getIdToken()
+      const accessToken = await result.user.getIdToken()
 
       const loginData = {
         email: result.user.email ?? '',
@@ -81,8 +81,8 @@ const useAuth = (): AuthContextType => {
       const res = await loginMutation(loginData)
       if (res && res.data) {
         setUser(result.user)
-        setToken(token)
-        localStorage.setItem('token', token)
+        setToken(accessToken)
+        localStorage.setItem('token', accessToken)
         localStorage.setItem('role', role)
         notifySuccess('Login successful.')
       } else {
@@ -95,26 +95,25 @@ const useAuth = (): AuthContextType => {
     }
   }
 
-  const logout = (() => {
-    let hasLoggedOut = false
-    return async () => {
-      if (hasLoggedOut) {
-        return
-      }
-      hasLoggedOut = true
-      try {
-        await signOut(auth)
-        clearAuthState()
-        setUser(null)
-        setRole(null)
-        localStorage.clear()
+  const logout = useCallback(async () => {
+    if (hasLoggedOutRef.current) return
+    hasLoggedOutRef.current = true
 
-        notifySuccess('Logout successful')
-      } catch (error) {
-        notifyError('Logout failed')
-      }
+    try {
+      await signOut(auth)
+      clearAuthState()
+      localStorage.clear()
+      notifySuccess('Logout successful')
+    } catch (error) {
+      notifyError('Logout failed')
     }
-  })()
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      hasLoggedOutRef.current = false
+    }
+  }, [user])
 
   return {
     user,

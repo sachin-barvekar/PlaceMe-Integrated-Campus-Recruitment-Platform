@@ -110,6 +110,7 @@ exports.getAllPlacements = async (req, res) => {
 
         return {
           _id: placement._id,
+          studentId:placement.studentId._id,
           studentName: placement.studentId?.name || '-',
           studentEmail: placement.studentId?.email || '-',
           branch: student?.branch || '-',
@@ -149,24 +150,10 @@ exports.getAllPlacements = async (req, res) => {
   }
 }
 
-exports.getPlacementById = async (req, res) => {
-  try {
-    const placement = await Placement.findById(req.params.id)
-      .populate('studentId', 'name email')
-      .populate('companyId', 'name email')
-    if (!placement) {
-      return res.status(404).json({ error: 'Placement not found' })
-    }
-    res.status(200).json(placement)
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
-}
-
 exports.updatePlacement = async (req, res) => {
   try {
     const placement = await Placement.findByIdAndUpdate(
-      req.params.id,
+      req.params._id,
       req.body,
       { new: true, runValidators: true },
     )
@@ -183,7 +170,7 @@ exports.updatePlacement = async (req, res) => {
 
 exports.deletePlacement = async (req, res) => {
   try {
-    const placement = await Placement.findByIdAndDelete(req.params.id)
+    const placement = await Placement.findByIdAndDelete(req.params._id)
     if (!placement) {
       return res.status(404).json({ error: 'Placement not found' })
     }

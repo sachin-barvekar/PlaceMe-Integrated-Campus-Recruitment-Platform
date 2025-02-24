@@ -2,14 +2,12 @@ const mongoose = require('mongoose')
 
 const adminSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  name: { type: String, required: true, maxlength: 100 },
-  email: {
+  gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
+  position: {
     type: String,
-    required: true,
-    unique: true,
-    match: [/.+@.+\..+/, 'Invalid email format'],
+    default: 'TPO',
+    enum: ['TPO', 'Assistant TPO', 'FACULTY'],
   },
-  position: { type: String, default: 'TPO', enum: ['TPO', 'Assistant TPO'] },
   profilePhoto: { type: String },
   mobile: {
     type: String,
@@ -19,14 +17,11 @@ const adminSchema = new mongoose.Schema({
   },
   collegeName: { type: String, required: true, maxlength: 150 },
   collegeAddress: { type: String, required: true, maxlength: 255 },
-  collegeWebsite: {
+  linkedIn: {
     type: String,
     required: true,
-    match: [
-      /^(https?:\/\/)?([\w\d.-]+)\.([a-z.]{2,6})(\/[\w\d@:%_+.~#?&//=]*)?$/,
-      'Invalid URL',
-    ],
   },
+  profileCompletion: { type: Boolean, default: false },
 })
 
 const Admin = mongoose.model('Admin', adminSchema)

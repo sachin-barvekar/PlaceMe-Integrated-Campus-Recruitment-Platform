@@ -1,12 +1,22 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useTableHandlers } from 'hooks/useTableHandlers'
 import { IListApiRequest } from 'api/types'
+import { notifyError, notifySuccess } from 'utils'
 import { Toolbar, CardTable } from '../../../shared'
 import '../../../scss/common/list/CardList.scss'
-import { useFetchPlacementListQuery } from '../placeStudentApiSlice'
+import {
+  useDeletePlacementMutation,
+  useFetchPlacementListQuery
+} from '../placeStudentApiSlice'
 import { Placement } from '../types'
+import CreateEditPlacement from './addPlaceStudent/CreateEditPlaceStudent'
 
 const PlaceStudentList: FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [deletePlacement] = useDeletePlacementMutation()
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [selectedPlacementData, setSelectedPlacementData] =
+    useState<Placement>()
   const { requestBody, onPageChange, onSearchChange, onSortColumn } =
     useTableHandlers<Placement, IListApiRequest<Placement>>(
       {
@@ -26,12 +36,46 @@ const PlaceStudentList: FC = () => {
     }
   ]
 
+  const handleAction = async (action: string | undefined, rowData: any) => {
+    if (!rowData) {
+      return
+    }
+    switch (action) {
+      case '2':
+        setSelectedPlacementData(rowData)
+        setIsEditMode(true)
+        setIsModalOpen(true)
+        break
+      case '3':
+        try {
+          // eslint-disable-next-line
+          const _id = rowData?._id
+          // eslint-disable-next-line
+          if (!_id) {
+            notifyError('Placement does not have id.')
+            return
+          }
+          await deletePlacement({ _id }).unwrap()
+          notifySuccess(`Placement deleted successfully.`)
+        } catch (error) {
+          notifyError('Error while delete placement.')
+        }
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <div className="card-list">
       <Toolbar
         options={options}
         onSearchChange={onSearchChange}
         total={total}
+        buttonName="Add Placement"
+        onButtonClick={() => {
+          setIsModalOpen(true)
+        }}
       />
       <div className="card-list__main-container">
         <CardTable
@@ -43,9 +87,21 @@ const PlaceStudentList: FC = () => {
           defaultPageSize={10}
           onPageChange={onPageChange}
           total={total}
+          actionOptions={['Edit', 'Delete']}
+          onAction={handleAction}
           card
         />
       </div>
+      <CreateEditPlacement
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setIsEditMode(false)
+          setSelectedPlacementData(undefined)
+        }}
+        isEditMode={isEditMode}
+        placementData={selectedPlacementData}
+      />
     </div>
   )
 }

@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa'
 import { MdCall } from 'react-icons/md'
 import { Edit as EditIcon } from '@rsuite/icons'
-import './Profile.scss'
+import '../../Profile.scss'
 import { useGetProfileQuery } from 'pages/profile/profileApiSlice'
 import { StudentProfileResponse } from 'pages/profile/types'
 import { format } from 'date-fns'
@@ -21,7 +21,7 @@ import { Tabs } from 'pages/profile/utils'
 import CreateEditStudentProfile from '../createEditStudentProfile/CreateEditStudentProfile'
 import PROFILE from '../../../../assets/images/profile.png'
 
-const ProfilePage: React.FC = () => {
+const StudentProfilePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.PERSONAL)
   const { data, isFetching } = useGetProfileQuery()
   const [profileData, setProfileData] = useState<StudentProfileResponse>()
@@ -298,6 +298,7 @@ const ProfilePage: React.FC = () => {
             onClose={() => {
               setIsModalOpen(false)
               setIsEditMode(false)
+              setProfileData(undefined)
             }}
           />
         </>
@@ -306,4 +307,4 @@ const ProfilePage: React.FC = () => {
   )
 }
 
-export default ProfilePage
+export default StudentProfilePage

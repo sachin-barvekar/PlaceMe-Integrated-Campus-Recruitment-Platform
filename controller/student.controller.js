@@ -1,5 +1,6 @@
 const Student = require('../models/Student')
 const User = require('../models/User')
+const Placement = require('../models/Placement')
 const { format } = require('date-fns')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
 
@@ -43,6 +44,7 @@ exports.getAllStudents = async (req, res) => {
             : '-',
         name: userId?.name || '',
         email: userId?.email || '',
+        userId
       }
     })
 
@@ -75,7 +77,7 @@ exports.getAllStudents = async (req, res) => {
 
 exports.StudentProfileCompletion = async (req, res) => {
   try {
-    const firebaseUid = req.user.user_id;
+    const firebaseUid = req.user.user_id
     const user = await User.findOne({ firebaseUid })
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
@@ -124,7 +126,7 @@ exports.StudentProfileCompletion = async (req, res) => {
 
 exports.addOrEditStudentProfile = async (req, res) => {
   try {
-    const firebaseUid = req.user.user_id;
+    const firebaseUid = req.user.user_id
     const studentData = JSON.parse(req.body.studentDTO)
     const {
       mobile,
@@ -203,6 +205,109 @@ exports.addOrEditStudentProfile = async (req, res) => {
         ? 'Profile updated successfully'
         : 'Profile is incomplete, please update it.',
       student,
+    })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}
+
+exports.getStudentQueries = async (req, res) => {
+  try {
+    const totalStudents = await Student.countDocuments()
+
+    const placedStudents = await Placement.countDocuments()
+
+    const placementPercentage =
+      totalStudents > 0
+        ? ((placedStudents / totalStudents) * 100).toFixed(2)
+        : 0
+
+    const branchWisePlacement = await Placement.aggregate([
+      {
+        $lookup: {
+          from: 'students',
+          localField: 'studentId',
+          foreignField: 'userId',
+          as: 'studentDetails',
+        },
+      },
+      {
+        $unwind: '$studentDetails',
+      },
+      {
+        $group: {
+          _id: '$studentDetails.branch',
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          branch: '$_id',
+          count: 1,
+        },
+      },
+    ])
+
+    const getHighestPackageData = async () => {
+      const currentYear = new Date().getFullYear()
+      const startYear = currentYear - 5
+
+      const highestPackages = await Placement.aggregate([
+        {
+          $project: {
+            year: { $year: '$createdAt' },
+            numericPackage: {
+              $convert: {
+                input: {
+                  $replaceAll: {
+                    input: '$package',
+                    find: ' LPA',
+                    replacement: '',
+                  },
+                },
+                to: 'double',
+                onError: 0,
+                onNull: 0,
+              },
+            },
+            companyName: 1,
+          },
+        },
+        {
+          $sort: { numericPackage: -1 },
+        },
+        {
+          $group: {
+            _id: '$year',
+            package: { $first: '$numericPackage' },
+            company: { $first: '$companyName' },
+          },
+        },
+        { $sort: { _id: 1 } },
+      ])
+
+      const packageData = []
+      for (let year = startYear; year <= currentYear; year++) {
+        const found = highestPackages.find(p => p._id === year)
+        packageData.push({
+          year,
+          package: found ? found.package : 0,
+          company: found ? found.company : null,
+        })
+      }
+
+      return packageData
+    }
+
+    const highestPackageData = await getHighestPackageData()
+    return res.status(200).json({
+      success: true,
+      totalStudents,
+      placedStudents,
+      placementPercentage,
+      branchWisePlacement,
+      highestPackageData,
     })
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message })

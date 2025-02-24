@@ -1,7 +1,6 @@
 import { FC, useCallback, useState } from 'react'
 import { Table, Toolbar } from '../../../shared'
 import '../../../scss/common/list/List.scss'
-import AddRecruiter from '../addRecruiter/AddRecruiter'
 
 const { Column, ProfileIconCell, ActionCell, HeaderCell, StatusCell, Cell } =
   Table
@@ -55,7 +54,6 @@ const mockRecruiterData = [
 const RecruitersList: FC = () => {
   const [data] = useState(mockRecruiterData)
   const [isFetching] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const handleSortColumn = useCallback(() => {
     // Implement sorting logic here if needed
@@ -98,8 +96,6 @@ const RecruitersList: FC = () => {
         options={options}
         onSearchChange={() => {}}
         total={data.length ?? 0}
-        buttonName="Add Recruiter"
-        onButtonClick={() => setIsModalOpen(true)}
       />
       <div className="list__main-container">
         <Table
@@ -147,15 +143,11 @@ const RecruitersList: FC = () => {
               tooltip
               dataKey="action"
               onAction={handleAction}
-              actionOptions={['View', 'Edit', 'Delete']}
+              actionOptions={['View', 'Delete']}
             />
           </Column>
         </Table>
       </div>
-      <AddRecruiter
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   )
 }

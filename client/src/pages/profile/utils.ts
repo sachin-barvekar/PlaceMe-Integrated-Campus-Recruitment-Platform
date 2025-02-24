@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { StudentProfileResponse } from './types'
+import { AdminProfileResponse, StudentProfileResponse } from './types'
 
 export enum Tabs {
   PERSONAL = 'personal',
@@ -11,6 +11,12 @@ export const genderOptions = [
   { label: 'Male', value: 'Male' },
   { label: 'Female', value: 'Female' },
   { label: 'Other', value: 'Other' }
+]
+
+export const positionOptions = [
+  { label: 'TPO', value: 'TPO' },
+  { label: 'Assistant TPO', value: 'Assistant TPO' },
+  { label: 'FACULTY', value: 'FACULTY' }
 ]
 
 export const level = [
@@ -199,5 +205,93 @@ export const studentValidationSchema = () => {
         /^(https?:\/\/)?github\.com\/[a-zA-Z0-9-_]+$/,
         'Invalid GitHub profile URL'
       )
+  })
+}
+
+export enum ADMIN_PROFILE_FIELDS {
+  GENDER = 'gender',
+  MOBILE = 'mobile',
+  POSITION = 'position',
+  LINKEDIN = 'linkedIn',
+  COLLEGE_NAME = 'collegeName',
+  COLLEGE_ADDRESS = 'collegeAddress',
+  PROFILE_PHOTO = 'profilePhoto'
+}
+
+export type IAdminProfile = {
+  [ADMIN_PROFILE_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null,
+  [ADMIN_PROFILE_FIELDS.MOBILE]: string,
+  [ADMIN_PROFILE_FIELDS.POSITION]: 'TPO' | 'Assistant TPO' | 'FACULTY' | null,
+  [STUDENT_FORM_FIELDS.LINKEDIN]: string,
+  [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: string,
+  [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: string,
+  [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: string
+}
+
+export const defaultAdminProfileValues: IAdminProfile = {
+  [ADMIN_PROFILE_FIELDS.POSITION]: null,
+  [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: '',
+  [ADMIN_PROFILE_FIELDS.MOBILE]: '',
+  [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: '',
+  [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: '',
+  [ADMIN_PROFILE_FIELDS.GENDER]: null,
+  [STUDENT_FORM_FIELDS.LINKEDIN]: ''
+}
+
+export const getInitialAdminProfileFromResponse = (
+  profile: AdminProfileResponse
+): IAdminProfile => ({
+  [ADMIN_PROFILE_FIELDS.POSITION]: profile?.admin?.position ?? null,
+  [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: profile?.admin?.profilePhoto ?? '',
+  [ADMIN_PROFILE_FIELDS.MOBILE]: profile?.admin?.mobile ?? '',
+  [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: profile?.admin?.collegeName ?? '',
+  [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: profile?.admin?.collegeAddress ?? '',
+  [ADMIN_PROFILE_FIELDS.GENDER]: profile?.admin?.gender ?? null,
+  [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.admin?.linkedIn ?? ''
+})
+
+export const adminProfileValidationSchema = () => {
+  return Yup.object().shape({
+    [ADMIN_PROFILE_FIELDS.GENDER]: Yup.string()
+      .oneOf(['Male', 'Female', 'Other'], 'Invalid gender')
+      .required('Gender is required'),
+    [ADMIN_PROFILE_FIELDS.POSITION]: Yup.string().required(
+      'Position is required'
+    ),
+    [ADMIN_PROFILE_FIELDS.MOBILE]: Yup.string()
+      .required('Mobile number is required')
+      .matches(/^\d{12}$/, 'Mobile number must be 12 digits'),
+
+    [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: Yup.string()
+      .required('College name is required')
+      .max(50, 'College name cannot exceed 50 characters'),
+
+    [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: Yup.string()
+      .required('College address is required')
+      .max(100, 'College address cannot exceed 100 characters'),
+    [ADMIN_PROFILE_FIELDS.LINKEDIN]: Yup.string()
+      .required('LinkedIn profile is required')
+      .test(
+        'is-valid-linkedin-url',
+        'Invalid LinkedIn profile URL. Ensure it starts with https://',
+        (value) => !value || value.startsWith('https://')
+      )
+      .test(
+        'has-www',
+        'URL should contain "www."',
+        (value) => !value || /^(https?:\/\/)?(www\.)/.test(value)
+      )
+      .test(
+        'has-profile',
+        'URL should contain a profile name after "linkedin.com/in/"',
+        (value) => !value || /\/in\/[a-zA-Z0-9_-]+/.test(value)
+      )
+      .matches(
+        /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/,
+        'Invalid LinkedIn profile URL'
+      ),
+    [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: Yup.mixed().required(
+      'Profile Picture is required'
+    )
   })
 }

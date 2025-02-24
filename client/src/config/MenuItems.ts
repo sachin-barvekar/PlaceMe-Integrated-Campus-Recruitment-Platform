@@ -1,13 +1,8 @@
 import { HTMLAttributes } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
-import {
-  MdBusiness,
-  MdAssignmentTurnedIn,
-  MdFeedback,
-  MdWork
-} from 'react-icons/md'
+import { MdBusiness, MdAssignmentTurnedIn, MdWork } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
-import { FaUserGraduate } from 'react-icons/fa'
+import { FaClipboardList, FaUserGraduate } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
@@ -33,7 +28,7 @@ const menuItems: MenuItemType[] = [
     name: 'Dashboard',
     link: '/',
     icon: AiOutlineHome,
-    roles: ['admin']
+    roles: ['admin', 'student']
   },
   {
     id: '2',
@@ -71,18 +66,32 @@ const menuItems: MenuItemType[] = [
     roles: ['student']
   },
   {
+    id: '7',
+    name: 'My Jobs',
+    link: '/jobs',
+    icon: MdWork,
+    roles: ['recruiter']
+  },
+  {
     id: '8',
     name: 'Applications',
     link: '/application',
-    icon: MdFeedback,
+    icon: FaClipboardList,
     roles: ['recruiter']
   },
   {
     id: '9',
+    name: 'Job Offers',
+    link: '/job-offers',
+    icon: FaUserGraduate,
+    roles: ['recruiter']
+  },
+  {
+    id: '10',
     name: 'Profile',
     link: '/profile',
     icon: CgProfile,
-    roles: ['student']
+    roles: ['student', 'admin', 'recruiter']
   }
   // {
   //   id: '10',
@@ -90,21 +99,7 @@ const menuItems: MenuItemType[] = [
   //   link: '/placementpro',
   //   icon: MdStars,
   //   roles: ['ROLE_ADMIN']
-  // },
-  // {
-  //   id: '11',
-  //   name: 'Profile',
-  //   link: '/',
-  //   icon: MdFeedback,
-  //   roles: ['student']
   // }
-  // {
-  //   id: '7',
-  //   name: 'Jobs',
-  //   link: '/jobs',
-  //   icon: MdWork,
-  //   roles: ['admin','student']
-  // },
 ]
 
 export const getMenuItemsForRole = (role: string): MenuItemType[] => {

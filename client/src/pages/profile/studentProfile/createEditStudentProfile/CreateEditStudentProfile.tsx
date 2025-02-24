@@ -182,7 +182,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
       secondary
       open={isOpen}
       onClose={onClose}
-      title="Create Student Profile"
+      title={isEditMode ? 'Edit Student Profile' : 'Create Student Profile'}
       size="lg"
       body={
         <Formik
@@ -423,11 +423,14 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                       )
                     }}
                   </FieldArray>
-                  <Row>
-                    <Col xs={24} md={20}>
-                      <FormikErrorMessage name={ACADEMIC_DETAILS} />
-                    </Col>
-                  </Row>
+                  {formikProps.errors[ACADEMIC_DETAILS] &&
+                    formikProps.touched[ACADEMIC_DETAILS] && (
+                      <Row>
+                        <Col xs={24} md={20}>
+                          <FormikErrorMessage name={ACADEMIC_DETAILS} />
+                        </Col>
+                      </Row>
+                    )}
                   <Row>
                     <Col xs={24} md={11}>
                       <TextInput

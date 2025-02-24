@@ -2,13 +2,13 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import axiosBaseQuery from './axiosBaseQuery'
 import { baseUrl } from './axiosInstance'
 
-const PlacementApi = createApi({
+const placementApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl
   }),
-  reducerPath: 'placement',
+  reducerPath: 'placementApi',
   tagTypes: ['placement-list'],
   endpoints: () => ({})
 })
 
-export default PlacementApi
+export default placementApi

@@ -1,6 +1,6 @@
 import { IListApiRequest, IListApiResponse } from 'api/types'
 import PlacementApi from 'api/placementApi'
-import { Placement } from './types'
+import { Placement, PlacementSaveRequest } from './types'
 import { getPaginationQueryParams } from './utils'
 
 const placementApiSlice = PlacementApi.injectEndpoints({
@@ -18,10 +18,48 @@ const placementApiSlice = PlacementApi.injectEndpoints({
         }
       },
       providesTags: ['placement-list']
+    }),
+    createPlacement: build.mutation<void, PlacementSaveRequest>({
+      query: ({ placementDTO }) => {
+        return {
+          url: `/placements/create`,
+          method: 'POST',
+          data: placementDTO
+        }
+      },
+      invalidatesTags: ['placement-list']
+    }),
+    updatePlacement: build.mutation<void, PlacementSaveRequest>({
+      query: ({ placementDTO }) => {
+        return {
+          // eslint-disable-next-line
+          url: `/placements/edit/${placementDTO?._id}`,
+          method: 'PUT',
+          data: placementDTO
+        }
+      },
+      invalidatesTags: ['placement-list']
+    }),
+    // eslint-disable-next-line
+    deletePlacement: build.mutation<void, { _id: string }>({
+      // eslint-disable-next-line
+      query: ({ _id }) => {
+        return {
+          // eslint-disable-next-line
+          url: `/placements/delete/${_id}`,
+          method: 'DELETE'
+        }
+      },
+      invalidatesTags: ['placement-list']
     })
   })
 })
 
-export const { useFetchPlacementListQuery } = placementApiSlice
+export const {
+  useFetchPlacementListQuery,
+  useCreatePlacementMutation,
+  useUpdatePlacementMutation,
+  useDeletePlacementMutation
+} = placementApiSlice
 
 export default placementApiSlice

@@ -15,20 +15,20 @@ interface UserId {
 export interface Students {
   _id: string;
   userId: UserId;
+  name: string;
   mobile: string;
   gender: string;
   search: string;
-  dateOfBirth: string; // ISO 8601 date string, could also be a Date type
+  dateOfBirth: string;
   branch: string;
   address: string;
   profilePhoto: string;
   academicDetails: AcademicDetail[];
   skills: string;
-  appliedJobs: any[]; // You may define an actual type for jobs if needed
+  appliedJobs: any[];
   linkedIn: string;
   github: string;
   profileCompletion: boolean;
-  __v: number;
 }
 
 export interface StudentsListParams {

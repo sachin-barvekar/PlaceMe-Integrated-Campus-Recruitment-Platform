@@ -59,7 +59,7 @@ const ChartScreen: React.FC<ChartScreenProps> = ({
           />
         </div>
       </div>
-      {renderChart()}
+      <div className="chart-screen-body">{renderChart()}</div>
     </div>
   )
 }

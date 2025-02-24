@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import AuthGuard from 'guards/AuthGuard'
 import RouteGuard from 'guards/RouteGuard'
 import Dashboard from 'pages/dashboard/Dashboard'
 import StudentList from 'pages/students/studentList/StudentList'
-import ProfilePage from 'pages/profile/studentProfile/profile/StudentProfile'
+import ProfilePage from 'pages/profile'
 import RecruitersList from 'pages/recruiters/recruitersList/RecruitersList'
 import JobOpeningList from 'pages/jobOpenings/jobOpeningsList/JobOpeningsList'
 import PlaceStudentList from 'pages/placeStudents/placeStudentsList/PlaceStudentsList'
@@ -24,6 +24,10 @@ const appRouter = () =>
         {
           path: '/logout',
           element: <LogoutPage />
+        },
+        {
+          path: '*',
+          element: <Navigate to="/auth" replace />
         },
         {
           element: (
@@ -75,7 +79,7 @@ const appRouter = () =>
             {
               path: '/profile',
               element: (
-                <RouteGuard requiredRoles={['admin', 'student']}>
+                <RouteGuard requiredRoles={['admin', 'student', 'recruiter']}>
                   <ProfilePage />
                 </RouteGuard>
               )

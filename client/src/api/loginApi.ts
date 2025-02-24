@@ -6,7 +6,7 @@ const loginApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl
   }),
-  reducerPath: 'login',
+  reducerPath: 'loginApi',
   tagTypes: ['login'],
   endpoints: () => ({})
 })

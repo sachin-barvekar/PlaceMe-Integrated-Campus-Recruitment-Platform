@@ -6,7 +6,7 @@ const studentApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl
   }),
-  reducerPath: 'students',
+  reducerPath: 'studentApi',
   tagTypes: ['student-list'],
   endpoints: () => ({})
 })

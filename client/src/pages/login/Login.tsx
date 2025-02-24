@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Loader, SelectPicker } from 'rsuite'
+import { SelectPicker } from 'rsuite'
 import { notifyError } from 'utils'
-import { Button } from '../../shared'
+import { Button, Loader } from '../../shared'
 import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
 import GoogleLogo from '../../assets/images/google.svg'
@@ -11,8 +11,8 @@ import PasskeyModal from './PassKey'
 
 const roles = [
   { label: 'Admin', value: 'admin' },
-  { label: 'Student', value: 'student' }
-  // { label: 'Recruiter', value: 'recruiter' }
+  { label: 'Student', value: 'student' },
+  { label: 'Recruiter', value: 'recruiter' }
 ]
 
 function LoginPage() {
@@ -34,6 +34,10 @@ function LoginPage() {
       return
     }
     if (authContext.role === 'admin' && !isPasskeyValid) {
+      setShowPasskeyModal(true)
+      return
+    }
+    if (authContext.role === 'recruiter' && !isPasskeyValid) {
       setShowPasskeyModal(true)
       return
     }
