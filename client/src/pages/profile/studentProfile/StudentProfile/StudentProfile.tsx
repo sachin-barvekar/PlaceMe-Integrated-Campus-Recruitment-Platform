@@ -127,7 +127,9 @@ const StudentProfilePage: React.FC = () => {
                 <div className="personal-details">
                   <div className="details-grid">
                     <div className="detail-item">
-                      <FaUser className="icon" />
+                      <div className="details-icons">
+                        <FaUser className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Gender</span>
                         <span className="value">
@@ -136,7 +138,9 @@ const StudentProfilePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="detail-item">
-                      <FaBirthdayCake className="icon" />
+                      <div className="details-icons">
+                        <FaBirthdayCake className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Date of Birth</span>
                         <span className="value">
@@ -150,7 +154,9 @@ const StudentProfilePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="detail-item">
-                      <FaHome className="icon" />
+                      <div className="details-icons">
+                        <FaHome className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Address</span>
                         <span className="value">
@@ -159,7 +165,9 @@ const StudentProfilePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="detail-item">
-                      <MdCall className="icon" />
+                      <div className="details-icons">
+                        <MdCall className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Mobile</span>
                         <span className="value">
@@ -168,7 +176,9 @@ const StudentProfilePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="detail-item">
-                      <FaEnvelope className="icon" />
+                      <div className="details-icons">
+                        <FaEnvelope className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Email</span>
                         <span className="value">
@@ -177,7 +187,9 @@ const StudentProfilePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="detail-item">
-                      <FaLinkedin className="icon" />
+                      <div className="details-icons">
+                        <FaLinkedin className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">LinkedIn</span>
                         <a
@@ -192,7 +204,9 @@ const StudentProfilePage: React.FC = () => {
                     </div>
 
                     <div className="detail-item">
-                      <FaCodeBranch className="icon" />
+                      <div className="details-icons">
+                        <FaCodeBranch className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Branch</span>
                         <span className="value">
@@ -202,7 +216,9 @@ const StudentProfilePage: React.FC = () => {
                     </div>
 
                     <div className="detail-item">
-                      <FaGithub className="icon" />
+                      <div className="details-icons">
+                        <FaGithub className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">GitHub</span>
                         <a
@@ -217,7 +233,9 @@ const StudentProfilePage: React.FC = () => {
                     </div>
 
                     <div className="detail-item">
-                      <FaLightbulb className="icon" />
+                      <div className="details-icons">
+                        <FaLightbulb className="icon" />
+                      </div>
                       <div className="text">
                         <span className="label">Skills</span>
                         <span className="value">

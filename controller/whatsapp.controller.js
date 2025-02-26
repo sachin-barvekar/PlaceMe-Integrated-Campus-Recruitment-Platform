@@ -83,7 +83,7 @@ exports.getBusinessInfo = async (req, res) => {
     if (!business) {
       return res.status(404).json({
         success: false,
-        message: 'WhatsApp Business not found for this user',
+        message: 'WhatsApp Business Account not found for this user',
       })
     }
 

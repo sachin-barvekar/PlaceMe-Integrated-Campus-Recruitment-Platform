@@ -7,7 +7,7 @@ const profileApi = createApi({
     baseUrl
   }),
   reducerPath: 'profileApi',
-  tagTypes: ['student-profile', 'admin-profile'],
+  tagTypes: ['student-profile', 'admin-profile', 'recruiter-profile'],
   endpoints: () => ({})
 })
 

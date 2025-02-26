@@ -1,37 +1,33 @@
-const Admin = require('../models/Admin')
+const Recruiter = require('../models/Recruiter')
 const User = require('../models/User')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
 
-exports.AdminProfileCompletion = async (req, res) => {
+exports.RecruiterProfileCompletion = async (req, res) => {
   try {
     const firebaseUid = req.user.user_id
     const user = await User.findOne({ firebaseUid })
+
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
-    const uid = user?._id
-    let admin = await Admin.findOne({ userId: uid }).populate('userId')
 
-    if (!admin) {
+    const uid = user?._id
+    let recruiter = await Recruiter.findOne({ userId: uid }).populate('userId')
+
+    if (!recruiter) {
       return res.status(200).json({
         success: true,
         profileCompletion: false,
-        message: 'Admin profile not found',
-        admin: null,
+        message: 'Recruiter profile not found',
+        recruiter: null,
       })
     }
 
-    const isComplete =
-      !!admin.mobile &&
-      !!admin.gender &&
-      !!admin.position &&
-      !!admin.collegeName &&
-      !!admin.collegeAddress &&
-      !!admin.profilePhoto
+    const isComplete = !!recruiter.companyName && !!recruiter.address
 
-    if (admin.profileCompletion !== isComplete) {
-      admin.profileCompletion = isComplete
-      await admin.save()
+    if (recruiter.profileCompletion !== isComplete) {
+      recruiter.profileCompletion = isComplete
+      await recruiter.save()
     }
 
     return res.status(200).json({
@@ -40,28 +36,29 @@ exports.AdminProfileCompletion = async (req, res) => {
       message: isComplete
         ? 'Profile is complete'
         : 'Profile is incomplete, please update it.',
-      admin,
+      recruiter,
     })
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message })
   }
 }
 
-exports.addOrEditAdminProfile = async (req, res) => {
+exports.addOrEditRecruiterProfile = async (req, res) => {
   try {
     const firebaseUid = req.user.user_id
-    const adminData = JSON.parse(req.body.adminDTO)
-    const { mobile, gender, position, collegeName, collegeAddress, linkedIn } =
-      adminData
+    const recruiterData = JSON.parse(req.body.recruiterDTO)
+    const { companyName, aboutUs, companyWebsite, linkedIn, address } =
+      recruiterData
 
     const profilePhoto = req.files?.file
     const user = await User.findOne({ firebaseUid })
+
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
 
     const uid = user?._id
-    let admin = await Admin.findOne({ userId: uid })
+    let recruiter = await Recruiter.findOne({ userId: uid })
 
     let uploadedImage
     if (profilePhoto) {
@@ -71,37 +68,29 @@ exports.addOrEditAdminProfile = async (req, res) => {
       )
     }
 
-    if (!admin) {
-      admin = new Admin({
+    if (!recruiter) {
+      recruiter = new Recruiter({
         userId: uid,
-        mobile,
-        gender,
-        position,
-        collegeName,
-        collegeAddress,
-        profilePhoto: uploadedImage ? uploadedImage.secure_url : '',
+        companyName,
+        aboutUs,
+        companyWebsite,
         linkedIn,
+        address,
+        profilePhoto: uploadedImage ? uploadedImage.secure_url : '',
       })
     } else {
-      admin.mobile = mobile
-      admin.gender = gender
-      admin.position = position
-      admin.collegeName = collegeName
-      admin.collegeAddress = collegeAddress
-      if (uploadedImage) admin.profilePhoto = uploadedImage.secure_url
-      admin.linkedIn = linkedIn
+      recruiter.companyName = companyName
+      recruiter.aboutUs = aboutUs
+      recruiter.companyWebsite = companyWebsite
+      recruiter.linkedIn = linkedIn
+      recruiter.address = address
+      if (uploadedImage) recruiter.profilePhoto = uploadedImage.secure_url
     }
 
-    const isComplete =
-      !!admin.mobile &&
-      !!admin.gender &&
-      !!admin.position &&
-      !!admin.collegeName &&
-      !!admin.collegeAddress &&
-      !!admin.profilePhoto
+    const isComplete = !!recruiter.companyName && !!recruiter.address
 
-    admin.profileCompletion = isComplete
-    await admin.save()
+    recruiter.profileCompletion = isComplete
+    await recruiter.save()
 
     return res.status(200).json({
       success: true,
@@ -109,7 +98,7 @@ exports.addOrEditAdminProfile = async (req, res) => {
       message: isComplete
         ? 'Profile updated successfully'
         : 'Profile is incomplete, please update it.',
-      admin,
+      recruiter,
     })
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message })

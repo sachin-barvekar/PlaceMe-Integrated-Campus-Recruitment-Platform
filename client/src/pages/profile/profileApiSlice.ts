@@ -2,6 +2,8 @@ import profileApi from 'api/profileApi'
 import {
   AdminProfileResponse,
   AdminProfileSaveRequest,
+  RecruiterProfileResponse,
+  RecruiterProfileSaveRequest,
   StudentProfileResponse,
   StudentSaveRequest
 } from './types'
@@ -96,6 +98,49 @@ const profileApiSlice = profileApi.injectEndpoints({
         }
       },
       invalidatesTags: ['admin-profile']
+    }),
+    getRecruiterProfile: build.query<RecruiterProfileResponse, void>({
+      query: () => ({
+        url: `/recruiter-profile`,
+        method: 'GET'
+      }),
+      providesTags: ['recruiter-profile']
+    }),
+    createRecruiterProfile: build.mutation<void, RecruiterProfileSaveRequest>({
+      query: ({ recruiterDTO, file }) => {
+        const formData = new FormData()
+        formData.append('recruiterDTO', JSON.stringify(recruiterDTO))
+        if (file instanceof File) {
+          formData.append('file', file)
+        }
+        return {
+          url: `/recruiter-profile`,
+          method: 'POST',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      },
+      invalidatesTags: ['recruiter-profile']
+    }),
+    updateRecruiterProfile: build.mutation<void, RecruiterProfileSaveRequest>({
+      query: ({ recruiterDTO, file }) => {
+        const formData = new FormData()
+        formData.append('recruiterDTO', JSON.stringify(recruiterDTO))
+        if (file instanceof File) {
+          formData.append('file', file)
+        }
+        return {
+          url: `/recruiter-profile`,
+          method: 'PUT',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      },
+      invalidatesTags: ['recruiter-profile']
     })
   })
 })
@@ -106,5 +151,8 @@ export const {
   useUpdateProfileMutation,
   useCreateAdminProfileMutation,
   useGetAdminProfileQuery,
-  useUpdateAdminProfileMutation
+  useUpdateAdminProfileMutation,
+  useGetRecruiterProfileQuery,
+  useCreateRecruiterProfileMutation,
+  useUpdateRecruiterProfileMutation
 } = profileApiSlice

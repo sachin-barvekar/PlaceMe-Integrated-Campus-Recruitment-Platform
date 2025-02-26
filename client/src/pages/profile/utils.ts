@@ -1,5 +1,9 @@
 import * as Yup from 'yup'
-import { AdminProfileResponse, StudentProfileResponse } from './types'
+import {
+  AdminProfileResponse,
+  RecruiterProfileResponse,
+  StudentProfileResponse
+} from './types'
 
 export enum Tabs {
   PERSONAL = 'personal',
@@ -168,7 +172,7 @@ export const studentValidationSchema = () => {
       .max(500, 'Skills cannot exceed 500 characters'),
 
     [STUDENT_FORM_FIELDS.LINKEDIN]: Yup.string()
-      .required('LinkedIn profile is required')
+      .nullable()
       .test(
         'is-valid-linkedin-url',
         'Invalid LinkedIn profile URL. Ensure it starts with https://',
@@ -190,7 +194,7 @@ export const studentValidationSchema = () => {
       ),
 
     [STUDENT_FORM_FIELDS.GITHUB]: Yup.string()
-      .required('GitHub profile is required')
+      .nullable()
       .test(
         'is-valid-github-url',
         'Invalid GitHub profile URL. Ensure it starts with https://',
@@ -270,7 +274,7 @@ export const adminProfileValidationSchema = () => {
       .required('College address is required')
       .max(100, 'College address cannot exceed 100 characters'),
     [ADMIN_PROFILE_FIELDS.LINKEDIN]: Yup.string()
-      .required('LinkedIn profile is required')
+      .nullable()
       .test(
         'is-valid-linkedin-url',
         'Invalid LinkedIn profile URL. Ensure it starts with https://',
@@ -293,5 +297,77 @@ export const adminProfileValidationSchema = () => {
     [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: Yup.mixed().required(
       'Profile Picture is required'
     )
+  })
+}
+
+export enum RECRUITER_PROFILE_FIELDS {
+  COMPANY_NAME = 'companyName',
+  ABOUT_US = 'aboutUs',
+  COMPANY_WEBSITE = 'companyWebsite',
+  LINKEDIN = 'linkedIn',
+  PROFILE_PHOTO = 'profilePhoto',
+  ADDRESS = 'address'
+}
+
+export type IRecruiterProfile = {
+  [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]: string,
+  [RECRUITER_PROFILE_FIELDS.ABOUT_US]: string,
+  [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: string,
+  [RECRUITER_PROFILE_FIELDS.LINKEDIN]: string,
+  [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: string,
+  [RECRUITER_PROFILE_FIELDS.ADDRESS]: string
+}
+
+export const defaultRecruiterProfileValues: IRecruiterProfile = {
+  [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]: '',
+  [RECRUITER_PROFILE_FIELDS.ABOUT_US]: '',
+  [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: '',
+  [RECRUITER_PROFILE_FIELDS.LINKEDIN]: '',
+  [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: '',
+  [RECRUITER_PROFILE_FIELDS.ADDRESS]: ''
+}
+
+export const getInitialRecruiterProfileFromResponse = (
+  profile: RecruiterProfileResponse
+): IRecruiterProfile => ({
+  [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]:
+    profile?.recruiter?.companyName ?? '',
+  [RECRUITER_PROFILE_FIELDS.ABOUT_US]: profile?.recruiter?.aboutUs ?? '',
+  [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]:
+    profile?.recruiter?.companyWebsite ?? '',
+  [RECRUITER_PROFILE_FIELDS.LINKEDIN]: profile?.recruiter?.linkedIn ?? '',
+  [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]:
+    profile?.recruiter?.profilePhoto ?? '',
+  [RECRUITER_PROFILE_FIELDS.ADDRESS]: profile?.recruiter?.address ?? ''
+})
+
+export const recruiterProfileValidationSchema = () => {
+  return Yup.object().shape({
+    [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]: Yup.string()
+      .required('Company name is required')
+      .max(100, 'Company name cannot exceed 100 characters'),
+
+    [RECRUITER_PROFILE_FIELDS.ABOUT_US]: Yup.string()
+      .max(1000, 'About Us section cannot exceed 1000 characters')
+      .min(2, 'About Us  at least 2 characters'),
+
+    [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: Yup.string()
+      .nullable()
+      .matches(
+        /^(https?:\/\/)?([\w\d.-]+)\.([a-z.]{2,6})(\/[\w\d@:%_+.~#?&//=]*)?$/,
+        'Invalid company website URL'
+      ),
+
+    [RECRUITER_PROFILE_FIELDS.LINKEDIN]: Yup.string()
+      .nullable()
+      .matches(
+        /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/,
+        'Invalid LinkedIn profile URL'
+      ),
+    [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: Yup.mixed().nullable(),
+    [RECRUITER_PROFILE_FIELDS.ADDRESS]: Yup.string()
+      .required('Address is required')
+      .min(2, 'Address at least 2 characters')
+      .max(255, 'Address cannot exceed 255 characters')
   })
 }

@@ -15,8 +15,10 @@ export interface Student {
   profilePhoto?: string | undefined;
   academicDetails: IAcademicDetail[];
   skills: string;
-  linkedIn: string;
-  github: string;
+  linkedIn?: string;
+  github?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface StudentProfileResponse {
@@ -40,8 +42,10 @@ export type AdminProfile = {
   mobile: string,
   collegeName: string,
   collegeAddress: string,
-  linkedIn: string,
-  gender: 'Male' | 'Female' | 'Other' | null
+  linkedIn?: string,
+  gender: 'Male' | 'Female' | 'Other' | null,
+  createdAt?: Date,
+  updatedAt?: Date
 }
 
 export interface AdminProfileResponse {
@@ -53,5 +57,29 @@ export interface AdminProfileResponse {
 
 export type AdminProfileSaveRequest = {
   adminDTO: Omit<AdminProfile, 'profilePhoto'>,
+  file?: File | null
+}
+
+export type RecruiterProfile = {
+  userId?: any | undefined,
+  companyName: string,
+  aboutUs?: string,
+  companyWebsite?: string,
+  linkedIn?: string,
+  profilePhoto?: string,
+  address: string,
+  createdAt?: Date,
+  updatedAt?: Date
+}
+
+export interface RecruiterProfileResponse {
+  success: boolean;
+  profileCompletion: boolean;
+  message: string;
+  recruiter: RecruiterProfile | null;
+}
+
+export type RecruiterProfileSaveRequest = {
+  recruiterDTO: Omit<RecruiterProfile, 'profilePhoto'>,
   file?: File | null
 }

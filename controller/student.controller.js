@@ -44,7 +44,7 @@ exports.getAllStudents = async (req, res) => {
             : '-',
         name: userId?.name || '',
         email: userId?.email || '',
-        userId
+        userId,
       }
     })
 
@@ -102,9 +102,7 @@ exports.StudentProfileCompletion = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills &&
-      !!student.linkedIn &&
-      !!student.github
+      !!student.skills
 
     if (student.profileCompletion !== isComplete) {
       student.profileCompletion = isComplete
@@ -191,9 +189,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills &&
-      !!student.linkedIn &&
-      !!student.github
+      !!student.skills
 
     student.profileCompletion = isComplete
     await student.save()

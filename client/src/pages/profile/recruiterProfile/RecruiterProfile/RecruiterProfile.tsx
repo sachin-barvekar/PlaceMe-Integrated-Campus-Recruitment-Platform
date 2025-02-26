@@ -3,40 +3,41 @@ import { IconButton } from 'rsuite'
 import {
   FaLinkedin,
   FaEnvelope,
-  FaVenusMars,
   FaUserTie,
-  FaUniversity,
-  FaMapMarkerAlt
+  FaBuilding,
+  FaMapMarkerAlt,
+  FaUser
 } from 'react-icons/fa'
-import { MdCall } from 'react-icons/md'
 import { Edit as EditIcon } from '@rsuite/icons'
 import '../../Profile.scss'
-import { useGetAdminProfileQuery } from 'pages/profile/profileApiSlice'
-import { AdminProfileResponse } from 'pages/profile/types'
+import { useGetRecruiterProfileQuery } from 'pages/profile/profileApiSlice'
+import { RecruiterProfileResponse } from 'pages/profile/types'
 import { Loader } from 'shared'
 import PROFILE from '../../../../assets/images/profile.png'
-import CreateEditAdminProfile from '../CreateEditAdminProfile/CreateEditAdminProfile'
+import CreateEditRecruiterProfile from '../createEditRecruiterProfile/CreateEditRecruiterProfile'
 
-const AdminProfilePage: React.FC = () => {
-  const { data, isFetching } = useGetAdminProfileQuery()
-  const [profileData, setProfileData] = useState<AdminProfileResponse>()
+const RecruiterProfilePage: React.FC = () => {
+  const { data, isFetching } = useGetRecruiterProfileQuery()
+  const [profileData, setProfileData] = useState<RecruiterProfileResponse>()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [imgSrc, setImgSrc] = useState<string | undefined>(
-    data?.admin?.profilePhoto
+    data?.recruiter?.profilePhoto
   )
+
   useEffect(() => {
-    if (data?.admin?.profilePhoto) {
-      setImgSrc(data.admin.profilePhoto)
+    if (data?.recruiter?.profilePhoto) {
+      setImgSrc(data.recruiter.profilePhoto)
     } else {
       setImgSrc(PROFILE)
     }
-  }, [data?.admin?.profilePhoto])
+  }, [data?.recruiter?.profilePhoto])
 
   const handleImageError = () => {
     setImgSrc(PROFILE)
   }
-  const handleEditClick = (ProfileData: AdminProfileResponse) => {
+
+  const handleEditClick = (ProfileData: RecruiterProfileResponse) => {
     setProfileData(ProfileData)
     setIsModalOpen(true)
     setIsEditMode(true)
@@ -47,6 +48,7 @@ const AdminProfilePage: React.FC = () => {
       setIsModalOpen(!data.profileCompletion)
     }
   }, [data?.profileCompletion])
+
   return (
     <div className="user-profile">
       {isFetching && <Loader />}
@@ -69,7 +71,7 @@ const AdminProfilePage: React.FC = () => {
             </div>
             <div className="user-name">
               <span className="user-name-text">
-                {data?.admin?.userId?.name ?? '-'}
+                {data?.recruiter?.companyName ?? '-'}
               </span>
             </div>
           </div>
@@ -79,37 +81,20 @@ const AdminProfilePage: React.FC = () => {
                 <div className="details-grid">
                   <div className="detail-item">
                     <div className="details-icons">
-                      <FaVenusMars className="icon" />
+                      <FaBuilding className="icon" />
                     </div>
                     <div className="text">
-                      <span className="label">Gender</span>
-                      <span className="value">
-                        {data?.admin?.gender ?? '-'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <MdCall className="icon" />
-                    </div>
-                    <div className="text">
-                      <span className="label">Mobile</span>
-                      <span className="value">
-                        {data?.admin?.mobile ?? '-'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaEnvelope className="icon" />
-                    </div>
-                    <div className="text">
-                      <span className="label">Email</span>
-                      <span className="value">
-                        {data?.admin?.userId?.email ?? '-'}
-                      </span>
+                      <span className="label">Company Website</span>
+                      <a
+                        href={data?.recruiter?.companyWebsite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="value"
+                      >
+                        {data?.recruiter?.companyWebsite
+                          ? 'Visit Website'
+                          : '-'}
+                      </a>
                     </div>
                   </div>
 
@@ -118,69 +103,79 @@ const AdminProfilePage: React.FC = () => {
                       <FaLinkedin className="icon" />
                     </div>
                     <div className="text">
-                      <span className="label">LinkedIn</span>
+                      <span className="label">LinkedIn Profile</span>
                       <a
-                        href={data?.admin?.linkedIn}
+                        href={data?.recruiter?.linkedIn}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="value"
                       >
-                        {data?.admin?.linkedIn ? 'View Profile' : '-'}
+                        {data?.recruiter?.linkedIn ? 'View Profile' : '-'}
                       </a>
                     </div>
                   </div>
-
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaUserTie className="icon" />
-                    </div>
-                    <div className="text">
-                      <span className="label">Position</span>
-                      <span className="value">{data?.admin?.position}</span>
-                    </div>
-                  </div>
-
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaUniversity className="icon" />
-                    </div>
-                    <div className="text">
-                      <span className="label">College Name</span>
-                      <span className="value">
-                        {data?.admin?.collegeName ?? '-'}
-                      </span>
-                    </div>
-                  </div>
-
                   <div className="detail-item">
                     <div className="details-icons">
                       <FaMapMarkerAlt className="icon" />
                     </div>
                     <div className="text">
-                      <span className="label">College Address</span>
+                      <span className="label">Company Address</span>
                       <span className="value">
-                        {data?.admin?.collegeAddress ?? '-'}
+                        {data?.recruiter?.address ?? '-'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="detail-item">
+                    <div className="details-icons">
+                      <FaUserTie className="icon" />
+                    </div>
+                    <div className="text">
+                      <span className="label">About Us</span>
+                      <span className="value">
+                        {data?.recruiter?.aboutUs ?? '-'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="detail-item">
+                    <div className="details-icons">
+                      <FaUser className="icon" />
+                    </div>
+                    <div className="text">
+                      <span className="label">Contact Name</span>
+                      <span className="value">
+                        {data?.recruiter?.userId?.name ?? '-'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="detail-item">
+                    <div className="details-icons">
+                      <FaEnvelope className="icon" />
+                    </div>
+                    <div className="text">
+                      <span className="label">Contact Email</span>
+                      <span className="value">
+                        {data?.recruiter?.userId?.email ?? '-'}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <CreateEditRecruiterProfile
+              profileData={profileData}
+              isOpen={isModalOpen}
+              isEditMode={isEditMode}
+              onClose={() => {
+                setIsModalOpen(false)
+                setIsEditMode(false)
+                setProfileData(undefined)
+              }}
+            />
           </div>
-          <CreateEditAdminProfile
-            profileData={profileData}
-            isOpen={isModalOpen}
-            isEditMode={isEditMode}
-            onClose={() => {
-              setIsModalOpen(false)
-              setIsEditMode(false)
-              setProfileData(undefined)
-            }}
-          />
         </>
       )}
     </div>
   )
 }
 
-export default AdminProfilePage
+export default RecruiterProfilePage
