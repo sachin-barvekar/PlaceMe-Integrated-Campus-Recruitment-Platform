@@ -27,6 +27,7 @@ const {
 const {
   RecruiterProfileCompletion,
   addOrEditRecruiterProfile,
+  getAllRecruiters,
 } = require('../controller/recruiter.controller')
 
 router.post('/login', login)
@@ -55,6 +56,7 @@ router.delete(
   deleteWhatsAppBusinessAccount,
 )
 
+router.get('/recruiters', verifyFirebaseToken, getAllRecruiters)
 router.get(
   '/recruiter-profile',
   verifyFirebaseToken,

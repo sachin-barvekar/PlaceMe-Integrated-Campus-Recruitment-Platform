@@ -1,71 +1,34 @@
-import { FC, useCallback, useState } from 'react'
+import { useTableHandlers } from 'hooks/useTableHandlers'
+import { IListApiRequest } from 'api/types'
 import { Table, Toolbar } from '../../../shared'
 import '../../../scss/common/list/List.scss'
+import { useFetchRecruiterListQuery } from '../recruiterListApiSlice'
+import { Recruiter } from '../types'
 
-const { Column, ProfileIconCell, ActionCell, HeaderCell, StatusCell, Cell } =
-  Table
+const { Column, ProfileIconCell, ActionCell, HeaderCell, Cell } = Table
 
 const COLUMNS = [
   { key: 'companyName', label: 'Recruiter Name' },
-  { key: 'address', label: 'Address' },
-  { key: 'website', label: 'Website' },
-  { key: 'phone', label: 'Phone' },
-  { key: 'email', label: 'Email' }
+  { key: 'aboutUs', label: 'About Us' },
+  { key: 'companyWebsite', label: 'Website' },
+  { key: 'linkedIn', label: 'LinkedIn' },
+  { key: 'address', label: 'Address' }
 ]
 
-const mockRecruiterData = [
-  {
-    companyName: 'Tech Innovators Ltd.',
-    address: '123 Silicon Valley, CA',
-    website: 'www.techinnovators.com',
-    phone: '+1 555-123-4567',
-    email: 'contact@techinnovators.com'
-  },
-  {
-    companyName: 'Global Solutions Inc.',
-    address: '456 Innovation Park, NY',
-    website: 'www.globalsolutions.com',
-    phone: '+1 555-987-6543',
-    email: 'info@globalsolutions.com'
-  },
-  {
-    companyName: 'Skyline Enterprises',
-    address: '789 Highrise Blvd, TX',
-    website: 'www.skyline.com',
-    phone: '+1 555-654-3210',
-    email: 'services@skyline.com'
-  },
-  {
-    companyName: 'Quantum Technologies',
-    address: '101 Quantum St, FL',
-    website: 'www.quantumtech.com',
-    phone: '+1 555-876-5432',
-    email: 'support@quantumtech.com'
-  },
-  {
-    companyName: 'Infinity Softwares',
-    address: '202 Infinity Road, CA',
-    website: 'www.infinitysoftwares.com',
-    phone: '+1 555-432-1098',
-    email: 'sales@infinitysoftwares.com'
-  }
-]
+const RecruitersList = () => {
+  const { requestBody, onPageChange, onSearchChange, onSortColumn } =
+    useTableHandlers<Recruiter, IListApiRequest<Recruiter>>(
+      {
+        page: { size: 10, number: 0 },
+        filters: []
+      },
+      'search'
+    )
 
-const RecruitersList: FC = () => {
-  const [data] = useState(mockRecruiterData)
-  const [isFetching] = useState(false)
+  const { data, isFetching } = useFetchRecruiterListQuery(requestBody)
+  const total = data?.totalElements || data?.content?.length || 0
 
-  const handleSortColumn = useCallback(() => {
-    // Implement sorting logic here if needed
-  }, [])
-
-  const handleRowClick = () => {
-    // Handle row click action if needed
-  }
-  const handleAction = (
-    action: string | undefined,
-    rowData: AnimationPlayState
-  ) => {
+  const handleAction = (action: string | undefined, rowData: any) => {
     switch (action) {
       case '5':
         break
@@ -77,15 +40,11 @@ const RecruitersList: FC = () => {
         break
     }
   }
+
   const options = [
     {
       label: 'All Recruiters',
       value: 'all',
-      onClick: () => {}
-    },
-    {
-      label: 'Visited Recruiters',
-      value: 'visited',
       onClick: () => {}
     }
   ]
@@ -94,49 +53,42 @@ const RecruitersList: FC = () => {
     <div className="list">
       <Toolbar
         options={options}
-        onSearchChange={() => {}}
-        total={data.length ?? 0}
+        onSearchChange={onSearchChange}
+        total={total ?? 0}
       />
       <div className="list__main-container">
         <Table
-          data={data ?? []}
+          data={data?.content ?? []}
           loading={isFetching}
-          onSortColumn={handleSortColumn}
+          onSortColumn={onSortColumn}
           paginated
           pageSizeOptions={[10, 20, 30]}
-          onRowClick={handleRowClick}
-          total={data.length}
-          defaultPageSize={10}
-          onPageChange={() => {}}
+          total={total}
+          defaultPageSize={data?.size ?? 10}
+          onPageChange={onPageChange}
         >
           <Column flexGrow={0.5}>
             <HeaderCell>Profile</HeaderCell>
-            <ProfileIconCell imgKey="photoUrl" />
+            <ProfileIconCell imgKey="profilePhoto" />
           </Column>
           {COLUMNS.map((column, index) => {
             const { key, label } = column
 
             return (
               <Column
-                flexGrow={1.3}
+                flexGrow={1.2}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
               >
                 <HeaderCell>{label}</HeaderCell>
 
-                <Cell dataKey={key} tooltip />
+                <Cell dataKey={key} tooltip>
+                  {' '}
+                </Cell>
               </Column>
             )
           })}
-          <Column flexGrow={1} key="Status" sortable>
-            <HeaderCell>Status</HeaderCell>
-            <StatusCell
-              negDataLabel="Inactive"
-              posDataLabel="Active"
-              dataKey="active"
-            />
-          </Column>
           <Column flexGrow={1} key="action">
             <HeaderCell>Action</HeaderCell>
             <ActionCell

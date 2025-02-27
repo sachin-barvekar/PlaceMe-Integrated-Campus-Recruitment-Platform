@@ -5,6 +5,7 @@ import studentApi from 'api/studentApi'
 import PlacementApi from 'api/placementApi'
 import dashboardApi from 'api/dashboardApi'
 import whatsappApi from 'api/whatsappApi'
+import recruiterApi from 'api/recruiterApi'
 import rootReducer, { RootState } from './rootReducer'
 
 const store = configureStore({
@@ -16,7 +17,8 @@ const store = configureStore({
       studentApi.middleware,
       PlacementApi.middleware,
       dashboardApi.middleware,
-      whatsappApi.middleware
+      whatsappApi.middleware,
+      recruiterApi.middleware
     )
 })
 

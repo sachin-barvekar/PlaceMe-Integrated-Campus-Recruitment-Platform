@@ -1,6 +1,79 @@
 const Recruiter = require('../models/Recruiter')
 const User = require('../models/User')
+const { format } = require('date-fns')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
+
+exports.getAllRecruiters = async (req, res) => {
+  try {
+    let { page = 0, size = 10, search = '' } = req.query
+
+    page = parseInt(page)
+    size = parseInt(size)
+
+    const limit = size === 0 ? 0 : size
+    const skip = page * size
+
+    let userQuery = {}
+    if (search) {
+      userQuery = {
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } },
+        ],
+      }
+    }
+
+    const matchingUsers = await User.find(userQuery).select('_id')
+    const recruiters = await Recruiter.find({
+      userId: { $in: matchingUsers.map(user => user._id) },
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('userId', 'name email')
+
+    const formattedRecruiters = recruiters.map(recruiter => {
+      const { userId, ...recruiterData } = recruiter.toObject()
+      return {
+        ...recruiterData,
+        name: userId?.name || '',
+        email: userId?.email || '',
+        companyName: recruiter.companyName || '-',
+        aboutUs: recruiter.aboutUs || '-',
+        companyWebsite: recruiter.companyWebsite || '-',
+        linkedIn: recruiter.linkedIn || '-',
+        profilePhoto: recruiter.profilePhoto || '-',
+        address: recruiter.address || '-',
+        createdAt: format(new Date(recruiter.createdAt), 'dd-MMM-yyyy'),
+      }
+    })
+
+    const totalElements = await Recruiter.countDocuments({
+      userId: { $in: matchingUsers.map(user => user._id) },
+    })
+    const totalPages = Math.ceil(totalElements / size)
+
+    res.status(200).json({
+      content: formattedRecruiters,
+      totalElements,
+      totalPages,
+      last: page + 1 === totalPages,
+      size,
+      number: page,
+      sort: {
+        sorted: true,
+        empty: recruiters.length === 0,
+        unsorted: false,
+      },
+      numberOfElements: recruiters.length,
+      first: page === 0,
+      empty: recruiters.length === 0,
+    })
+  } catch (error) {
+    console.error('Error fetching recruiters:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+}
 
 exports.RecruiterProfileCompletion = async (req, res) => {
   try {
