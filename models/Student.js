@@ -46,12 +46,10 @@ const studentSchema = new mongoose.Schema(
     appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
 
     linkedIn: {
-      type: String,
-      required: true,
+      type: String
     },
     github: {
-      type: String,
-      required: true,
+      type: String
     },
 
     profileCompletion: { type: Boolean, default: false },
