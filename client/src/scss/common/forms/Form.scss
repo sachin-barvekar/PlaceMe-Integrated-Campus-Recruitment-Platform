@@ -27,10 +27,10 @@
         margin-bottom: 15px;
       }
 
-      .rs-input {
+      .rs-input:not(textarea) {
         height: 50px;
         margin-bottom: 15px;
-      }
+      }      
 
       .rs-picker-date {
         width: 100%;

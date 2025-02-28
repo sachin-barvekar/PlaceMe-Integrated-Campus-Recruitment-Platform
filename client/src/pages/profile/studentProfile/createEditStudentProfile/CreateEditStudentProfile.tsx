@@ -438,6 +438,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                         name={SKILLS}
                         placeholder="Skills"
                         as="textarea"
+                        rows={5}
                       />
                       <FormikErrorMessage name={SKILLS} />
                     </Col>

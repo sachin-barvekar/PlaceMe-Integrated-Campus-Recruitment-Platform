@@ -216,10 +216,11 @@ const CreateEditRecruiterProfile: React.FC<Props> = ({
                 </Section>
                 <Section title="About Us">
                   <Row>
-                    <Col xs={12}>
+                    <Col xs={24} md={12}>
                       <TextInput
                         formik={formikProps}
                         name={ABOUT_US}
+                        rows={5}
                         placeholder="Enter company about us"
                         as="textarea"
                       />

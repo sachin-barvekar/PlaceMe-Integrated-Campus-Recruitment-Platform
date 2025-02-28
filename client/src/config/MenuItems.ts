@@ -34,7 +34,7 @@ const menuItems: MenuItemType[] = [
     name: 'Dashboard',
     link: '/',
     icon: AiOutlineHome,
-    roles: ['admin', 'student']
+    roles: ['admin']
   },
   {
     id: '2',
@@ -53,7 +53,7 @@ const menuItems: MenuItemType[] = [
   {
     id: '4',
     name: 'Job Openings',
-    link: '/openings',
+    link: '/job-openings',
     icon: MdWork,
     roles: ['admin', 'student']
   },
@@ -120,14 +120,6 @@ const menuItems: MenuItemType[] = [
       }
     ]
   }
-
-  // {
-  //   id: '10',
-  //   name: 'Placement Pro',
-  //   link: '/placementpro',
-  //   icon: MdStars,
-  //   roles: ['ROLE_ADMIN']
-  // }
 ]
 
 export const getMenuItemsForRole = (role: string): MenuItemType[] => {

@@ -30,6 +30,13 @@ const {
   getAllRecruiters,
 } = require('../controller/recruiter.controller')
 
+const {
+  addOrEditJob,
+  getJobsByRecruiterId,
+  deleteJob,
+  getAllJobOpenings,
+} = require('../controller/jobs.controller')
+
 router.post('/login', login)
 
 router.get('/student-profile', verifyFirebaseToken, StudentProfileCompletion)
@@ -68,4 +75,11 @@ router.post(
   addOrEditRecruiterProfile,
 )
 router.put('/recruiter-profile', verifyFirebaseToken, addOrEditRecruiterProfile)
+
+router.get('/job-openings', verifyFirebaseToken, getAllJobOpenings)
+router.get('/jobs', verifyFirebaseToken, getJobsByRecruiterId)
+router.post('/jobs/create', verifyFirebaseToken, addOrEditJob)
+router.put('/jobs/edit/:_id', verifyFirebaseToken, addOrEditJob)
+router.delete('/jobs/delete/:jobId', verifyFirebaseToken, deleteJob)
+
 module.exports = router

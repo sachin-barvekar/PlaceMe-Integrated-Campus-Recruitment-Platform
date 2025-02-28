@@ -9,9 +9,10 @@ import userRoutes from './routes/user.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fileUpload from 'express-fileupload'
+import scheduleJobs from './scheduler/cronJobs.js'; 
 
 dotenv.config()
-
+scheduleJobs();
 const app = express()
 const PORT = process.env.PORT || 3000
 

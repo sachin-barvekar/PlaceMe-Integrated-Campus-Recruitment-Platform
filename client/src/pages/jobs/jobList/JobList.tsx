@@ -1,12 +1,14 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useTableHandlers } from 'hooks/useTableHandlers'
 import { IFilter, IListApiRequest, Operator } from 'api/types'
-import { ACTIVE_TAB } from 'pages/jobs/utils'
-import '../../../scss/common/list/List.scss'
 import { StatusCell } from 'shared/molecules/table/cells'
-import { useFetchJobOpeningQuery } from 'pages/jobs/jobApiSlice'
-import { Job } from 'pages/jobs/types'
+import { notifyError, notifySuccess } from 'utils'
 import { Table, Toolbar } from '../../../shared'
+import '../../../scss/common/list/List.scss'
+import { Job } from '../types'
+import CreateEditJob from './createEditJob/CreateEditJob'
+import { useDeleteJobMutation, useFetchJobByIdQuery } from '../jobApiSlice'
+import { ACTIVE_TAB } from '../utils'
 
 const { Column, HeaderCell, ActionCell, Cell } = Table
 
@@ -20,7 +22,10 @@ const COLUMNS = [
   { key: 'createdAt', label: 'Job Post Date' }
 ]
 
-const JobOpeningList: FC = () => {
+const JobList: FC = () => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [selectedJobData, setSelectedJobData] = useState<Job>()
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const {
     requestBody,
     onPageChange,
@@ -34,12 +39,36 @@ const JobOpeningList: FC = () => {
     },
     'search'
   )
-  const { data, isFetching } = useFetchJobOpeningQuery(requestBody)
+  const [deleteJob] = useDeleteJobMutation()
+  const { data, isFetching } = useFetchJobByIdQuery(requestBody)
+
   const total = data?.totalElements ?? data?.content?.length ?? 0
 
   const handleAction = (action: string | undefined, rowData: Job) => {
     switch (action) {
       case '2':
+        setIsEditMode(true)
+        setSelectedJobData(rowData)
+        setIsModalOpen(true)
+        break
+      case '3':
+        // eslint-disable-next-line
+        const deleteJobHandler = async () => {
+          try {
+            // eslint-disable-next-line
+            const jobId = rowData?._id
+            // eslint-disable-next-line
+            if (!jobId) {
+              notifyError('Job does not have an ID.')
+              return
+            }
+            await deleteJob({ jobId }).unwrap()
+            notifySuccess(`Job deleted successfully.`)
+          } catch (error) {
+            notifyError('Error while deleting job.')
+          }
+        }
+        deleteJobHandler()
         break
       default:
         break
@@ -98,6 +127,8 @@ const JobOpeningList: FC = () => {
         options={options}
         onSearchChange={onSearchChange}
         total={total ?? 0}
+        buttonName="Add Job"
+        onButtonClick={() => setIsModalOpen(true)}
       />
       <div className="list__main-container">
         <Table
@@ -142,13 +173,23 @@ const JobOpeningList: FC = () => {
               tooltip
               dataKey="action"
               onAction={handleAction}
-              actionOptions={['View']}
+              actionOptions={['Edit', 'Delete']}
             />
           </Column>
         </Table>
       </div>
+      <CreateEditJob
+        isEditMode={isEditMode}
+        jobData={selectedJobData}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsEditMode(false)
+          setSelectedJobData(undefined)
+          setIsModalOpen(false)
+        }}
+      />
     </div>
   )
 }
 
-export default JobOpeningList
+export default JobList

@@ -7,9 +7,9 @@ export interface InputAs {
 export interface FormikInputs<FormValues>
   extends Pick<
     InputProps,
-    'as' | 'isDisabled' | 'dataType' | 'placeholder' | 'className'
+    'as' | 'isDisabled' | 'dataType' | 'placeholder' | 'className' | 'rows'
   > {
-  formik?: FormikProps<FormValues>; // If rendered outside for, like list top then formik is not required
+  formik?: FormikProps<FormValues>;
   name: string;
   id?: string;
 }
@@ -18,6 +18,7 @@ export interface InputProps {
   inputType?: 'INPUT' | 'CHECKBOX' | 'SELECT' | 'RADIO' | 'DATE' | 'DOW';
   dataType?: 'boolean' | 'string' | 'number' | 'email' | 'password' | 'text';
   as?: InputAs['TEXTAREA'];
+  rows?: number;
   allowedValue?: Array<string>;
   selectOptions?: Array<{
     label: JSX.Element | string,

@@ -8,6 +8,7 @@ function TextInput<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
     placeholder = '',
     isDisabled,
     name,
+    rows,
     ...rest
   } = props
 
@@ -18,6 +19,7 @@ function TextInput<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
       name={name}
       data-testid={name}
       type={dataType}
+      rows={rows}
       value={
         typeof fieldValue === 'string' || typeof fieldValue === 'number'
           ? fieldValue

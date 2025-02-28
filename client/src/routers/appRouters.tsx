@@ -8,6 +8,7 @@ import RecruitersList from 'pages/recruiters/recruitersList/RecruitersList'
 import JobOpeningList from 'pages/jobOpenings/jobOpeningsList/JobOpeningsList'
 import WhatsAppConfig from 'pages/whatsApp/whatsAppConfig/WhatsAppConfig'
 import PlaceStudentList from 'pages/placeStudents/placeStudentsList/PlaceStudentsList'
+import JobList from 'pages/jobs/jobList/JobList'
 import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
@@ -56,15 +57,15 @@ const appRouter = () =>
             {
               path: '/recruiter',
               element: (
-                <RouteGuard requiredRoles={['admin']}>
+                <RouteGuard requiredRoles={['admin', 'student']}>
                   <RecruitersList />
                 </RouteGuard>
               )
             },
             {
-              path: '/openings',
+              path: '/job-openings',
               element: (
-                <RouteGuard requiredRoles={['admin']}>
+                <RouteGuard requiredRoles={['admin', 'student']}>
                   <JobOpeningList />
                 </RouteGuard>
               )
@@ -92,15 +93,15 @@ const appRouter = () =>
                   <WhatsAppConfig />
                 </RouteGuard>
               )
+            },
+            {
+              path: '/jobs',
+              element: (
+                <RouteGuard requiredRoles={['recruiter']}>
+                  <JobList />
+                </RouteGuard>
+              )
             }
-            // {
-            //   path: '/settings/template',
-            //   element: (
-            //     <RouteGuard requiredRoles={['admin']}>
-            //       <WPTemplateList />
-            //     </RouteGuard>
-            //   )
-            // }
           ]
         }
       ]
