@@ -89,3 +89,19 @@
     color: $color-white;
   }
 }
+
+.rs-drawer-body {
+  padding: 10px 10px !important;
+
+  .rs-nav-item {
+    margin: 0.5rem 0;
+  }
+  .rs-nav-item.rs-nav-item-active {
+    background-color: $button-background-color-primary;
+    color: $color-white;
+  }
+}
+
+.rs-drawer-header {
+  padding: 10px 40px 10px 40px !important;
+}

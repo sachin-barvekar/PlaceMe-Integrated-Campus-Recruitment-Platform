@@ -1,28 +1,50 @@
-import React, { useEffect } from 'react'
-import { Sidebar } from 'rsuite'
+import { FC, useState } from 'react'
+import { Sidebar, Drawer } from 'rsuite'
 import Sidenav from 'rsuite/Sidenav'
 import Nav from 'rsuite/Nav'
 import { useFilteredMenuItems } from 'config/MenuItems'
 import NavItem from './NavItem'
+import { LOGO } from '../../../assets/images'
 import './sideNav.scss'
 
-const SideNav: React.FC = () => {
-  const [activeKey, setActiveKey] = React.useState('1')
-  const [expanded, setExpanded] = React.useState(false)
+type Props = {
+  isMobile: boolean,
+  onClose: () => void,
+  open: boolean
+}
+const SideNav: FC<Props> = ({ isMobile, onClose, open }) => {
+  const [activeKey, setActiveKey] = useState('1')
+  const [expanded, setExpanded] = useState(false)
   const menuItems = useFilteredMenuItems()
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setExpanded(false)
-      }
-    }
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+
   const clickToggler = () => {
     setExpanded(!expanded)
   }
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onClose={onClose} placement="left" size={230}>
+        <Drawer.Header>
+          <img src={LOGO} className="header__logo" alt="placeMe" />
+        </Drawer.Header>
+        <Drawer.Body>
+          <Nav activeKey={activeKey} onSelect={setActiveKey} vertical>
+            {menuItems.map(({ id, name, link, icon: Icon, subMenu }) => (
+              <NavItem
+                key={id}
+                id={id}
+                name={name}
+                link={link}
+                icon={Icon}
+                subMenu={subMenu}
+              />
+            ))}
+          </Nav>
+        </Drawer.Body>
+      </Drawer>
+    )
+  }
+
   return (
     <Sidebar
       className={`${expanded ? '' : 'collapsing'}`}
@@ -30,7 +52,7 @@ const SideNav: React.FC = () => {
     >
       <div className="sideNav">
         <Sidenav appearance="subtle" expanded={expanded}>
-          <div content="AgroBeet 2.0" className="rs-sidenav-toggle">
+          <div className="rs-sidenav-toggle">
             <button
               aria-label="Collapse"
               type="button"
