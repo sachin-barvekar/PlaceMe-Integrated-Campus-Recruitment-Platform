@@ -1,22 +1,20 @@
-# PlaceMe - College Placement System
+# PlaceMe: Integrated Campus Recruitment Platform.
 
 ## Project Overview
-PlaceMe is a web-based college placement management system designed to streamline the placement process for students and companies. It aims to connect students with potential employers, facilitating job placements efficiently.
+**PlaceMe** is a web-based platform designed to revolutionize campus recruitment by connecting students with potential employers efficiently. It automates key aspects of the placement process, reducing administrative effort while enhancing job opportunities for students.
 
 ## Features
-- **User Authentication:** Secure sign-up and login for students and companies.
-- **Student Dashboard:** View and apply for job opportunities.
-- **Company Portal:** Post job listings and view student applications.
-- **Admin Panel:** Manage users, job postings, and analytics.
-- **Search and Filter:** Easily search for jobs based on criteria.
+- **User Authentication:**  Secure sign-up and login for students, companies, and administrators.
+- **Student Dashboard:** View job opportunities, apply for positions, and receive skill-based recommendations.
+- **Company Portal:**  Post job listings, filter candidates based on qualifications, and manage applications.
+- **Admin Panel:** Oversee users, job postings, student applications, and system analytics.
+- **Skill Recommendation System:** Personalized suggestions to improve employability based on student profiles.
 
 ## Tech Stack
-- **Frontend:** React.js, Bootstrap, RSuite
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **Algorithms:** Random Forest, NLP, Clustering, Matrix Factorization
+- **Frontend:** React.js, TypeScript, React Suite, SCSS, Axios, Formik, YUP, etc.
+- **Backend:** Node.js, Express, etc.
+- **Database:** MongoDB, AWS Clound, etc.
+- **Machine Learning Algorithms:** Random Forest, NLP, Clustering, Matrix Factorization, etc.
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/PlaceMe-College-Placement-System.git
+## Where I Live?
+https://placeme.in/
