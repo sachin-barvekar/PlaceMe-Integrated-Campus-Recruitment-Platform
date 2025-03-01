@@ -6,15 +6,24 @@
   align-items: center;
   border-bottom: 2px solid $border-color;
 
+  .menu-button {
+    background-color: white;
+  }
+
   &__logo {
     height: 2rem;
     padding: 0.8rem;
     background-color: $color-white;
   }
+
   &__user {
     margin-left: auto;
     display: flex;
     align-items: center;
-    padding-right: 2rem;
+    padding-right: 0.2rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
   }
 }
