@@ -1,7 +1,7 @@
 # PlaceMe: Integrated Campus Recruitment Platform.
 
 ## Project Overview
-**PlaceMe** is a web-based platform designed to revolutionize campus recruitment by connecting students with potential employers efficiently. It automates key aspects of the placement process, reducing administrative effort while enhancing job opportunities for students.
+**PlaceMe** is a web-based platform designed to revolutionize campus recruitment by connecting students with recruiters efficiently, reducing administrative efforts. It automates key aspects of the placement process, reducing administrative effort while enhancing job opportunities for students.
 
 ## Features
 - **User Authentication:**  Secure sign-up and login for students, companies, and administrators.
