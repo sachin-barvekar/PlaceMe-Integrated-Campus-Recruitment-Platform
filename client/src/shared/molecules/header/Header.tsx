@@ -1,8 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Header as HeaderSuite, Nav, IconButton } from 'rsuite'
+import {
+  Header as HeaderSuite,
+  Nav,
+  IconButton,
+  Badge,
+  Avatar,
+  Whisper,
+  Popover
+} from 'rsuite'
 import NoticeIcon from '@rsuite/icons/Notice'
 import useAuth from 'hooks/Auth'
+import ExitIcon from '@rsuite/icons/Exit'
 import MenuIcon from '@rsuite/icons/Menu'
 import { LOGO } from '../../../assets/images'
 import './header.scss'
@@ -14,7 +23,9 @@ type Props = {
 
 const Header: React.FC<Props> = ({ onMenuClick, isMobile }) => {
   const { user } = useAuth()
-  const name = user?.displayName
+  const name = user?.displayName ?? '-'
+  const avatar = user?.photoURL || ''
+
   return (
     <HeaderSuite className="header">
       {isMobile ? (
@@ -27,14 +38,36 @@ const Header: React.FC<Props> = ({ onMenuClick, isMobile }) => {
         <img src={LOGO} className="header__logo" alt="placeMe" />
       )}
       <Nav className="header__user">
-        <Nav.Item as={Link} to="/notification">
-          <NoticeIcon />
-        </Nav.Item>
-        <Nav.Menu title={name}>
-          <Nav.Item as={Link} to="/logout">
-            <span>Logout</span>
+        <Badge content={999}>
+          <Nav.Item as={Link} to="/notification">
+            <NoticeIcon />
           </Nav.Item>
-        </Nav.Menu>
+        </Badge>
+        {isMobile ? (
+          <Whisper
+            trigger="click"
+            placement="bottomEnd"
+            speaker={
+              <Popover full>
+                <div className="popover-content">
+                  <p className="popover-username">{name}</p>
+                  <Nav.Item as={Link} to="/logout">
+                    {' '}
+                    <ExitIcon /> Logout
+                  </Nav.Item>
+                </div>
+              </Popover>
+            }
+          >
+            <Avatar size="sm" src={avatar} circle />
+          </Whisper>
+        ) : (
+          <Nav.Menu title={name}>
+            <Nav.Item as={Link} to="/logout">
+              <ExitIcon /> Logout
+            </Nav.Item>
+          </Nav.Menu>
+        )}
       </Nav>
     </HeaderSuite>
   )
