@@ -31,3 +31,21 @@
     }
   }
 }
+
+@media (max-width: 568px) {
+  .table-footer {
+    justify-content: center;
+
+    &__left {
+      display: none
+    }
+
+    &__right {
+      justify-content: center;
+
+      &__page {
+        display: none;
+      }
+    }
+  }
+}

@@ -8,11 +8,11 @@ import { Recruiter } from '../types'
 const { Column, ProfileIconCell, ActionCell, HeaderCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'companyName', label: 'Recruiter Name' },
-  { key: 'aboutUs', label: 'About Us' },
-  { key: 'companyWebsite', label: 'Website' },
-  { key: 'linkedIn', label: 'LinkedIn' },
-  { key: 'address', label: 'Address' }
+  { key: 'companyName', label: 'Recruiter Name', flexGrow: 1, minWidth: 120 },
+  { key: 'aboutUs', label: 'About Us', flexGrow: 1.5, minWidth: 120 },
+  { key: 'companyWebsite', label: 'Website', flexGrow: 1, minWidth: 130 },
+  { key: 'linkedIn', label: 'LinkedIn', flexGrow: 1.5, minWidth: 130 },
+  { key: 'address', label: 'Address', flexGrow: 1, minWidth: 150 }
 ]
 
 const RecruitersList = () => {
@@ -72,11 +72,12 @@ const RecruitersList = () => {
             <ProfileIconCell imgKey="profilePhoto" />
           </Column>
           {COLUMNS.map((column, index) => {
-            const { key, label } = column
+            const { key, label, flexGrow, minWidth } = column
 
             return (
               <Column
-                flexGrow={1.2}
+                flexGrow={flexGrow ?? 1}
+                minWidth={minWidth ?? 100}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
@@ -89,7 +90,7 @@ const RecruitersList = () => {
               </Column>
             )
           })}
-          <Column flexGrow={1} key="action">
+          <Column flexGrow={1} minWidth={80} key="action">
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip

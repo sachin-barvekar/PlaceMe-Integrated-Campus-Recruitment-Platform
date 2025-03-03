@@ -1,7 +1,8 @@
-import { FC, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { useTableHandlers } from 'hooks/useTableHandlers'
 import { IListApiRequest } from 'api/types'
 import { notifyError, notifySuccess } from 'utils'
+import { AuthContext } from 'contexts/AuthContext'
 import { Toolbar, CardTable } from '../../../shared'
 import '../../../scss/common/list/CardList.scss'
 import {
@@ -12,6 +13,8 @@ import { Placement } from '../types'
 import CreateEditPlacement from './addPlaceStudent/CreateEditPlaceStudent'
 
 const PlaceStudentList: FC = () => {
+  const authContext = useContext(AuthContext)
+  const role = authContext?.role ?? undefined
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [deletePlacement] = useDeletePlacementMutation()
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
@@ -76,6 +79,7 @@ const PlaceStudentList: FC = () => {
         onButtonClick={() => {
           setIsModalOpen(true)
         }}
+        {...(role === 'student' && { buttonName: undefined })}
       />
       <div className="card-list__main-container">
         <CardTable
@@ -87,7 +91,7 @@ const PlaceStudentList: FC = () => {
           defaultPageSize={10}
           onPageChange={onPageChange}
           total={total}
-          actionOptions={['Edit', 'Delete']}
+          actionOptions={role === 'student' ? [] : ['Edit', 'Delete']}
           onAction={handleAction}
           card
         />

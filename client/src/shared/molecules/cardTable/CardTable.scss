@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: start;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 15rem);
   min-height: 300px;
 
   .no-data {
@@ -23,6 +23,7 @@
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 16px;
     margin-bottom: 1rem;
+    padding: 0 0.3rem;
     overflow: scroll;
     max-height: calc(100vh - 300px);
 
@@ -122,5 +123,11 @@
     .expense {
       color: var(--rs-color-red);
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    height: calc(100vh - 14rem);
   }
 }

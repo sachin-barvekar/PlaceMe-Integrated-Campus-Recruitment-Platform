@@ -13,13 +13,13 @@ import { ACTIVE_TAB } from '../utils'
 const { Column, HeaderCell, ActionCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'role', label: 'Job Title' },
-  { key: 'jobType', label: 'Job Type' },
-  { key: 'package', label: 'Package' },
-  { key: 'location', label: 'Location' },
-  { key: 'driveDate', label: 'Drive Date' },
-  { key: 'lastDateToApply', label: 'Application Deadline' },
-  { key: 'createdAt', label: 'Job Post Date' }
+  { key: 'role', label: 'Job Role', flexGrow: 1, minWidth: 150 },
+  { key: 'jobType', label: 'Job Type', flexGrow: 1, minWidth: 130 },
+  { key: 'package', label: 'Package', flexGrow: 1, minWidth: 120 },
+  { key: 'location', label: 'Location', flexGrow: 1, minWidth: 150 },
+  { key: 'driveDate', label: 'Drive Date', flexGrow: 1, minWidth: 140 },
+  { key: 'lastDateToApply', label: 'Deadline', flexGrow: 1, minWidth: 140 },
+  { key: 'createdAt', label: 'Post Date', flexGrow: 1, minWidth: 130 }
 ]
 
 const JobList: FC = () => {
@@ -142,11 +142,12 @@ const JobList: FC = () => {
           onPageChange={onPageChange}
         >
           {COLUMNS.map((column, index) => {
-            const { key, label } = column
+            const { key, label, flexGrow, minWidth } = column
 
             return (
               <Column
-                flexGrow={1.2}
+                flexGrow={flexGrow ?? 1}
+                minWidth={minWidth ?? 100}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
@@ -159,7 +160,7 @@ const JobList: FC = () => {
               </Column>
             )
           })}
-          <Column flexGrow={1} key="active">
+          <Column flexGrow={1} key="active" minWidth={100}>
             <HeaderCell>Status</HeaderCell>
             <StatusCell
               dataKey="active"
@@ -167,7 +168,7 @@ const JobList: FC = () => {
               negDataLabel="Inactive"
             />
           </Column>
-          <Column flexGrow={1} key="action">
+          <Column flexGrow={1} minWidth={80} key="action">
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip

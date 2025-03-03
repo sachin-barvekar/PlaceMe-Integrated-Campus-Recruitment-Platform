@@ -9,13 +9,13 @@ import { useFetchStudentsListQuery } from '../studentListApiSlice'
 const { Column, HeaderCell, ActionCell, ProfileIconCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'name', label: 'Full Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'mobile', label: 'Mobile Number' },
-  { key: 'gender', label: 'Gender' },
-  { key: 'dateOfBirth', label: 'Date of Birth' },
-  { key: 'branch', label: 'Branch' },
-  { key: 'address', label: 'Address' }
+  { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 100 },
+  { key: 'email', label: 'Email', flexGrow: 1.3, minWidth: 120 },
+  { key: 'mobile', label: 'Mobile No.', flexGrow: 1, minWidth: 120 },
+  { key: 'gender', label: 'Gender', flexGrow: 0.7, minWidth: 100 },
+  { key: 'dateOfBirth', label: 'Date of Birth', flexGrow: 0.9, minWidth: 100 },
+  { key: 'branch', label: 'Branch', flexGrow: 1, minWidth: 120 },
+  { key: 'address', label: 'Address', flexGrow: 1.8, minWidth: 150 }
 ]
 
 const StudentList: FC = () => {
@@ -75,11 +75,12 @@ const StudentList: FC = () => {
             <ProfileIconCell imgKey="profilePhoto" />
           </Column>
           {COLUMNS.map((column, index) => {
-            const { key, label } = column
+            const { key, label, flexGrow, minWidth } = column
 
             return (
               <Column
-                flexGrow={1.2}
+                minWidth={minWidth ?? 100}
+                flexGrow={flexGrow ?? 1}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
@@ -92,7 +93,7 @@ const StudentList: FC = () => {
               </Column>
             )
           })}
-          <Column flexGrow={1} key="action">
+          <Column flexGrow={1} minWidth={80} key="action">
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip

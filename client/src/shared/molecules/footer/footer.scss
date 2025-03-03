@@ -8,11 +8,12 @@
   width: 100%;
   z-index: 999;
   padding: 0.5rem;
+
   &__center {
     display: flex;
     align-items: center;
+    text-align: center;
     justify-content: center;
     width: 100%;
   }
 }
-

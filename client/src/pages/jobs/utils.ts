@@ -99,9 +99,13 @@ export const jobValidationSchema = () => {
       .optional()
       .max(200, 'Eligibility criteria cannot exceed 200 characters'),
 
-    [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: Yup.date().required(
-      'Last date to apply is required'
-    ),
+    [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: Yup.date()
+      .required('Last date to apply is required')
+      .max(
+        Yup.ref(JOB_FORM_FIELDS.DRIVE_DATE),
+        'Last date to apply must be on or before Drive Date'
+      ),
+
     [JOB_FORM_FIELDS.DRIVE_DATE]: Yup.date().required('Drive Date is required')
   })
 }

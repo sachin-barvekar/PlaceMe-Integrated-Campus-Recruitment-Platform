@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Table as RsuiteTable } from 'rsuite'
 import { TableProps, RowDataType, RowKeyType } from 'rsuite-table'
+import Loader from 'shared/atoms/loader/Loader'
 import {
   HeaderCell,
   Cell,
@@ -39,7 +40,7 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
     children,
     loading = false,
     hover = true,
-    fillHeight = false,
+    fillHeight = true,
     onRowClick,
     paginated = false,
     pageSizeOptions,
@@ -89,18 +90,21 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
   return (
     <div className="table-container">
       <div className="table-wrapper">
-        <RsuiteTable
-          loading={loading}
-          height={400}
-          wordWrap="break-word"
-          hover={hover}
-          fillHeight={fillHeight}
-          data={filteredData}
-          onRowClick={onRowClick}
-          {...rest}
-        >
-          {children}
-        </RsuiteTable>
+        {loading && <Loader />}
+        {!loading && (
+          <RsuiteTable
+            loading={false}
+            height={400}
+            wordWrap="break-word"
+            hover={hover}
+            fillHeight={fillHeight}
+            data={filteredData}
+            onRowClick={onRowClick}
+            {...rest}
+          >
+            {children}
+          </RsuiteTable>
+        )}
       </div>
       {paginated && (
         <TableFooter

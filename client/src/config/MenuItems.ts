@@ -104,7 +104,7 @@ const menuItems: MenuItemType[] = [
     name: 'Configuration',
     link: '/settings',
     icon: MdSettings,
-    roles: ['admin'],
+    roles: ['admin___'],
     subMenu: [
       {
         id: '11-1',

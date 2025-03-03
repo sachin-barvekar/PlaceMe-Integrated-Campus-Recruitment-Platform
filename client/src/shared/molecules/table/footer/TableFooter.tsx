@@ -28,7 +28,7 @@ const TableFooter: FC<TableFooterProps> = ({
       <div className="table-footer__left">{children}</div>
       <div className="table-footer__right">
         {pageSizeOptions && (
-          <>
+          <div className="table-footer__right__page">
             <span className="table-footer__rows-per-page-label">
               Rows per page:
             </span>
@@ -44,7 +44,7 @@ const TableFooter: FC<TableFooterProps> = ({
               className="table-footer__select"
               placement="topEnd"
             />
-          </>
+          </div>
         )}
         <Pagination
           activePage={currentPage}

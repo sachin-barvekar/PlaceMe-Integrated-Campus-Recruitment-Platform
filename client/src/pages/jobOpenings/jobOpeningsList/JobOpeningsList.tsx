@@ -11,13 +11,14 @@ import { Table, Toolbar } from '../../../shared'
 const { Column, HeaderCell, ActionCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'role', label: 'Job Title' },
-  { key: 'jobType', label: 'Job Type' },
-  { key: 'package', label: 'Package' },
-  { key: 'location', label: 'Location' },
-  { key: 'driveDate', label: 'Drive Date' },
-  { key: 'lastDateToApply', label: 'Application Deadline' },
-  { key: 'createdAt', label: 'Job Post Date' }
+  { key: 'recruiterName', label: 'Company', flexGrow: 1, minWidth: 120 },
+  { key: 'role', label: 'Job Role', flexGrow: 1, minWidth: 120 },
+  { key: 'jobType', label: 'Job Type', flexGrow: 1, minWidth: 110 },
+  { key: 'package', label: 'Package', flexGrow: 1, minWidth: 120 },
+  { key: 'location', label: 'Location', flexGrow: 1, minWidth: 120 },
+  { key: 'driveDate', label: 'Drive Date', flexGrow: 1, minWidth: 110 },
+  { key: 'lastDateToApply', label: 'Deadline', flexGrow: 1, minWidth: 110 },
+  { key: 'createdAt', label: 'Post Date', flexGrow: 1, minWidth: 110 }
 ]
 
 const JobOpeningList: FC = () => {
@@ -111,11 +112,12 @@ const JobOpeningList: FC = () => {
           onPageChange={onPageChange}
         >
           {COLUMNS.map((column, index) => {
-            const { key, label } = column
+            const { key, label, flexGrow, minWidth } = column
 
             return (
               <Column
-                flexGrow={1.2}
+                flexGrow={flexGrow ?? 1}
+                minWidth={minWidth ?? 100}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
@@ -128,7 +130,7 @@ const JobOpeningList: FC = () => {
               </Column>
             )
           })}
-          <Column flexGrow={1} key="active">
+          <Column flexGrow={1} minWidth={100} key="active">
             <HeaderCell>Status</HeaderCell>
             <StatusCell
               dataKey="active"
@@ -136,13 +138,13 @@ const JobOpeningList: FC = () => {
               negDataLabel="Inactive"
             />
           </Column>
-          <Column flexGrow={1} key="action">
+          <Column flexGrow={1} minWidth={80} key="action">
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip
               dataKey="action"
               onAction={handleAction}
-              actionOptions={['View']}
+              actionOptions={['View', 'Delete']}
             />
           </Column>
         </Table>

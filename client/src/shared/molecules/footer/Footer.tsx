@@ -7,8 +7,8 @@ const Footer: React.FC = () => {
     <FooterSuite className="footer">
       <div className="footer__center">
         <p>
-          &copy; 2024 placeMe. All rights reserved. Designed and developed by
-          Team TechThinker.
+          &copy;2025 PlaceMe. <br /> Designed and developed by
+          <b> Team TechThinker.</b>
         </p>
       </div>
     </FooterSuite>
