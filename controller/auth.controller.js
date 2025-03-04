@@ -3,7 +3,7 @@ require('dotenv').config()
 
 exports.login = async (req, res) => {
   try {
-    const { email, name, role, firebaseUid } = req.body
+    const { email, name, role, firebaseUid, fcmToken } = req.body
 
     if (!email || !role || !name || !firebaseUid) {
       return res.status(400).json({
@@ -16,7 +16,6 @@ exports.login = async (req, res) => {
     let user = await User.findOne({ email })
 
     if (user) {
-      // Check if the role matches
       if (user.role !== role) {
         return res.status(403).json({
           success: false,
@@ -24,7 +23,11 @@ exports.login = async (req, res) => {
         })
       }
 
-      // User exists and role matches, return success response
+      if (fcmToken) {
+        user.fcmToken = fcmToken
+        await user.save()
+      }
+
       return res.status(200).json({
         success: true,
         user,
@@ -32,12 +35,12 @@ exports.login = async (req, res) => {
       })
     }
 
-    // Create new user if not found
     user = await User.create({
       email,
       name,
       role,
       firebaseUid,
+      fcmToken: fcmToken || null,
     })
 
     return res.status(201).json({

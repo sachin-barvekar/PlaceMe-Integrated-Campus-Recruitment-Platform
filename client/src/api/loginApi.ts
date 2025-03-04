@@ -7,7 +7,7 @@ const loginApi = createApi({
     baseUrl
   }),
   reducerPath: 'loginApi',
-  tagTypes: ['login'],
+  tagTypes: ['login', 'notifications'],
   endpoints: () => ({})
 })
 

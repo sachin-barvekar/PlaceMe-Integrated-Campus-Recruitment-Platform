@@ -18,12 +18,9 @@ export const initFacebookSDK = () => {
                 xfbml: true,
                 version: "v22.0",
             });
-            // eslint-disable-next-line
-            console.log("Facebook SDK Initialized");
             resolve();
         };
 
-        // Load the SDK asynchronously
         const script = document.createElement("script");
         script.src = "https://connect.facebook.net/en_US/sdk.js";
         script.async = true;

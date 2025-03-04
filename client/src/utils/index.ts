@@ -1,5 +1,6 @@
 import { ToastOptions, toast } from 'react-toastify'
 import { jwtDecode } from 'jwt-decode'
+import { messaging, getToken } from '../config/firebase'
 
 export const notifySuccess = (
   message: string | JSX.Element,
@@ -78,4 +79,21 @@ export const isTokenExpired = (token: string): boolean => {
   if (!decoded || !decoded.exp) return true
   const currentTime = Date.now() / 1000
   return decoded.exp < currentTime
+}
+
+export const requestNotificationPermission = async (): Promise<
+  string | null
+> => {
+  try {
+    const permission = await Notification.requestPermission()
+    if (permission === 'granted') {
+      const token = await getToken(messaging, {
+        vapidKey: process.env.REACT_APP_VAPID_KEY
+      })
+      return token
+    }
+    return null
+  } catch (error) {
+    return null
+  }
 }

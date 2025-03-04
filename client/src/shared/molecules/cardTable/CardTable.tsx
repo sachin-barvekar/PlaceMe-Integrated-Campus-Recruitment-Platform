@@ -91,8 +91,10 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
           <div>No Data Found</div>
         </div>
       )}
-      {loading && <Loader />}
-      {!loading && (
+      {loading && (
+        <div className="card-wrapper loading">{loading && <Loader />}</div>
+      )}
+      {!loading && data.length >= 1 && (
         <div
           className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}
         >

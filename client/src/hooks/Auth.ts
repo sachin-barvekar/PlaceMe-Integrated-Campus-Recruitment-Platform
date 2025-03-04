@@ -8,7 +8,11 @@ import {
   User
 } from 'firebase/auth'
 import { useLoginMutation } from 'pages/login/loginApiSlice'
-import { notifyError, notifySuccess } from 'utils'
+import {
+  notifyError,
+  notifySuccess,
+  requestNotificationPermission
+} from 'utils'
 import { auth } from '../config/firebase'
 
 interface AuthContextType {
@@ -71,12 +75,14 @@ const useAuth = (): AuthContextType => {
       const provider = new GoogleAuthProvider()
       const result = await signInWithPopup(auth, provider)
       const accessToken = await result.user.getIdToken()
+      const fcmToken = await requestNotificationPermission()
 
       const loginData = {
         email: result.user.email ?? '',
         name: result.user.displayName ?? '',
         role,
-        firebaseUid: result?.user?.uid
+        firebaseUid: result?.user?.uid,
+        fcmToken
       }
       const res = await loginMutation(loginData)
       if (res && res.data) {

@@ -10,8 +10,15 @@ const loginApiSlice = loginApi.injectEndpoints({
         data: loginData
       }),
       invalidatesTags: ['login']
+    }),
+    fetchNotifications: build.query<any, void>({
+      query: () => ({
+        url: '/notifications',
+        method: 'GET'
+      }),
+      providesTags: ['notifications']
     })
   })
 })
 
-export const { useLoginMutation } = loginApiSlice
+export const { useLoginMutation, useFetchNotificationsQuery } = loginApiSlice

@@ -91,7 +91,7 @@ const PlaceStudentList: FC = () => {
           defaultPageSize={10}
           onPageChange={onPageChange}
           total={total}
-          actionOptions={role === 'student' ? [] : ['Edit', 'Delete']}
+          actionOptions={role === 'student' ? undefined : ['Edit', 'Delete']}
           onAction={handleAction}
           card
         />

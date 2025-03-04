@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode } from 'react'
 import { User } from 'firebase/auth'
+import useFCM from 'hooks/useFCM'
 import useAuth from '../hooks/Auth'
 
 interface AuthContextType {
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const auth = useAuth()
+  useFCM()
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }

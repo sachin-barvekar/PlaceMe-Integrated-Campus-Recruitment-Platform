@@ -36,6 +36,9 @@ const {
   deleteJob,
   getAllJobOpenings,
 } = require('../controller/jobs.controller')
+const {
+  getUserNotifications,
+} = require('../controller/notification.controller')
 
 router.post('/login', login)
 
@@ -81,5 +84,7 @@ router.get('/jobs', verifyFirebaseToken, getJobsByRecruiterId)
 router.post('/jobs/create', verifyFirebaseToken, addOrEditJob)
 router.put('/jobs/edit/:_id', verifyFirebaseToken, addOrEditJob)
 router.delete('/jobs/delete/:jobId', verifyFirebaseToken, deleteJob)
+
+router.get('/notifications', verifyFirebaseToken, getUserNotifications)
 
 module.exports = router

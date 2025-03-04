@@ -1,6 +1,8 @@
 const Job = require('../models/Job')
 const User = require('../models/User')
+const Notification = require('../models/Notification')
 const { format } = require('date-fns')
+const admin = require('../config/firebaseAdmin')
 
 exports.addOrEditJob = async (req, res) => {
   try {
@@ -15,6 +17,7 @@ exports.addOrEditJob = async (req, res) => {
     const jobData = req.body
 
     let job
+    let isNewJob = false
     if (jobData._id) {
       job = await Job.findById(jobData._id)
       if (!job) {
@@ -52,15 +55,38 @@ exports.addOrEditJob = async (req, res) => {
         driveDate: jobData.driveDate,
         active: jobData.active ?? true,
       })
+      isNewJob = true
     }
 
     await job.save()
+    if (isNewJob) {
+      const students = await User.find({ role: 'student' })
+      const recipientIds = students.map(s => s._id)
+      const tokens = students.map(s => s.fcmToken)
+      const notification = new Notification({
+        title: 'New Job Posted',
+        message: `A new job "${job.role}" is posted. Apply now!`,
+        createdBy: recruiterId,
+        recipientIds,
+      })
+      await notification.save()
+      if (tokens.length > 0) {
+        const message = {
+          notification: {
+            title: 'New Job Posted',
+            body: `A new job "${job.role}" is posted. Apply now!`,
+          },
+          tokens,
+        }
+        await admin.messaging().sendEachForMulticast(message)
+      }
+    }
 
     return res.status(200).json({
       success: true,
-      message: jobData.jobId
-        ? 'Job updated successfully'
-        : 'Job created successfully',
+      message: isNewJob
+        ? 'Job created successfully'
+        : 'Job updated successfully',
       job,
     })
   } catch (error) {

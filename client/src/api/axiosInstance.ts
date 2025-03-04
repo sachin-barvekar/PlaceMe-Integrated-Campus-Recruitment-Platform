@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
+import { notifySuccess } from 'utils'
 
 export const baseUrl = process.env.REACT_APP_BASE_URL ?? ''
 
@@ -41,6 +42,7 @@ axiosInstance.interceptors.response.use(
 
     if (status === 403) {
       localStorage.clear()
+      notifySuccess('Logout Successful')
     }
     throw error
   }
