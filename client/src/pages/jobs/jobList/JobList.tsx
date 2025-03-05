@@ -128,6 +128,7 @@ const JobList: FC = () => {
         onSearchChange={onSearchChange}
         total={total ?? 0}
         buttonName="Add Job"
+        searchPlaceholder="Search by Recruiter Name or Address"
         onButtonClick={() => setIsModalOpen(true)}
       />
       <div className="list__main-container">
@@ -150,6 +151,7 @@ const JobList: FC = () => {
                 minWidth={minWidth ?? 100}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
+                fixed={index === 0}
                 sortable
               >
                 <HeaderCell>{label}</HeaderCell>

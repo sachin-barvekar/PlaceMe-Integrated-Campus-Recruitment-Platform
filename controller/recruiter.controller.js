@@ -13,20 +13,17 @@ exports.getAllRecruiters = async (req, res) => {
     const limit = size === 0 ? 0 : size
     const skip = page * size
 
-    let userQuery = {}
+    let recruiterQuery = {}
     if (search) {
-      userQuery = {
+      recruiterQuery = {
         $or: [
-          { name: { $regex: search, $options: 'i' } },
-          { email: { $regex: search, $options: 'i' } },
+          { companyName: { $regex: search, $options: 'i' } },
+          { address: { $regex: search, $options: 'i' } },
         ],
       }
     }
 
-    const matchingUsers = await User.find(userQuery).select('_id')
-    const recruiters = await Recruiter.find({
-      userId: { $in: matchingUsers.map(user => user._id) },
-    })
+    const recruiters = await Recruiter.find(recruiterQuery)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -48,9 +45,7 @@ exports.getAllRecruiters = async (req, res) => {
       }
     })
 
-    const totalElements = await Recruiter.countDocuments({
-      userId: { $in: matchingUsers.map(user => user._id) },
-    })
+    const totalElements = await Recruiter.countDocuments(recruiterQuery)
     const totalPages = Math.ceil(totalElements / size)
 
     res.status(200).json({

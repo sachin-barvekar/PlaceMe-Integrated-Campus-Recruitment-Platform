@@ -1,5 +1,6 @@
 const Job = require('../models/Job')
 const User = require('../models/User')
+const Recruiter = require('../models/Recruiter')
 const Notification = require('../models/Notification')
 const { format } = require('date-fns')
 const admin = require('../config/firebaseAdmin')
@@ -13,7 +14,15 @@ exports.addOrEditJob = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
 
-    const recruiterId = user?._id
+    const userId = user?._id
+    const recruiter = await Recruiter.findOne({ userId })
+
+    if (!recruiter) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Recruiter not found' })
+    }
+    const recruiterId = recruiter._id
     const jobData = req.body
 
     let job
@@ -107,10 +116,15 @@ exports.getAllJobOpenings = async (req, res) => {
     let jobQuery = {}
 
     if (search) {
+      const recruiters = await Recruiter.find({
+        companyName: { $regex: search, $options: 'i' },
+      }).select('_id')
+      const recruiterIds = recruiters.map(r => r._id)
       jobQuery.$or = [
         { role: { $regex: search, $options: 'i' } },
         { jobType: { $regex: search, $options: 'i' } },
         { location: { $regex: search, $options: 'i' } },
+        { recruiterId: { $in: recruiterIds } },
       ]
     }
 
@@ -119,10 +133,10 @@ exports.getAllJobOpenings = async (req, res) => {
     }
 
     const jobs = await Job.find(jobQuery)
+      .populate('recruiterId', 'companyName')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate('recruiterId', 'name email')
 
     const formattedJobs = jobs.map(job => {
       const { recruiterId, createdAt, driveDate, lastDateToApply, ...jobData } =
@@ -130,8 +144,7 @@ exports.getAllJobOpenings = async (req, res) => {
 
       return {
         ...jobData,
-        recruiterName: recruiterId?.name || '',
-        recruiterEmail: recruiterId?.email || '',
+        recruiterName: recruiterId?.companyName || null,
         createdAt: createdAt ? format(new Date(createdAt), 'dd-MMM-yyyy') : '-',
         driveDate: driveDate ? format(new Date(driveDate), 'dd-MMM-yyyy') : '-',
         lastDateToApply: lastDateToApply
@@ -175,7 +188,16 @@ exports.getJobsByRecruiterId = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
 
-    const recruiterId = user?._id
+    const userId = user?._id
+    const recruiter = await Recruiter.findOne({ userId })
+
+    if (!recruiter) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Recruiter not found' })
+    }
+
+    const recruiterId = recruiter._id
 
     page = parseInt(page)
     size = parseInt(size)

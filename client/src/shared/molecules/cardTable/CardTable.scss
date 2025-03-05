@@ -142,15 +142,16 @@
     }
   }
 }
+
 @media (max-width: 468px) {
   .card-container {
     .card-wrapper {
-      height: calc(100vh - 20.7rem);
-      min-height: calc(100vh - 20.8rem);
+      height: calc(100vh - 21.7rem);
+      min-height: calc(100vh - 21.8rem);
     }
 
     .no-data {
-      height: calc(100vh - 20.7rem);
+      height: calc(100vh - 21.7rem);
     }
   }
 }

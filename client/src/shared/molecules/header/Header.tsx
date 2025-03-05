@@ -8,6 +8,7 @@ import {
   Whisper,
   Popover
 } from 'rsuite'
+import { CgProfile } from 'react-icons/cg'
 import ExitIcon from '@rsuite/icons/Exit'
 import MenuIcon from '@rsuite/icons/Menu'
 import useAuth from 'hooks/Auth'
@@ -46,8 +47,11 @@ const Header: React.FC<Props> = ({ onMenuClick, isMobile }) => {
               <Popover full>
                 <div className="popover-content">
                   <p className="popover-username">{name}</p>
+                  <Nav.Item as={Link} to="/profile">
+                    <CgProfile /> &nbsp;Profile
+                  </Nav.Item>
                   <Nav.Item as={Link} to="/logout">
-                    <ExitIcon /> Logout
+                    <ExitIcon /> &nbsp; Logout
                   </Nav.Item>
                 </div>
               </Popover>
@@ -57,8 +61,11 @@ const Header: React.FC<Props> = ({ onMenuClick, isMobile }) => {
           </Whisper>
         ) : (
           <Nav.Menu title={name}>
+            <Nav.Item as={Link} to="/profile">
+              <CgProfile /> &nbsp;Profile
+            </Nav.Item>
             <Nav.Item as={Link} to="/logout">
-              <ExitIcon /> Logout
+              <ExitIcon /> &nbsp; Logout
             </Nav.Item>
           </Nav.Menu>
         )}

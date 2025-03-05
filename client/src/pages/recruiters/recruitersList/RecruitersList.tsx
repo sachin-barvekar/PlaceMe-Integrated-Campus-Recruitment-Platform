@@ -8,7 +8,7 @@ import { Recruiter } from '../types'
 const { Column, ProfileIconCell, ActionCell, HeaderCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'companyName', label: 'Recruiter Name', flexGrow: 1, minWidth: 120 },
+  { key: 'companyName', label: 'Recruiter Name', flexGrow: 1, minWidth: 130 },
   { key: 'aboutUs', label: 'About Us', flexGrow: 1.5, minWidth: 120 },
   { key: 'companyWebsite', label: 'Website', flexGrow: 1, minWidth: 130 },
   { key: 'linkedIn', label: 'LinkedIn', flexGrow: 1.5, minWidth: 130 },
