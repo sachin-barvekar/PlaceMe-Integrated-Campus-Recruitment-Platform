@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Nav, Input, InputGroup } from 'rsuite'
+import SearchIcon from '@rsuite/icons/Search'
 import PlusIcon from '@rsuite/icons/Plus'
 import './toolbar.scss'
-import { Button, SelectDropdown } from '../../atoms'
+import { Button } from '../../atoms'
 
 interface Props {
   options: { label: string, value: string, onClick: () => void }[];
@@ -10,7 +11,7 @@ interface Props {
   onButtonClick?: () => void;
   total?: number;
   onSearchChange?: (value: string) => void;
-  onDropdownSelect?: (value: string) => void;
+  searchPlaceholder?: string;
 }
 
 const Toolbar: React.FC<Props> = ({
@@ -19,9 +20,8 @@ const Toolbar: React.FC<Props> = ({
   onButtonClick,
   total,
   onSearchChange,
-  onDropdownSelect
+  searchPlaceholder = 'Search'
 }) => {
-  const [selectedValue, setSelectedValue] = useState('name')
   const [active, setActive] = useState(options[0]?.value)
   const [searchValue, setSearchValue] = useState('')
 
@@ -49,12 +49,15 @@ const Toolbar: React.FC<Props> = ({
     setActive(activeKey)
     option.onClick()
   }
+  let panelClass = 'toolbar-right-panel'
 
-  const handleDropdownChange = (value: string) => {
-    setSelectedValue(value)
-    onDropdownSelect?.(value)
+  if (onSearchChange && buttonName) {
+    panelClass += ' both-present'
+  } else if (onSearchChange) {
+    panelClass += ' only-search'
+  } else if (buttonName) {
+    panelClass += ' only-button'
   }
-
   return (
     <div className="toolbar">
       <div className="toolbar-left">
@@ -69,38 +72,26 @@ const Toolbar: React.FC<Props> = ({
             </Nav.Item>
           ))}
         </Nav>
-        <div className="toolbar-totals">
-          <span>Total {total}</span>
-        </div>
+        <div className="toolbar-totals">Total {total}</div>
       </div>
-      <div className="toolbar-right-pane">
-        {onDropdownSelect && (
-          <div>
-            <SelectDropdown
-              searchable={false}
-              value={selectedValue}
-              onChange={handleDropdownChange}
-              data={[
-                { label: 'Name', value: 'name' },
-                { label: 'Email', value: 'email' },
-                { label: 'Mobile', value: 'mobile' }
-              ]}
-            />
-          </div>
-        )}
+      <div className={panelClass}>
         {onSearchChange && (
           <div className="toolbar-search">
-            <InputGroup size="md" style={{ maxWidth: 180, margin: 10 }}>
+            <InputGroup size="md">
               <Input
-                placeholder="Search"
+                placeholder={searchPlaceholder}
                 onChange={(value: string) => setSearchValue(value)}
               />
+              <InputGroup.Addon>
+                <SearchIcon />
+              </InputGroup.Addon>
             </InputGroup>
           </div>
         )}
         {buttonName && (
           <Button
             className="toolbar-btn"
+            appearance="primary"
             startIcon={<PlusIcon />}
             onClick={onButtonClick}
           >
