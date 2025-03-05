@@ -142,3 +142,15 @@
     }
   }
 }
+@media (max-width: 468px) {
+  .card-container {
+    .card-wrapper {
+      height: calc(100vh - 20.7rem);
+      min-height: calc(100vh - 20.8rem);
+    }
+
+    .no-data {
+      height: calc(100vh - 20.7rem);
+    }
+  }
+}

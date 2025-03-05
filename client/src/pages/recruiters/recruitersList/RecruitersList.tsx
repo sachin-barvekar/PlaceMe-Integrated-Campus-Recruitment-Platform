@@ -55,6 +55,7 @@ const RecruitersList = () => {
         options={options}
         onSearchChange={onSearchChange}
         total={total ?? 0}
+        searchPlaceholder="Search by recruiter name or address"
       />
       <div className="list__main-container">
         <Table
@@ -67,7 +68,7 @@ const RecruitersList = () => {
           defaultPageSize={data?.size ?? 10}
           onPageChange={onPageChange}
         >
-          <Column flexGrow={0.5}>
+          <Column fixed flexGrow={0.5}>
             <HeaderCell>Profile</HeaderCell>
             <ProfileIconCell imgKey="profilePhoto" />
           </Column>
@@ -84,9 +85,7 @@ const RecruitersList = () => {
               >
                 <HeaderCell>{label}</HeaderCell>
 
-                <Cell dataKey={key} tooltip>
-                  {' '}
-                </Cell>
+                <Cell dataKey={key} tooltip />
               </Column>
             )
           })}

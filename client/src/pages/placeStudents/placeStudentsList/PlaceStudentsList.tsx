@@ -72,6 +72,7 @@ const PlaceStudentList: FC = () => {
   return (
     <div className="card-list">
       <Toolbar
+        searchPlaceholder="Serach by student or company name"
         options={options}
         onSearchChange={onSearchChange}
         total={total}

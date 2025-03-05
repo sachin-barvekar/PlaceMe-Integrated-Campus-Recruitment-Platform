@@ -98,6 +98,7 @@ const JobOpeningList: FC = () => {
       <Toolbar
         options={options}
         onSearchChange={onSearchChange}
+        searchPlaceholder="Search by company name, job role, type or location"
         total={total ?? 0}
       />
       <div className="list__main-container">
@@ -121,12 +122,11 @@ const JobOpeningList: FC = () => {
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 sortable
+                fixed={index === 0}
               >
                 <HeaderCell>{label}</HeaderCell>
 
-                <Cell dataKey={key} tooltip>
-                  {' '}
-                </Cell>
+                <Cell dataKey={key} tooltip />
               </Column>
             )
           })}

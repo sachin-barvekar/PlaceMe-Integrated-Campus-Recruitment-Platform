@@ -62,6 +62,7 @@
   .toolbar-right-panel {
     display: flex;
     align-items: center;
+    margin-right: 0.5rem;
 
     .rs-btn-icon.rs-btn>.rs-icon {
       font-size: 14px;
@@ -128,13 +129,14 @@
 
     .toolbar-right-panel {
       width: 100%;
+      margin-right: 0rem;
 
       &.only-search {
         display: flex;
         justify-content: center;
 
         .toolbar-search {
-          width: 90%;
+          width: 100%;
         }
       }
 
