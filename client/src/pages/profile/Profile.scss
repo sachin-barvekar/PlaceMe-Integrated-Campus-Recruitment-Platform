@@ -4,8 +4,8 @@
     background-color: $color-white;
     padding: 2rem;
     border-radius: 0.2rem;
-    min-height: 60vh;
-    margin-bottom: 1rem;
+    overflow: auto;
+    height: calc(100vh - 13.5rem);
 
     .user-profile-header {
         background: linear-gradient(135deg,
@@ -167,7 +167,7 @@
             .education-section {
                 text-align: center;
                 background: $color-white;
-                padding: 2rem;
+                padding: 1rem;
                 border-radius: 8px;
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
@@ -347,6 +347,41 @@
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 668px) {
+    .user-profile {
+        .user-profile-body {
+            .tab-header {
+                gap: 0.5rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 568px) {
+    .user-profile {
+        padding: 1rem;
+
+        .user-profile-body {
+            .tab-header {
+                .tab-item {
+                    font-size: 0.7rem;
+                    padding: 0.3rem 0.2rem;
+                }
+            }
+
+            .tab-content {
+                .personal-details {
+                    padding: 0.3rem;
+                }
+
+                .education-section {
+                    padding: 0.5rem;
                 }
             }
         }

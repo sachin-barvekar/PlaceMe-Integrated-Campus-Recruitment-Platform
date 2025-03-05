@@ -146,12 +146,13 @@
 @media (max-width: 468px) {
   .card-container {
     .card-wrapper {
-      height: calc(100vh - 21.7rem);
-      min-height: calc(100vh - 21.8rem);
+      height: calc(100vh - 21.9rem);
+      min-height: calc(100vh - 22rem);
     }
 
     .no-data {
-      height: calc(100vh - 21.7rem);
+      height: calc(100vh - 21.9rem);
+      min-height: calc(100vh - 22rem);
     }
   }
 }
