@@ -58,17 +58,17 @@ const menuItems: MenuItemType[] = [
   },
   {
     id: '5',
+    name: 'Applied Jobs',
+    link: '/applied-jobs',
+    icon: MdAssignmentTurnedIn,
+    roles: ['student']
+  },
+  {
+    id: '6',
     name: 'Placed Students',
     link: '/placed-students',
     icon: FaUserGraduate,
     roles: ['admin', 'student']
-  },
-  {
-    id: '6',
-    name: 'Applied Jobs',
-    link: '/applied',
-    icon: MdAssignmentTurnedIn,
-    roles: ['student']
   },
   {
     id: '7',

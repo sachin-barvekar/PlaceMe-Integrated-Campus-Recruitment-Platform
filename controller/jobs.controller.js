@@ -297,3 +297,209 @@ exports.deleteJob = async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' })
   }
 }
+
+exports.applyJob = async (req, res) => {
+  try {
+    const { jobId } = req.params
+    const firebaseUid = req.user.user_id
+    const user = await User.findOne({ firebaseUid })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+    const studentId = user?._id
+
+    const job = await Job.findById(jobId)
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: 'Job not found',
+      })
+    }
+
+    if (job.applicants.includes(studentId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'You have already applied for this job',
+      })
+    }
+
+    if (!job.active) {
+      return res.status(400).json({
+        success: false,
+        message: 'This job is no longer active and cannot be applied for.',
+      })
+    }
+
+    job.applicants.push(studentId)
+    await job.save()
+
+    const student = await User.findById(studentId)
+
+    if (student && student.fcmToken) {
+      const notification = new Notification({
+        title: 'Application Submitted',
+        message: `You have successfully applied for the job "${job.role}".`,
+        createdBy: job.recruiterId,
+        recipientIds: [student._id],
+      })
+
+      await notification.save()
+
+      const message = {
+        notification: {
+          title: 'Application Submitted',
+          body: `You have successfully applied for the job "${job.role}".`,
+        },
+        token: student.fcmToken,
+      }
+
+      await admin.messaging().send(message)
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Application submitted successfully',
+    })
+  } catch (error) {
+    console.error('Error applying for job:', error)
+
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    })
+  }
+}
+
+exports.getAppliedJobs = async (req, res) => {
+  try {
+    let { page = 0, size = 10, search = '' } = req.query
+    const firebaseUid = req.user.user_id
+
+    const user = await User.findOne({ firebaseUid })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    const studentId = user._id
+
+    page = parseInt(page)
+    size = parseInt(size)
+
+    const limit = size === 0 ? 0 : size
+    const skip = page * size
+
+    let jobQuery = { applicants: studentId }
+
+    if (search) {
+      jobQuery.$or = [
+        { role: { $regex: search, $options: 'i' } },
+        { jobType: { $regex: search, $options: 'i' } },
+        { location: { $regex: search, $options: 'i' } },
+      ]
+    }
+
+    const jobs = await Job.find(jobQuery)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('recruiterId', 'companyName')
+
+    const formattedJobs = jobs.map(job => {
+      const { recruiterId, createdAt, driveDate, lastDateToApply, ...jobData } =
+        job.toObject()
+
+      return {
+        ...jobData,
+        recruiterName: recruiterId?.companyName || '',
+        createdAt: createdAt ? format(new Date(createdAt), 'dd-MMM-yyyy') : '-',
+        driveDate: driveDate ? format(new Date(driveDate), 'dd-MMM-yyyy') : '-',
+        lastDateToApply: lastDateToApply
+          ? format(new Date(lastDateToApply), 'dd-MMM-yyyy')
+          : '-',
+      }
+    })
+
+    const totalElements = await Job.countDocuments(jobQuery)
+    const totalPages = Math.ceil(totalElements / size)
+
+    res.status(200).json({
+      content: formattedJobs,
+      totalElements,
+      totalPages,
+      last: page + 1 === totalPages,
+      size,
+      number: page,
+      sort: {
+        sorted: false,
+        empty: jobs.length === 0,
+        unsorted: true,
+      },
+      numberOfElements: jobs.length,
+      first: page === 0,
+      empty: jobs.length === 0,
+    })
+  } catch (error) {
+    console.error('Error fetching applied jobs:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+}
+exports.withdrawApplication = async (req, res) => {
+  try {
+    const { jobId } = req.params
+    const firebaseUid = req.user.user_id
+
+    const user = await User.findOne({ firebaseUid })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    const studentId = user._id
+
+    const job = await Job.findById(jobId)
+    if (!job) {
+      return res.status(404).json({ success: false, message: 'Job not found' })
+    }
+
+    if (!job.applicants.includes(studentId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'You have not applied for this job' })
+    }
+
+    job.applicants = job.applicants.filter(
+      id => id.toString() !== studentId.toString(),
+    )
+    await job.save()
+
+    const notification = new Notification({
+      title: 'Application Withdrawn',
+      message: `You have successfully withdrawn your application for "${job.role}".`,
+      createdBy: job.recruiterId,
+      recipientIds: [studentId],
+    })
+
+    await notification.save()
+
+    if (user.fcmToken) {
+      const message = {
+        notification: {
+          title: 'Application Withdrawn',
+          body: `You have successfully withdrawn your application for "${job.role}".`,
+        },
+        token: user.fcmToken,
+      }
+
+      await admin.messaging().send(message)
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'You have successfully withdrawn your application',
+    })
+  } catch (error) {
+    console.error('Error withdrawing application:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+}

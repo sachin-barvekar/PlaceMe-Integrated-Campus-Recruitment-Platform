@@ -26,7 +26,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="modal-text">{message}</p>
+        <span>{message}</span>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onClose} appearance="primary" color="red">
