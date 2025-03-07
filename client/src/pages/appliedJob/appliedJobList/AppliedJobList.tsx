@@ -27,7 +27,7 @@ const COLUMNS = [
 
 const AppliedJobList: FC = () => {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { requestBody, onPageChange, onSearchChange, onSortColumn } =
     useTableHandlers<Job, IListApiRequest<Job>>(
       {

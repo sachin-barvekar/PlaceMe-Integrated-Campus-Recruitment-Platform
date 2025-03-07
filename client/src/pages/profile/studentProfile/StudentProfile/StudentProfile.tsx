@@ -108,17 +108,17 @@ const StudentProfilePage: React.FC = () => {
                 Academic Details
               </div>
               <div
-                className={`tab-item ${activeTab === Tabs.WHERE_PLACED ? 'active' : ''}`}
-                onClick={() => setActiveTab(Tabs.WHERE_PLACED)}
+                className={`tab-item ${activeTab === Tabs.MY_RESUME ? 'active' : ''}`}
+                onClick={() => setActiveTab(Tabs.MY_RESUME)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                    setActiveTab(Tabs.WHERE_PLACED)
+                    setActiveTab(Tabs.MY_RESUME)
                   }
                 }}
               >
-                Where I placed?
+                My Resume
               </div>
             </div>
 
@@ -269,44 +269,15 @@ const StudentProfilePage: React.FC = () => {
                           )}
                         </div>
                       ))}
+                    {!education && <span>No data found</span>}
                   </div>
                 </section>
               )}
-              {/* {activeTab === Tabs.WHERE_PLACED && (
-                <div className="placement-details-section">
-                  <h3 className="section-title">Placement Details</h3>
-                  <div className="placement-card">
-                    <div className="placement-header">
-                      <h4 className="company-name">Google</h4>
-                      <span className="location">
-                        <i className="icon location-icon"></i> San Francisco, CA
-                      </span>
-                    </div>
-                    <div className="placement-body">
-                      <p>
-                        <i className="icon role-icon"></i> Role: Software
-                        Engineer
-                      </p>
-                      <p>
-                        <i className="icon package-icon"></i> Package: ₹25 LPA
-                      </p>
-                      <p>
-                        <i className="icon duration-icon"></i> Job Type:
-                        Full-Time
-                      </p>
-                      <p>
-                        <i className="icon eligibility-icon"></i> Eligibility:
-                        7+ CGPA
-                      </p>
-                    </div>
-                    <div className="placement-footer">
-                      <a href="#" className="apply-btn">
-                        Apply Now
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )} */}
+              {activeTab === Tabs.MY_RESUME && (
+                <section id="resume" className="education-section">
+                  <div className="education-timeline">No data found</div>
+                </section>
+              )}
             </div>
           </div>
           <CreateEditStudentProfile

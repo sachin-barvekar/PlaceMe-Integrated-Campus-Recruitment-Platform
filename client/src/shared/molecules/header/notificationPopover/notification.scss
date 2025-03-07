@@ -2,6 +2,7 @@
 
 .notification-popover {
     min-width: 250px;
+    max-width: 70vw;
     min-height: 100px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -52,7 +53,7 @@
     .rs-badge-content,
     .rs-badge-independent {
         position: relative;
-        left: 78%;
+        left: 75%;
         bottom: 0.2rem;
     }
 

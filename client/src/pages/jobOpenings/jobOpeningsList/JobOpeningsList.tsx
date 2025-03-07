@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useTableHandlers } from 'hooks/useTableHandlers'
 import { IFilter, IListApiRequest, Operator } from 'api/types'
 import { ACTIVE_TAB } from 'pages/jobs/utils'
@@ -8,7 +8,7 @@ import { useFetchJobOpeningQuery } from 'pages/jobs/jobApiSlice'
 import { Job } from 'pages/jobs/types'
 import { notifySuccess } from 'utils'
 import { useApplyJobMutation } from 'pages/appliedJob/applyJobApiSlice'
-import { Table, Toolbar } from '../../../shared'
+import { ConfirmModal, Table, Toolbar } from '../../../shared'
 
 const { Column, HeaderCell, ActionCell, Cell } = Table
 
@@ -39,24 +39,36 @@ const JobOpeningList: FC = () => {
   )
   const { data, isFetching } = useFetchJobOpeningQuery(requestBody)
   const total = data?.totalElements ?? data?.content?.length ?? 0
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
   const [applyJob] = useApplyJobMutation()
 
   const handleAction = async (action: string | undefined, rowData: Job) => {
     switch (action) {
       case '1':
-        try {
-          // eslint-disable-next-line
-          await applyJob({ jobId: rowData._id }).unwrap()
-          notifySuccess('Successfully applied for the job!')
-        } catch (error) {
-          // eslint-disable-next-line
-          console.error(error)
-        }
+        setIsModalOpen(true)
+        setSelectedJob(rowData)
         break
       default:
         break
     }
+  }
+  const handleConfirmApply = async () => {
+    // eslint-disable-next-line
+    const jobId = selectedJob?._id
+    if (!jobId) return
+
+    try {
+      await applyJob({ jobId }).unwrap()
+      notifySuccess('Application submitted successfully!')
+    } catch (error) {
+      // eslint-disable-next-line
+      console.error('Error applying for job:', error)
+    }
+
+    setIsModalOpen(false)
+    setSelectedJob(null)
   }
 
   const options = [
@@ -150,17 +162,26 @@ const JobOpeningList: FC = () => {
               negDataLabel="Inactive"
             />
           </Column>
-          <Column flexGrow={1} minWidth={80} key="action">
+          <Column flexGrow={1} minWidth={80} key="action" align="center">
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip
               dataKey="action"
               onAction={handleAction}
-              actionOptions={['View', 'Delete']}
+              actionOptions={['View']}
             />
           </Column>
         </Table>
       </div>
+      <ConfirmModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Apply for Job"
+        message="Are you sure you want to apply for this job?"
+        onConfirm={handleConfirmApply}
+        confirmText="Yes, Apply"
+        cancelText="Cancel"
+      />
     </div>
   )
 }

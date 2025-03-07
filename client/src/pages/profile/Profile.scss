@@ -165,11 +165,14 @@
             }
 
             .education-section {
-                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 background: $color-white;
                 padding: 1rem;
                 border-radius: 8px;
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                min-height: 8rem;
 
                 .education-timeline {
                     display: flex;

@@ -8,7 +8,7 @@ import {
 export enum Tabs {
   PERSONAL = 'personal',
   ACADEMIC = 'academic',
-  WHERE_PLACED = 'where-place'
+  MY_RESUME = 'resume'
 }
 
 export const genderOptions = [
