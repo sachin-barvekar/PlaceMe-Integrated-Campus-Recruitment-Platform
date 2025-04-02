@@ -9,11 +9,11 @@ import { useFetchStudentsListQuery } from '../studentListApiSlice'
 const { Column, HeaderCell, ActionCell, ProfileIconCell, Cell } = Table
 
 const COLUMNS = [
-  { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 100 },
+  { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 130 },
   { key: 'email', label: 'Email', flexGrow: 1.3, minWidth: 120 },
   { key: 'mobile', label: 'Mobile No.', flexGrow: 1, minWidth: 120 },
   { key: 'gender', label: 'Gender', flexGrow: 0.7, minWidth: 100 },
-  { key: 'dateOfBirth', label: 'Date of Birth', flexGrow: 0.9, minWidth: 100 },
+  { key: 'dateOfBirth', label: 'Date of Birth', flexGrow: 0.9, minWidth: 140 },
   { key: 'branch', label: 'Branch', flexGrow: 1, minWidth: 120 },
   { key: 'address', label: 'Address', flexGrow: 1.8, minWidth: 150 }
 ]
@@ -70,7 +70,7 @@ const StudentList: FC = () => {
           defaultPageSize={data?.size ?? 10}
           onPageChange={onPageChange}
         >
-          <Column flexGrow={0.5}>
+          <Column flexGrow={0.5} fixed>
             <HeaderCell>Profile</HeaderCell>
             <ProfileIconCell imgKey="profilePhoto" />
           </Column>

@@ -5,6 +5,7 @@ import useAuth from '../hooks/Auth'
 
 interface AuthContextType {
   user: User | null;
+  dbUser: any | null;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;

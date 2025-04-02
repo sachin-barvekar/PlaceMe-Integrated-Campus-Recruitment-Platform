@@ -17,6 +17,7 @@ import { auth } from '../config/firebase'
 
 interface AuthContextType {
   user: User | null;
+  dbUser: any | null;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -29,6 +30,9 @@ interface AuthContextType {
 const useAuth = (): AuthContextType => {
   const hasLoggedOutRef = useRef(false)
   const [user, setUser] = useState<User | null>(null)
+  const [dbUser, setDBUser] = useState<any | null>(
+    localStorage.getItem('dbUser')
+  )
   const [loading, setLoading] = useState<boolean>(true)
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
@@ -58,6 +62,7 @@ const useAuth = (): AuthContextType => {
   }, [])
 
   const clearAuthState = () => {
+    setDBUser(null)
     setUser(null)
     setToken(null)
     setRole(null)
@@ -84,8 +89,11 @@ const useAuth = (): AuthContextType => {
         firebaseUid: result?.user?.uid,
         fcmToken
       }
-      const res = await loginMutation(loginData)
+      const res = (await loginMutation(loginData)) as unknown as {
+        data: { user: any }
+      }
       if (res && res.data) {
+        localStorage.setItem('dbUser', JSON.stringify(res.data.user))
         setUser(result.user)
         setToken(accessToken)
         localStorage.setItem('token', accessToken)
@@ -129,6 +137,7 @@ const useAuth = (): AuthContextType => {
     token,
     isLoggedIn: !!token,
     role,
+    dbUser,
     setRole: (newRole) => {
       setRole(newRole)
       if (newRole) {

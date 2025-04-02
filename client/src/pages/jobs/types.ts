@@ -12,4 +12,5 @@ export interface Job {
   driveDate: Date | undefined | string;
   active?: boolean;
   search?: string;
+  applicants?: any[];
 }

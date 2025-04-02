@@ -503,3 +503,19 @@ exports.withdrawApplication = async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' })
   }
 }
+
+exports.getJobOpeningById = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    const job = await Job.findById(jobId).populate('recruiterId');
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    res.status(200).json({ success: true, job });
+  } catch (error) {
+    console.error("Error fetching job by ID:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};

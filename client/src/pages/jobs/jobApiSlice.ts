@@ -16,6 +16,15 @@ const jobApiSlice = jobApi.injectEndpoints({
       },
       providesTags: ['job-list']
     }),
+    fetchJobDetailsById: build.query<any, { jobId: string | undefined }>({
+      query: (jobId) => {
+        return {
+          url: `/job-openings/${jobId.jobId}`,
+          method: 'GET'
+        }
+      },
+      providesTags: ['job-list']
+    }),
     fetchJobById: build.query<IListApiResponse<Job>, IListApiRequest<Job>>({
       query: (request) => {
         const params = getPaginationQueryParams(request)
@@ -59,6 +68,35 @@ const jobApiSlice = jobApi.injectEndpoints({
         }
       },
       invalidatesTags: ['job-list']
+    }),
+    applyJob: build.mutation<void, { jobId: string }>({
+      query: ({ jobId }) => {
+        return {
+          url: `/jobs/apply/${jobId}`,
+          method: 'PATCH'
+        }
+      },
+      invalidatesTags: ['job-list']
+    }),
+    getAppliedJobs: build.query<IListApiResponse<Job>, IListApiRequest<Job>>({
+      query: (request) => {
+        const params = getPaginationQueryParams(request)
+        return {
+          url: '/jobs/applied',
+          method: 'GET',
+          params
+        }
+      },
+      providesTags: ['job-list']
+    }),
+    withdrawJobApplication: build.mutation<void, { jobId: string }>({
+      query: ({ jobId }) => {
+        return {
+          url: `/jobs/withdraw/${jobId}`,
+          method: 'DELETE'
+        }
+      },
+      invalidatesTags: ['job-list']
     })
   })
 })
@@ -68,7 +106,11 @@ export const {
   useCreateJobMutation,
   useUpdateJobMutation,
   useDeleteJobMutation,
-  useFetchJobOpeningQuery
+  useFetchJobOpeningQuery,
+  useFetchJobDetailsByIdQuery,
+  useApplyJobMutation,
+  useGetAppliedJobsQuery,
+  useWithdrawJobApplicationMutation
 } = jobApiSlice
 
 export default jobApiSlice

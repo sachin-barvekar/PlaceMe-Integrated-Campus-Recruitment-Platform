@@ -28,6 +28,7 @@ const {
   RecruiterProfileCompletion,
   addOrEditRecruiterProfile,
   getAllRecruiters,
+  getRecruiterStats,
 } = require('../controller/recruiter.controller')
 
 const {
@@ -38,6 +39,7 @@ const {
   applyJob,
   getAppliedJobs,
   withdrawApplication,
+  getJobOpeningById,
 } = require('../controller/jobs.controller')
 const {
   getUserNotifications,
@@ -70,6 +72,7 @@ router.delete(
 )
 
 router.get('/recruiters', verifyFirebaseToken, getAllRecruiters)
+router.get('/recruiter-count', verifyFirebaseToken, getRecruiterStats)
 router.get(
   '/recruiter-profile',
   verifyFirebaseToken,
@@ -83,6 +86,7 @@ router.post(
 router.put('/recruiter-profile', verifyFirebaseToken, addOrEditRecruiterProfile)
 
 router.get('/job-openings', verifyFirebaseToken, getAllJobOpenings)
+router.get('/job-openings/:jobId', verifyFirebaseToken, getJobOpeningById)
 router.get('/jobs', verifyFirebaseToken, getJobsByRecruiterId)
 router.post('/jobs/create', verifyFirebaseToken, addOrEditJob)
 router.put('/jobs/edit/:_id', verifyFirebaseToken, addOrEditJob)

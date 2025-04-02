@@ -10,8 +10,17 @@ const dashboardApiSlice = dashboardApi.injectEndpoints({
         params: dashboardParams
       }),
       providesTags: ['dashboard-data']
+    }),
+    getRecruiterDashboardData: build.query<StudentQueriesResponse, void>({
+      query: (dashboardParams) => ({
+        url: '/recruiter-count',
+        method: 'GET',
+        params: dashboardParams
+      }),
+      providesTags: ['dashboard-data']
     })
   })
 })
 
-export const { useGetDashboardDataQuery } = dashboardApiSlice
+export const { useGetDashboardDataQuery, useGetRecruiterDashboardDataQuery } =
+  dashboardApiSlice

@@ -172,3 +172,34 @@ exports.addOrEditRecruiterProfile = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message })
   }
 }
+
+exports.getRecruiterStats = async (req, res) => {
+  try {
+    // Get total recruiter count
+    const totalRecruiters = await Recruiter.countDocuments()
+
+    // Get recruiter count per year based on the 'createdAt' field
+    const recruiterCountPerYear = await Recruiter.aggregate([
+      {
+        $project: {
+          year: { $year: '$createdAt' },
+        },
+      },
+      {
+        $group: {
+          _id: '$year',
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } }, // Sort by year in ascending order
+    ])
+
+    return res.status(200).json({
+      success: true,
+      totalRecruiters,
+      recruiterCountPerYear,
+    })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}

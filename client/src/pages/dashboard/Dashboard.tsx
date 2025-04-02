@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router'
 import { ChartScreen, DashCards, PageHeading } from '../../shared'
 import './Dashboard.scss'
 import '../../scss/common/list/List.scss'
-import { useGetDashboardDataQuery } from './dashboardApiSlice'
+import {
+  useGetDashboardDataQuery,
+  useGetRecruiterDashboardDataQuery
+} from './dashboardApiSlice'
 
 const Dashboard: React.FC = () => {
+  const { data: recruiter } = useGetRecruiterDashboardDataQuery()
   const { data } = useGetDashboardDataQuery()
   const navigate = useNavigate()
   const formattedData = data?.branchWisePlacement?.map(({ branch, count }) => [
@@ -25,8 +29,11 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Total Recruiters',
-      description: 60,
-      icon: <MdBusiness className="dashboard-icon recruiter" />
+      description: recruiter?.totalRecruiters ?? 0,
+      icon: <MdBusiness className="dashboard-icon recruiter" />,
+      onClick: () => {
+        navigate('/recruiter')
+      }
     },
     {
       title: 'Placed Students',
@@ -62,7 +69,7 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="report-item">
           <ChartScreen
-            data={[]}
+            data={recruiter?.recruiterCountPerYear ?? []}
             title="Recruiters Visited"
             chartType="bar"
             actionOptions="Download"

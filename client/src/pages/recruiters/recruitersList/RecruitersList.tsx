@@ -5,7 +5,7 @@ import '../../../scss/common/list/List.scss'
 import { useFetchRecruiterListQuery } from '../recruiterListApiSlice'
 import { Recruiter } from '../types'
 
-const { Column, ProfileIconCell, ActionCell, HeaderCell, Cell } = Table
+const { Column, ProfileIconCell, HeaderCell, Cell } = Table
 
 const COLUMNS = [
   { key: 'companyName', label: 'Recruiter Name', flexGrow: 1, minWidth: 130 },
@@ -27,19 +27,6 @@ const RecruitersList = () => {
 
   const { data, isFetching } = useFetchRecruiterListQuery(requestBody)
   const total = data?.totalElements || data?.content?.length || 0
-
-  const handleAction = (action: string | undefined, rowData: any) => {
-    switch (action) {
-      case '5':
-        break
-      case '6':
-        break
-      case '8':
-        break
-      default:
-        break
-    }
-  }
 
   const options = [
     {
@@ -89,15 +76,6 @@ const RecruitersList = () => {
               </Column>
             )
           })}
-          <Column flexGrow={1} minWidth={80} key="action">
-            <HeaderCell>Action</HeaderCell>
-            <ActionCell
-              tooltip
-              dataKey="action"
-              onAction={handleAction}
-              actionOptions={['View', 'Delete']}
-            />
-          </Column>
         </Table>
       </div>
     </div>
