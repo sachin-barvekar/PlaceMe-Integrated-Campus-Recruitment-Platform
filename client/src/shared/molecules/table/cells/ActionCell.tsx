@@ -49,7 +49,11 @@ const ActionCell: React.FC<Props> = ({
       ? defaultOptions.filter((option) => actionOptions.includes(option.label))
       : defaultOptions
 
-  const handleActionClick = (eventKey: string | undefined) => {
+  const handleActionClick = (
+    event: React.MouseEvent,
+    eventKey: string | undefined
+  ) => {
+    event.stopPropagation()
     if (eventKey && typeof props.onAction === 'function') {
       props.onAction(eventKey, rowData)
     }
@@ -63,7 +67,7 @@ const ActionCell: React.FC<Props> = ({
             type="button"
             key={option.eventKey}
             className="action-icon"
-            onClick={() => handleActionClick(option.eventKey)}
+            onClick={(event) => handleActionClick(event, option.eventKey)}
           >
             {tooltip ? (
               <Whisper

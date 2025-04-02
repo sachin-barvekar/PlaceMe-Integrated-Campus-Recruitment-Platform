@@ -6,7 +6,7 @@ import '../../../scss/common/list/List.scss'
 import { Students } from '../types'
 import { useFetchStudentsListQuery } from '../studentListApiSlice'
 
-const { Column, HeaderCell, ActionCell, ProfileIconCell, Cell } = Table
+const { Column, HeaderCell, ProfileIconCell, Cell } = Table
 
 const COLUMNS = [
   { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 130 },
@@ -30,19 +30,6 @@ const StudentList: FC = () => {
 
   const { data, isFetching } = useFetchStudentsListQuery(requestBody)
   const total = data?.totalElements || data?.content?.length || 0
-
-  const handleAction = (action: string | undefined, rowData: any) => {
-    switch (action) {
-      case '5':
-        break
-      case '6':
-        break
-      case '8':
-        break
-      default:
-        break
-    }
-  }
 
   const options = [
     {
@@ -87,21 +74,10 @@ const StudentList: FC = () => {
               >
                 <HeaderCell>{label}</HeaderCell>
 
-                <Cell dataKey={key} tooltip>
-                  {' '}
-                </Cell>
+                <Cell dataKey={key} tooltip />
               </Column>
             )
           })}
-          <Column flexGrow={1} minWidth={80} key="action">
-            <HeaderCell>Action</HeaderCell>
-            <ActionCell
-              tooltip
-              dataKey="action"
-              onAction={handleAction}
-              actionOptions={['View', 'Delete']}
-            />
-          </Column>
         </Table>
       </div>
     </div>

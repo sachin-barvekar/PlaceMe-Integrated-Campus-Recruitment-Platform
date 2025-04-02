@@ -7,51 +7,45 @@ import { Job } from 'pages/jobs/types'
 import { format, isBefore } from 'date-fns'
 import {
   useApplyJobMutation,
+  useDeleteJobMutation,
   useFetchJobDetailsByIdQuery,
   useWithdrawJobApplicationMutation
 } from 'pages/jobs/jobApiSlice'
-import { notifySuccess } from 'utils'
+import { notifyError, notifySuccess } from 'utils'
 import { AuthContext } from 'contexts/AuthContext'
 
 const JobDetails = () => {
   const { jobId } = useParams()
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const authContext = useContext(AuthContext)
-  const dbUser = authContext?.dbUser
-  const parsedUser = typeof dbUser === 'string' ? JSON.parse(dbUser) : dbUser
+  const { dbUser, role } = useContext(AuthContext) || {}
+  const parsedUser =
+    dbUser && typeof dbUser === 'string' ? JSON.parse(dbUser) : dbUser
   // eslint-disable-next-line
   const currentUserId = parsedUser?._id
 
   const [applyJob] = useApplyJobMutation()
+  const [deleteJob] = useDeleteJobMutation()
   const [withdrawJob] = useWithdrawJobApplicationMutation()
   const { data, isFetching } = useFetchJobDetailsByIdQuery({ jobId })
   const navigate = useNavigate()
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-  const [isWithdrawing, setIsWithdrawing] = useState(false)
   const [hasApplied, setHasApplied] = useState(false)
   const [isApplicationOpen, setIsApplicationOpen] = useState(false)
-
-  useEffect(() => {
-    if (selectedJob) {
-      setHasApplied(selectedJob.applicants?.includes(currentUserId) ?? false)
-
-      setIsApplicationOpen(
-        !!selectedJob.active &&
-          isBefore(
-            new Date(),
-            selectedJob.lastDateToApply
-              ? new Date(selectedJob.lastDateToApply)
-              : new Date()
-          )
-      )
-    }
-  }, [selectedJob, currentUserId, applyJob])
 
   useEffect(() => {
     if (data?.job) {
       setSelectedJob(data.job)
     }
   }, [data])
+
+  useEffect(() => {
+    if (selectedJob) {
+      setHasApplied(selectedJob.applicants?.includes(currentUserId) ?? false)
+      setIsApplicationOpen(
+        !!selectedJob.active &&
+          isBefore(new Date(), new Date(selectedJob.lastDateToApply || ''))
+      )
+    }
+  }, [selectedJob, currentUserId])
 
   const formatDate = (date?: string | Date) => {
     if (!date) return '-'
@@ -62,44 +56,78 @@ const JobDetails = () => {
     }
   }
 
-  const handleConfirmModal = async () => {
-    // eslint-disable-next-line
-    const jobId = selectedJob?._id
-    if (!jobId) return
+  const [modalState, setModalState] = useState({
+    open: false,
+    title: '',
+    message: '',
+    confirmText: '',
+    action: null as (() => Promise<void>) | null
+  })
 
+  const openConfirmModal = (
+    title: string,
+    message: string,
+    confirmText: string,
+    action: (() => Promise<void>) | null
+  ) => {
+    setModalState({ open: true, title, message, confirmText, action })
+  }
+
+  const handleConfirm = async () => {
+    if (modalState.action) await modalState.action()
+    setModalState((prev) => ({ ...prev, open: false }))
+  }
+
+  const handleDeleteJob = async () => {
+    // eslint-disable-next-line
+    if (!selectedJob?._id) {
+      notifyError('Job does not have an ID.')
+      return
+    }
     try {
-      if (isWithdrawing) {
-        await withdrawJob({ jobId }).unwrap()
+      // eslint-disable-next-line
+      await deleteJob({ jobId: selectedJob._id }).unwrap()
+      notifySuccess('Job deleted successfully.')
+      navigate(-1)
+    } catch {
+      // eslint-disable-next-line
+      notifyError('Error while deleting job.')
+    }
+  }
+
+  const handleApplyOrWithdraw = async () => {
+    // eslint-disable-next-line
+    if (!selectedJob?._id) return
+    try {
+      if (hasApplied) {
+        // eslint-disable-next-line
+        await withdrawJob({ jobId: selectedJob._id }).unwrap()
         notifySuccess('Application withdrawn successfully!')
         setHasApplied(false)
       } else {
-        await applyJob({ jobId }).unwrap()
+        // eslint-disable-next-line
+        await applyJob({ jobId: selectedJob._id }).unwrap()
         notifySuccess('Application submitted successfully!')
         setHasApplied(true)
       }
     } catch (error) {
-      // eslint-disable-next-line
-      console.error(
-        `Error ${isWithdrawing ? 'withdrawing' : 'applying'} for job:`,
-        error
-      )
+      notifyError(`Error ${hasApplied ? 'withdrawing' : 'applying'} for job.`)
     }
-
-    setIsModalOpen(false)
-    setIsWithdrawing(false)
   }
   let buttonText = ''
 
   if (hasApplied) {
-    buttonText = 'Already Applied'
+    buttonText = 'Withdraw Application'
   } else if (isApplicationOpen) {
     buttonText = 'Apply Now'
   } else {
     buttonText = 'Application Closed'
   }
+
   if (!selectedJob && !isFetching) {
     return <div className="job-details">No job details available.</div>
   }
+
   return (
     <div className="job-details">
       <div className="back-btn">
@@ -148,43 +176,53 @@ const JobDetails = () => {
             {selectedJob.active ? 'Active' : 'Inactive'}
           </p>
           <div className="btn-container">
-            <div>
-              <Button
-                appearance="primary"
-                onClick={() => setIsModalOpen(true)}
-                disabled={!isApplicationOpen || hasApplied}
-              >
-                {buttonText}
-              </Button>
-            </div>
-            {hasApplied && (
+            {role === 'student' && (
               <div>
                 <Button
                   appearance="primary"
-                  color="red"
-                  onClick={() => {
-                    setIsWithdrawing(true)
-                    setIsModalOpen(true)
-                  }}
+                  color={hasApplied ? 'red' : undefined}
+                  onClick={() =>
+                    openConfirmModal(
+                      hasApplied ? 'Withdraw Application' : 'Apply for Job',
+                      hasApplied
+                        ? 'Are you sure you want to withdraw your application?'
+                        : 'Are you sure you want to apply?',
+                      hasApplied ? 'Yes, Withdraw' : 'Yes, Apply',
+                      handleApplyOrWithdraw
+                    )
+                  }
+                  disabled={!isApplicationOpen && !hasApplied}
                 >
-                  Withdraw Application
+                  {buttonText}
                 </Button>
               </div>
+            )}
+            {role === 'recruiter' && (
+              <Button
+                appearance="primary"
+                color="red"
+                onClick={() =>
+                  openConfirmModal(
+                    'Delete Job',
+                    'Are you sure you want to delete this job? This action cannot be undone.',
+                    'Yes, Delete',
+                    handleDeleteJob
+                  )
+                }
+              >
+                Delete
+              </Button>
             )}
           </div>
         </div>
       )}
       <ConfirmModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={isWithdrawing ? 'Withdraw Application' : 'Apply for Job'}
-        message={
-          isWithdrawing
-            ? 'Are you sure you want to withdraw your application for this job?'
-            : 'Are you sure you want to apply for this job?'
-        }
-        onConfirm={handleConfirmModal}
-        confirmText={isWithdrawing ? 'Yes, Withdraw' : 'Yes, Apply'}
+        open={modalState.open}
+        onClose={() => setModalState({ ...modalState, open: false })}
+        title={modalState.title}
+        message={modalState.message}
+        onConfirm={handleConfirm}
+        confirmText={modalState.confirmText}
         cancelText="Cancel"
       />
     </div>

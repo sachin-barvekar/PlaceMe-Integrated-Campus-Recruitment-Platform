@@ -2,12 +2,12 @@ import { FC, useState } from 'react'
 import { useTableHandlers } from 'hooks/useTableHandlers'
 import { IFilter, IListApiRequest, Operator } from 'api/types'
 import { StatusCell } from 'shared/molecules/table/cells'
-import { notifyError, notifySuccess } from 'utils'
+import { useNavigate } from 'react-router-dom'
 import { Table, Toolbar } from '../../../shared'
 import '../../../scss/common/list/List.scss'
 import { Job } from '../types'
 import CreateEditJob from './createEditJob/CreateEditJob'
-import { useDeleteJobMutation, useFetchJobByIdQuery } from '../jobApiSlice'
+import { useFetchJobByIdQuery } from '../jobApiSlice'
 import { ACTIVE_TAB } from '../utils'
 
 const { Column, HeaderCell, ActionCell, Cell } = Table
@@ -39,7 +39,8 @@ const JobList: FC = () => {
     },
     'search'
   )
-  const [deleteJob] = useDeleteJobMutation()
+
+  const Navigate = useNavigate()
   const { data, isFetching } = useFetchJobByIdQuery(requestBody)
 
   const total = data?.totalElements ?? data?.content?.length ?? 0
@@ -51,27 +52,15 @@ const JobList: FC = () => {
         setSelectedJobData(rowData)
         setIsModalOpen(true)
         break
-      case '3':
-        // eslint-disable-next-line
-        const deleteJobHandler = async () => {
-          try {
-            // eslint-disable-next-line
-            const jobId = rowData?._id
-            // eslint-disable-next-line
-            if (!jobId) {
-              notifyError('Job does not have an ID.')
-              return
-            }
-            await deleteJob({ jobId }).unwrap()
-            notifySuccess(`Job deleted successfully.`)
-          } catch (error) {
-            notifyError('Error while deleting job.')
-          }
-        }
-        deleteJobHandler()
-        break
       default:
         break
+    }
+  }
+  const handleOnRowClick = (rowData: Job) => {
+    // eslint-disable-next-line
+    const jobId = rowData._id
+    if (jobId) {
+      Navigate(`/job/${jobId}`)
     }
   }
 
@@ -141,6 +130,7 @@ const JobList: FC = () => {
           total={total}
           defaultPageSize={data?.size ?? 10}
           onPageChange={onPageChange}
+          onRowClick={handleOnRowClick}
         >
           {COLUMNS.map((column, index) => {
             const { key, label, flexGrow, minWidth } = column
@@ -156,9 +146,7 @@ const JobList: FC = () => {
               >
                 <HeaderCell>{label}</HeaderCell>
 
-                <Cell dataKey={key} tooltip>
-                  {' '}
-                </Cell>
+                <Cell dataKey={key} tooltip />
               </Column>
             )
           })}
@@ -176,7 +164,7 @@ const JobList: FC = () => {
               tooltip
               dataKey="action"
               onAction={handleAction}
-              actionOptions={['Edit', 'Delete']}
+              actionOptions={['Edit']}
             />
           </Column>
         </Table>
