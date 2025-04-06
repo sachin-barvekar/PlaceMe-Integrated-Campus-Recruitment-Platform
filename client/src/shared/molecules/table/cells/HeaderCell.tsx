@@ -5,12 +5,8 @@ type Props = {
   children?: ReactNode
 }
 
-const HeaderCell: FC<Props> = ({ children, ...props }: Props) => {
+const HeaderCell: FC<Props> = ({ children = null, ...props }) => {
   return <RsuiteHeaderCell {...props}>{children}</RsuiteHeaderCell>
-}
-
-HeaderCell.defaultProps = {
-  children: null
 }
 
 export default HeaderCell

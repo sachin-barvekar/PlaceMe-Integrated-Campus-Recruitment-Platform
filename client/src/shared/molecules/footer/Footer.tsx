@@ -4,8 +4,8 @@ import './footer.scss'
 
 const Footer: React.FC = () => {
   return (
-    <FooterSuite className="footer">
-      <div className="footer__center">
+    <FooterSuite className='footer'>
+      <div className='footer__center'>
         <p>
           &copy;2025 PlaceMe. <br /> Designed and developed by
           <b> Team TechThinker.</b>

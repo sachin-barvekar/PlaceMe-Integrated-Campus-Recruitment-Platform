@@ -1,13 +1,13 @@
 import { FC, useContext, useState } from 'react'
-import { useTableHandlers } from 'hooks/useTableHandlers'
-import { IListApiRequest } from 'api/types'
-import { notifyError, notifySuccess } from 'utils'
-import { AuthContext } from 'contexts/AuthContext'
+import { useTableHandlers } from '../../../hooks/useTableHandlers'
+import { IListApiRequest } from '../../../api/types'
+import { notifyError, notifySuccess } from '../../../utils'
+import { AuthContext } from '../../../contexts/AuthContext'
 import { Toolbar, CardTable } from '../../../shared'
 import '../../../scss/common/list/CardList.scss'
 import {
   useDeletePlacementMutation,
-  useFetchPlacementListQuery
+  useFetchPlacementListQuery,
 } from '../placeStudentApiSlice'
 import { Placement } from '../types'
 import CreateEditPlacement from './addPlaceStudent/CreateEditPlaceStudent'
@@ -24,9 +24,9 @@ const PlaceStudentList: FC = () => {
     useTableHandlers<Placement, IListApiRequest<Placement>>(
       {
         page: { size: 10, number: 0 },
-        filters: []
+        filters: [],
       },
-      'search'
+      'search',
     )
   const { data, isFetching } = useFetchPlacementListQuery(requestBody)
 
@@ -35,11 +35,14 @@ const PlaceStudentList: FC = () => {
     {
       label: 'Placed Students',
       value: 'all',
-      onClick: () => {}
-    }
+      onClick: () => {},
+    },
   ]
 
-  const handleAction = async (action: string | undefined, rowData: any) => {
+  const handleAction = async (
+    action: string | undefined,
+    rowData: Placement,
+  ) => {
     if (!rowData) {
       return
     }
@@ -51,15 +54,14 @@ const PlaceStudentList: FC = () => {
         break
       case '3':
         try {
-          // eslint-disable-next-line
           const _id = rowData?._id
-          // eslint-disable-next-line
           if (!_id) {
             notifyError('Placement does not have id.')
             return
           }
           await deletePlacement({ _id }).unwrap()
           notifySuccess(`Placement deleted successfully.`)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           notifyError('Error while delete placement.')
         }
@@ -70,19 +72,19 @@ const PlaceStudentList: FC = () => {
   }
 
   return (
-    <div className="card-list">
+    <div className='card-list'>
       <Toolbar
-        searchPlaceholder="Serach by student or company name"
+        searchPlaceholder='Serach by student or company name'
         options={options}
         onSearchChange={onSearchChange}
         total={total}
-        buttonName="Add Placement"
+        buttonName='Add Placement'
         onButtonClick={() => {
           setIsModalOpen(true)
         }}
         {...(role === 'student' && { buttonName: undefined })}
       />
-      <div className="card-list__main-container">
+      <div className='card-list__main-container'>
         <CardTable
           data={data?.content ?? []}
           loading={isFetching}

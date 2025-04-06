@@ -3,22 +3,22 @@ import { Field, FieldProps } from 'formik'
 import './MultiSelectCheckbox.scss'
 
 interface Option {
-  label: string;
-  value: string;
+  label: string
+  value: string
 }
 
 interface MultiSelectCheckboxProps {
-  name: string;
-  options: Option[];
-  isDisabled?: boolean;
-  direction?: 'vertical' | 'horizontal';
+  name: string
+  options: Option[]
+  isDisabled?: boolean
+  direction?: 'vertical' | 'horizontal'
 }
 
 const MultiSelectCheckbox: React.FC<MultiSelectCheckboxProps> = ({
   name,
   options,
   isDisabled,
-  direction = 'vertical'
+  direction = 'vertical',
 }: MultiSelectCheckboxProps) => {
   return (
     <Field name={name}>
@@ -38,12 +38,12 @@ const MultiSelectCheckbox: React.FC<MultiSelectCheckboxProps> = ({
 
         return (
           <div className={`multi-select-checkbox ${direction}`}>
-            {options.map((option) => {
+            {options.map(option => {
               const id = `${name}-${option.value}`
               return (
-                <div key={option.value} className="checkbox">
+                <div key={option.value} className='checkbox'>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     id={id}
                     value={option.value}
                     checked={(field.value || []).includes(option.value)}
@@ -51,7 +51,7 @@ const MultiSelectCheckbox: React.FC<MultiSelectCheckboxProps> = ({
                     disabled={isDisabled}
                     data-testid={id}
                   />
-                  <label htmlFor={id} className="checkbox__label">
+                  <label htmlFor={id} className='checkbox__label'>
                     {option.label}
                   </label>
                 </div>

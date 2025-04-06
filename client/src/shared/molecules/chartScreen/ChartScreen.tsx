@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { BarChart, PieChart, LineChart, ProgressCircle } from '../../atoms'
 import './ChartScreen.scss'
 import { ActionCell } from '../table/cells'
 
 interface ChartScreenProps {
-  chartType: 'bar' | 'pie' | 'line' | 'progress';
-  title: string;
-  data?: Array<any>;
-  onAction?: (eventKey?: string, rowData?: any) => void;
-  actionOptions?: any;
-  Percent?: number;
-  Status?: 'success' | 'fail' | 'active';
-  strokeColor?: string;
+  chartType: 'bar' | 'pie' | 'line' | 'progress'
+  title: string
+  data?: Array<any>
+  onAction?: (eventKey?: string, rowData?: any) => void
+  actionOptions?: any
+  Percent?: number
+  Status?: 'success' | 'fail' | 'active'
+  strokeColor?: string
 }
 
 const ChartScreen: React.FC<ChartScreenProps> = ({
@@ -22,7 +23,7 @@ const ChartScreen: React.FC<ChartScreenProps> = ({
   Percent,
   Status,
   actionOptions,
-  strokeColor
+  strokeColor,
 }) => {
   const renderChart = () => {
     switch (chartType) {
@@ -46,20 +47,20 @@ const ChartScreen: React.FC<ChartScreenProps> = ({
   }
 
   return (
-    <div className="chart-screen">
-      <div className="chart-screen-title">
+    <div className='chart-screen'>
+      <div className='chart-screen-title'>
         <span>{title}</span>
-        <div className="chart-screen-icon">
+        <div className='chart-screen-icon'>
           <ActionCell
             rowData={data}
-            dataKey="action"
+            dataKey='action'
             onAction={onAction}
             actionOptions={actionOptions}
             tooltip
           />
         </div>
       </div>
-      <div className="chart-screen-body">{renderChart()}</div>
+      <div className='chart-screen-body'>{renderChart()}</div>
     </div>
   )
 }

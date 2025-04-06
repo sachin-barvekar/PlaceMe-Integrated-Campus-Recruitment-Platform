@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isAxiosError } from 'axios'
-import { notifyError } from 'utils'
+import { notifyError } from '../utils'
 import axiosInstance, { getAccessToken } from './axiosInstance'
 
 type AxiosBaseQueryProps = {
@@ -7,25 +8,25 @@ type AxiosBaseQueryProps = {
 }
 
 type AxiosInstanceProps = {
-  url: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
-  data?: any,
-  params?: any,
-  headers?: any,
-  responseType?: 'json' | 'blob' | 'text',
+  url: string
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+  data?: any
+  params?: any
+  headers?: any
+  responseType?: 'json' | 'blob' | 'text'
   includeAuth?: boolean
 }
 
 export interface IErrorResponse<T> {
-  status: number | undefined;
-  data: T | null;
+  status: number | undefined
+  data: T | null
 }
 
 const axiosBaseQuery =
   <T>(
     { baseUrl }: AxiosBaseQueryProps = {
-      baseUrl: process.env.REACT_APP_BASE_URL ?? ''
-    }
+      baseUrl: import.meta.env.VITE_BASE_URL ?? '',
+    },
   ) =>
   async ({
     url,
@@ -34,7 +35,7 @@ const axiosBaseQuery =
     params,
     headers = {},
     responseType = 'json',
-    includeAuth = true
+    includeAuth = true,
   }: AxiosInstanceProps) => {
     try {
       const result = await axiosInstance({
@@ -44,9 +45,9 @@ const axiosBaseQuery =
         params,
         headers: {
           ...headers,
-          Authorization: includeAuth ? `Bearer ${getAccessToken()}` : undefined
+          Authorization: includeAuth ? `Bearer ${getAccessToken()}` : undefined,
         },
-        responseType
+        responseType,
       })
 
       return { data: result.data }
@@ -58,8 +59,8 @@ const axiosBaseQuery =
         return {
           error: {
             status: error.response?.status,
-            data: error.response?.data || null
-          } as IErrorResponse<T>
+            data: error.response?.data || null,
+          } as IErrorResponse<T>,
         }
       }
       return Promise.reject(new Error('Unexpected error occurred'))

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage, useFormikContext } from 'formik'
-import { FC } from 'react'
+import { FC, JSX } from 'react'
 import { Message } from 'rsuite'
 import './formikErrorMessage.scss'
 
@@ -27,21 +28,21 @@ const FormikErrorMessage: FC<Props> = ({ name }) => {
         .join(', ')
 
       return (
-        <Message type="error" showIcon>
+        <Message type='error' showIcon>
           {errorValues}
         </Message>
       )
     }
 
     return errorMessage ? (
-      <Message type="error" showIcon>
+      <Message type='error' showIcon>
         {errorMessage}
       </Message>
     ) : null
   }
 
   return (
-    <div role="alert" aria-live="polite">
+    <div role='alert' aria-live='polite'>
       <ErrorMessage name={name} render={renderFormError} />
     </div>
   )

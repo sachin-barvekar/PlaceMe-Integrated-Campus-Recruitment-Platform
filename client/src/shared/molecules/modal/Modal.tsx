@@ -5,10 +5,10 @@ import { Modal as RsuiteModal, ModalProps } from 'rsuite'
 import './modal.scss'
 
 interface ReusableModalProps extends ModalProps {
-  title: React.ReactNode;
-  body: React.ReactNode;
-  footer?: React.ReactNode;
-  secondary?: boolean;
+  title: React.ReactNode
+  body: React.ReactNode
+  footer?: React.ReactNode
+  secondary?: boolean
 }
 
 const Modal: React.FC<ReusableModalProps> = ({
@@ -21,7 +21,6 @@ const Modal: React.FC<ReusableModalProps> = ({
   backdrop = 'static',
   keyboard = false,
   dialogClassName,
-  className,
   ...rest
 }) => {
   return (
@@ -31,16 +30,15 @@ const Modal: React.FC<ReusableModalProps> = ({
       backdrop={backdrop}
       keyboard={keyboard}
       dialogClassName={classNames(dialogClassName, {
-        'modal--secondary': secondary
+        'modal--secondary': secondary,
       })}
-      {...rest}
-    >
+      {...rest}>
       <RsuiteModal.Header>
         <RsuiteModal.Title>{title}</RsuiteModal.Title>
       </RsuiteModal.Header>
       <RsuiteModal.Body>{body}</RsuiteModal.Body>
       {footer && <RsuiteModal.Footer>{footer}</RsuiteModal.Footer>}
-      <ToastContainer containerId="modalToast" />
+      <ToastContainer containerId='modalToast' />
     </RsuiteModal>
   )
 }

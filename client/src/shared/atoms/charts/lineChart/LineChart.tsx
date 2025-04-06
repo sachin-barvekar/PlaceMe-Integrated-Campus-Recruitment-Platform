@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { LineChart as RsuiteLineChart } from '@rsuite/charts'
 
 interface LineChartProps {
-  data: Array<any>;
+  data: Array<any>
 }
 
 const LineChart: React.FC<LineChartProps> = ({ data = [], ...rest }) => {
@@ -25,7 +26,7 @@ const LineChart: React.FC<LineChartProps> = ({ data = [], ...rest }) => {
   const chartData = processData(data)
 
   return (
-    <div className="line-chart-container">
+    <div className='line-chart-container'>
       <RsuiteLineChart data={chartData} {...rest} />
     </div>
   )

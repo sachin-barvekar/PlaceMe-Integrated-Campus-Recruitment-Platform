@@ -1,12 +1,12 @@
 import { combineSlices } from '@reduxjs/toolkit'
-import loginApi from 'api/loginApi'
-import PlacementApi from 'api/placementApi'
-import profileApi from 'api/profileApi'
-import dashboardApi from 'api/dashboardApi'
-import studentApi from 'api/studentApi'
-import whatsappApi from 'api/whatsappApi'
-import recruiterApi from 'api/recruiterApi'
-import jobApi from 'api/jobApi'
+import loginApi from '../api/loginApi'
+import PlacementApi from '../api/placementApi'
+import profileApi from '../api/profileApi'
+import dashboardApi from '../api/dashboardApi'
+import studentApi from '../api/studentApi'
+import whatsappApi from '../api/whatsappApi'
+import recruiterApi from '../api/recruiterApi'
+import jobApi from '../api/jobApi'
 
 const rootReducer = combineSlices(
   loginApi,
@@ -16,7 +16,7 @@ const rootReducer = combineSlices(
   dashboardApi,
   whatsappApi,
   recruiterApi,
-  jobApi
+  jobApi,
 )
 
 export type RootState = ReturnType<typeof rootReducer>

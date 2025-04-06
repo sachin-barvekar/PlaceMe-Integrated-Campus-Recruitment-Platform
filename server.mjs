@@ -44,7 +44,7 @@ app.use(express.json())
 app.use('/api/v1', userRoutes)
 
 // Serve Static Files
-const clientPath = path.join(__dirname, 'client', 'build')
+const clientPath = path.join(__dirname, 'client', 'dist')
 
 app.use(express.static(clientPath))
 

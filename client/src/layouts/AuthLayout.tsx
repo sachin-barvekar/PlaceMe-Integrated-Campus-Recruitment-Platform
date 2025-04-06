@@ -16,7 +16,7 @@ const AuthLayout: React.FC = () => {
   }, [])
 
   return (
-    <Container className="layout">
+    <Container className='layout'>
       <Header onMenuClick={() => setDrawerOpen(true)} isMobile={isMobile} />
       <Container>
         <SideNav
@@ -24,7 +24,7 @@ const AuthLayout: React.FC = () => {
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
         />
-        <Content className="content">
+        <Content className='content'>
           <Outlet />
         </Content>
       </Container>

@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { format } from 'date-fns'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, JSX } from 'react'
 import { TableProps, RowDataType, RowKeyType } from 'rsuite-table'
-import { Loader } from 'shared/atoms'
+import { Loader } from '../../atoms'
 import TableFooter from '../table/footer/TableFooter'
 import Card from './Card'
 import './CardTable.scss'
-import TextCard from './TextCard'
-import { ReactComponent as NoData } from '../../../assets/images/no-data.svg'
+import NoData from '../../../assets/images/no-data.svg'
 
 export interface Pagination {
-  page: number;
-  limit: number;
+  page: number
+  limit: number
 }
 
 const DEFAULT_PAGE_SIZE = 10
 function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
   props: TableProps<R, K> & {
-    paginated?: boolean,
-    pageSizeOptions?: number[],
-    defaultPageSize?: number,
-    total?: number,
-    loading: boolean,
-    onPageChange?: (page: number, pageSize: number) => void,
-    maxButtons?: number,
-    actionOptions?: string[],
-    onAction?: (eventKey: string | undefined, rowData: any) => void,
-    handleSelection?: (rowData: any) => void,
-    selected?: any[],
-    card?: boolean,
+    paginated?: boolean
+    pageSizeOptions?: number[]
+    defaultPageSize?: number
+    total?: number
+    loading: boolean
+    onPageChange?: (page: number, pageSize: number) => void
+    maxButtons?: number
+    actionOptions?: string[]
+    onAction?: (eventKey: string | undefined, rowData: any) => void
+    handleSelection?: (rowData: any) => void
+    selected?: any[]
+    card?: boolean
     textCard?: boolean
-  }
+  },
 ): JSX.Element {
   const {
     data = [],
@@ -45,7 +44,7 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
     handleSelection,
     selected = [],
     card,
-    textCard
+    textCard,
   } = props
 
   const initialPageSize =
@@ -63,10 +62,7 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
     }
   }
 
-  const handlePageSizeChangeInternal = (
-    value: number | null,
-    _: React.SyntheticEvent
-  ) => {
+  const handlePageSizeChangeInternal = (value: number | null) => {
     if (value !== null) {
       setPageSize(value)
       setCurrentPage(1)
@@ -84,21 +80,20 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
   }, [currentPage, pageSize])
 
   return (
-    <div className="card-container">
+    <div className='card-container'>
       {data.length === 0 && !loading && (
-        <div className="no-data">
+        <div className='no-data'>
           <NoData />
           <div>No Data Found</div>
         </div>
       )}
       {loading && (
-        <div className="card-wrapper loading">{loading && <Loader />}</div>
+        <div className='card-wrapper loading'>{loading && <Loader />}</div>
       )}
       {!loading && data.length >= 1 && (
         <div
-          className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}
-        >
-          {data.map((item) => (
+          className={textCard ? `card-wrapper text-wrapper` : 'card-wrapper'}>
+          {data.map(item => (
             <div key={item.id}>
               {card && (
                 <Card
@@ -113,20 +108,7 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
                   data={item}
                   actionOptions={actionOptions}
                   handleSelection={handleSelection}
-                  selected={selected.some((value) => value.uid === item.uid)}
-                />
-              )}
-              {textCard && (
-                <TextCard
-                  title={item.name}
-                  subtitle={item.cropName}
-                  date={format(new Date(item.createdAt), 'MMMM dd, yyyy')}
-                  totalIncome={item.creditAmountTotal}
-                  totalExpense={item.debitAmountTotal}
-                  onAction={onAction}
-                  handleSelection={handleSelection}
-                  actionOptions={actionOptions}
-                  data={item}
+                  selected={selected.some(value => value.uid === item.uid)}
                 />
               )}
             </div>
@@ -141,11 +123,10 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
           pageSizeOptions={pageSizeOptions}
           onPageChange={handlePageChangeInternal}
           onPageSizeChange={handlePageSizeChangeInternal}
-          maxButtons={maxButtons}
-        >
+          maxButtons={maxButtons}>
           {`${(currentPage - 1) * pageSize + 1}-${Math.min(
             currentPage * pageSize,
-            total
+            total,
           )} of ${total}`}
         </TableFooter>
       )}

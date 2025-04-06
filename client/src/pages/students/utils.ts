@@ -1,13 +1,13 @@
-import { IListApiRequest } from 'api/types'
+import { IListApiRequest } from '../../api/types'
 import { Students, StudentsListParams } from './types'
 
 export const getPaginationQueryParams = (
-  request: IListApiRequest<Students>
+  request: IListApiRequest<Students>,
 ): StudentsListParams => {
   const { filters, page } = request
   const params: StudentsListParams = {
     size: page?.size,
-    page: page?.number ? page.number - 1 : 0
+    page: page?.number ? page.number - 1 : 0,
   }
   if (filters && filters.length > 0) {
     filters.forEach(({ fieldName, fieldValue }) => {

@@ -10,7 +10,7 @@ function AuthGuard({ children }: Readonly<AuthGuardProps>) {
 
   const location = useLocation()
   if (!token) {
-    return <Navigate to="/auth" state={{ from: location }} />
+    return <Navigate to='/auth' state={{ from: location }} />
   }
   return children
 }

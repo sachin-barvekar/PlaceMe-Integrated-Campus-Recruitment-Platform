@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { FormikInputs } from './interfaces'
 import './DOW.scss'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const daysMap: Record<string, string> = {
   '2': 'M',
   '3': 'Tu',
@@ -10,11 +11,12 @@ export const daysMap: Record<string, string> = {
   '5': 'Th',
   '6': 'F',
   '7': 'Sa',
-  '1': 'Su'
+  '1': 'Su',
 }
 
 function DOW<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
   const { formik, name, isDisabled } = props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedValues = (formik?.values as Record<string, any>)[name] || ''
 
   const handleDayClick = (value: string) => {
@@ -32,17 +34,16 @@ function DOW<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
   }
 
   return (
-    <div className="dow-container">
+    <div className='dow-container'>
       {Object.entries(daysMap).map(([value, label]) => (
         <button
           key={value}
-          type="button"
+          type='button'
           className={cx('day-button', {
             selectedDay: selectedValues.split(',').includes(value),
-            disabledDay: isDisabled
+            disabledDay: isDisabled,
           })}
-          onClick={() => !isDisabled && handleDayClick(value)}
-        >
+          onClick={() => !isDisabled && handleDayClick(value)}>
           {label}
         </button>
       ))}

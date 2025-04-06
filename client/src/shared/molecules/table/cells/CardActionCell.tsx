@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Dropdown, IconButton, Popover, Whisper } from 'rsuite'
 import { Cell } from 'rsuite-table'
 import { MoreIcon } from '../../../atoms'
 
 type Props = {
-  rowData?: any,
-  dataKey: string,
-  onAction?: (eventKey: string | undefined, rowData: any) => void,
+  rowData?: any
+  dataKey: string
+  onAction?: (eventKey: string | undefined, rowData: any) => void
   actionOptions?: string[]
 }
 
 const defaultProps = {
   rowData: undefined,
   actionOptions: [],
-  onAction: () => {}
+  onAction: () => {},
 }
 
 const defaultOptions = [
@@ -22,18 +23,13 @@ const defaultOptions = [
   { label: 'Delete', eventKey: '3' },
   { label: 'Merge', eventKey: '4' },
   { label: 'Active', eventKey: '5' },
-  { label: 'DeActive', eventKey: '6' }
+  { label: 'DeActive', eventKey: '6' },
 ]
 
-const CardActionCell = ({
-  rowData,
-  dataKey,
-  actionOptions,
-  ...props
-}: Props) => {
+const CardActionCell = ({ rowData, actionOptions, ...props }: Props) => {
   const renderMenu = (
     { onClose, left, top, className }: any,
-    ref: React.RefCallback<HTMLElement>
+    ref: React.RefCallback<HTMLElement>,
   ) => {
     const handleSelect = (eventKey: string | undefined) => {
       if (eventKey && typeof props.onAction === 'function') {
@@ -43,13 +39,13 @@ const CardActionCell = ({
     }
 
     const optionsToDisplay = actionOptions?.length
-      ? defaultOptions.filter((option) => actionOptions.includes(option.label))
+      ? defaultOptions.filter(option => actionOptions.includes(option.label))
       : defaultOptions
 
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Dropdown.Menu onSelect={handleSelect}>
-          {optionsToDisplay.map((option) => (
+          {optionsToDisplay.map(option => (
             <Dropdown.Item key={option.eventKey} eventKey={option.eventKey}>
               {option.label}
             </Dropdown.Item>
@@ -60,9 +56,9 @@ const CardActionCell = ({
   }
 
   return (
-    <Cell {...props} className="link-group">
-      <Whisper placement="bottomEnd" trigger="click" speaker={renderMenu}>
-        <IconButton appearance="subtle" icon={<MoreIcon />} />
+    <Cell {...props} className='link-group'>
+      <Whisper placement='bottomEnd' trigger='click' speaker={renderMenu}>
+        <IconButton appearance='subtle' icon={<MoreIcon />} />
       </Whisper>
     </Cell>
   )

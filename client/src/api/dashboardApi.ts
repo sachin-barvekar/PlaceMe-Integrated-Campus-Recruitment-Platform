@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const dashboardApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'dashboard',
   tagTypes: ['dashboard-data'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default dashboardApi

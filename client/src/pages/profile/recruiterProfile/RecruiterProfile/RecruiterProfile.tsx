@@ -6,13 +6,13 @@ import {
   FaUserTie,
   FaBuilding,
   FaMapMarkerAlt,
-  FaUser
+  FaUser,
 } from 'react-icons/fa'
 import { Edit as EditIcon } from '@rsuite/icons'
 import '../../Profile.scss'
-import { useGetRecruiterProfileQuery } from 'pages/profile/profileApiSlice'
-import { RecruiterProfileResponse } from 'pages/profile/types'
-import { Loader } from 'shared'
+import { useGetRecruiterProfileQuery } from '../../profileApiSlice'
+import { RecruiterProfileResponse } from '../../types'
+import { Loader } from '../../../../shared'
 import PROFILE from '../../../../assets/images/profile.png'
 import CreateEditRecruiterProfile from '../createEditRecruiterProfile/CreateEditRecruiterProfile'
 
@@ -22,7 +22,7 @@ const RecruiterProfilePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [imgSrc, setImgSrc] = useState<string | undefined>(
-    data?.recruiter?.profilePhoto
+    data?.recruiter?.profilePhoto,
   )
 
   useEffect(() => {
@@ -50,47 +50,46 @@ const RecruiterProfilePage: React.FC = () => {
   }, [data?.profileCompletion])
 
   return (
-    <div className="user-profile">
+    <div className='user-profile'>
       {isFetching && <Loader />}
       {!isFetching && (
         <>
-          <div className="user-profile-header">
-            <div className="user-logo-section">
+          <div className='user-profile-header'>
+            <div className='user-logo-section'>
               <img
                 src={imgSrc}
-                alt="user Logo"
+                alt='user Logo'
                 onError={handleImageError}
-                className="user-logo"
+                className='user-logo'
               />
               <IconButton
-                icon={<EditIcon className="edit-icon" />}
-                appearance="subtle"
-                className="edit-button"
+                icon={<EditIcon className='edit-icon' />}
+                appearance='subtle'
+                className='edit-button'
                 onClick={() => data && handleEditClick(data)}
               />
             </div>
-            <div className="user-name">
-              <span className="user-name-text">
+            <div className='user-name'>
+              <span className='user-name-text'>
                 {data?.recruiter?.companyName ?? '-'}
               </span>
             </div>
           </div>
-          <div className="user-profile-body">
-            <div className="tab-content">
-              <div className="personal-details">
-                <div className="details-grid">
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaBuilding className="icon" />
+          <div className='user-profile-body'>
+            <div className='tab-content'>
+              <div className='personal-details'>
+                <div className='details-grid'>
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaBuilding className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">Company Website</span>
+                    <div className='text'>
+                      <span className='label'>Company Website</span>
                       <a
                         href={data?.recruiter?.companyWebsite}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="value"
-                      >
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='value'>
                         {data?.recruiter?.companyWebsite
                           ? 'Visit Website'
                           : '-'}
@@ -98,62 +97,61 @@ const RecruiterProfilePage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaLinkedin className="icon" />
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaLinkedin className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">LinkedIn Profile</span>
+                    <div className='text'>
+                      <span className='label'>LinkedIn Profile</span>
                       <a
                         href={data?.recruiter?.linkedIn}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="value"
-                      >
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='value'>
                         {data?.recruiter?.linkedIn ? 'View Profile' : '-'}
                       </a>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaMapMarkerAlt className="icon" />
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaMapMarkerAlt className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">Company Address</span>
-                      <span className="value">
+                    <div className='text'>
+                      <span className='label'>Company Address</span>
+                      <span className='value'>
                         {data?.recruiter?.address ?? '-'}
                       </span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaUserTie className="icon" />
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaUserTie className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">About Us</span>
-                      <span className="value">
+                    <div className='text'>
+                      <span className='label'>About Us</span>
+                      <span className='value'>
                         {data?.recruiter?.aboutUs ?? '-'}
                       </span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaUser className="icon" />
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaUser className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">Contact Name</span>
-                      <span className="value">
+                    <div className='text'>
+                      <span className='label'>Contact Name</span>
+                      <span className='value'>
                         {data?.recruiter?.userId?.name ?? '-'}
                       </span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <div className="details-icons">
-                      <FaEnvelope className="icon" />
+                  <div className='detail-item'>
+                    <div className='details-icons'>
+                      <FaEnvelope className='icon' />
                     </div>
-                    <div className="text">
-                      <span className="label">Contact Email</span>
-                      <span className="value">
+                    <div className='text'>
+                      <span className='label'>Contact Email</span>
+                      <span className='value'>
                         {data?.recruiter?.userId?.email ?? '-'}
                       </span>
                     </div>

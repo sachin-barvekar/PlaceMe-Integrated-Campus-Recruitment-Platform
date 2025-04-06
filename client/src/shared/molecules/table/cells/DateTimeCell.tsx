@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Cell } from 'rsuite-table'
 import { format as formatDate, isValid } from 'date-fns'
 
 type DateTimeCellProps = {
-  rowData?: any,
-  dataKey: string,
-  format?: string,
+  rowData?: any
+  dataKey: string
+  format?: string
   onCellClick?: (rowData: any) => void
 }
 
@@ -29,8 +30,7 @@ const DateTimeCell: React.FC<DateTimeCellProps> = ({
         if (onCellClick) {
           onCellClick(rowData)
         }
-      }}
-    >
+      }}>
       {formattedValue}
     </Cell>
   )

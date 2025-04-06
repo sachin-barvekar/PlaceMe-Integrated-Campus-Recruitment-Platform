@@ -1,17 +1,17 @@
 export interface TokenRequest {
-  phoneNumberId: string;
-  whatsappBusinessID: string;
-  code: string;
+  phoneNumberId: string
+  whatsappBusinessID: string
+  code: string
 }
 
 export interface FacebookBusinessResponse {
-  success: boolean;
+  success: boolean
   data: {
-    id: string,
-    name: string,
+    id: string
+    name: string
     owner_business_info: {
-      name: string,
+      name: string
       id: string
     }
-  };
+  }
 }

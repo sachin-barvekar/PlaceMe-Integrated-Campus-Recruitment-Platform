@@ -6,12 +6,12 @@ import './toolbar.scss'
 import { Button } from '../../atoms'
 
 interface Props {
-  options: { label: string, value: string, onClick: () => void }[];
-  buttonName?: string;
-  onButtonClick?: () => void;
-  total?: number;
-  onSearchChange?: (value: string) => void;
-  searchPlaceholder?: string;
+  options: { label: string; value: string; onClick: () => void }[]
+  buttonName?: string
+  onButtonClick?: () => void
+  total?: number
+  onSearchChange?: (value: string) => void
+  searchPlaceholder?: string
 }
 
 const Toolbar: React.FC<Props> = ({
@@ -20,7 +20,7 @@ const Toolbar: React.FC<Props> = ({
   onButtonClick,
   total,
   onSearchChange,
-  searchPlaceholder = 'Search'
+  searchPlaceholder = 'Search',
 }) => {
   const [active, setActive] = useState(options[0]?.value)
   const [searchValue, setSearchValue] = useState('')
@@ -44,7 +44,7 @@ const Toolbar: React.FC<Props> = ({
 
   const onNavSelect = (
     activeKey: string,
-    option: { label: string, value: string, onClick: () => void }
+    option: { label: string; value: string; onClick: () => void },
   ) => {
     setActive(activeKey)
     option.onClick()
@@ -59,25 +59,24 @@ const Toolbar: React.FC<Props> = ({
     panelClass += ' only-button'
   }
   return (
-    <div className="toolbar">
-      <div className="toolbar-left">
-        <Nav appearance="subtle" activeKey={active} style={{ marginRight: 10 }}>
-          {options.map((option) => (
+    <div className='toolbar'>
+      <div className='toolbar-left'>
+        <Nav appearance='subtle' activeKey={active} style={{ marginRight: 10 }}>
+          {options.map(option => (
             <Nav.Item
               key={option.value}
               eventKey={option.value}
-              onClick={() => onNavSelect(option.value, option)}
-            >
+              onClick={() => onNavSelect(option.value, option)}>
               {option.label}
             </Nav.Item>
           ))}
         </Nav>
-        <div className="toolbar-totals">Total {total}</div>
+        <div className='toolbar-totals'>Total {total}</div>
       </div>
       <div className={panelClass}>
         {onSearchChange && (
-          <div className="toolbar-search">
-            <InputGroup size="md">
+          <div className='toolbar-search'>
+            <InputGroup size='md'>
               <Input
                 placeholder={searchPlaceholder}
                 onChange={(value: string) => setSearchValue(value)}
@@ -90,11 +89,10 @@ const Toolbar: React.FC<Props> = ({
         )}
         {buttonName && (
           <Button
-            className="toolbar-btn"
-            appearance="primary"
+            className='toolbar-btn'
+            appearance='primary'
             startIcon={<PlusIcon />}
-            onClick={onButtonClick}
-          >
+            onClick={onButtonClick}>
             {buttonName}
           </Button>
         )}

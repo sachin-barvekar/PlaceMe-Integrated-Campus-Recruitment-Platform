@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { notifyError, notifyWarning } from 'utils'
+import { notifyError, notifyWarning } from '../utils'
 
 interface FbAuthProviderReturnType {
   phoneId: string;
@@ -20,6 +20,7 @@ export const FbAuthProvider = (): FbAuthProviderReturnType => {
     }
 
     window.FB.login(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
         if (response.authResponse) {
           setResCode(response.authResponse.code)

@@ -1,7 +1,7 @@
 import { Row as RsuiteRow } from 'rsuite'
 
 type Props = {
-  children: React.ReactNode,
+  children: React.ReactNode
   className?: string
 }
 const Row = ({ children, className }: Props) => {

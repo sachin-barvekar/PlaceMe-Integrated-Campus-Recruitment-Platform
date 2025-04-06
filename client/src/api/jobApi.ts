@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const jobApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'jobApi',
   tagTypes: ['job-list'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default jobApi

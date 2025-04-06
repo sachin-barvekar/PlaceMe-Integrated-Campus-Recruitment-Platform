@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { requestNotificationPermission } from 'utils'
+import { requestNotificationPermission } from '../utils'
 
 const useFCM = () => {
   useEffect(() => {

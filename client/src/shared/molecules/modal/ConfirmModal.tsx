@@ -2,13 +2,13 @@ import React from 'react'
 import { Modal, Button } from 'rsuite'
 
 interface ConfirmModalProps {
-  open: boolean;
-  onClose: () => void;
-  title?: string;
-  message: string;
-  onConfirm: () => void;
-  confirmText?: React.ReactNode;
-  cancelText?: React.ReactNode;
+  open: boolean
+  onClose: () => void
+  title?: string
+  message: string
+  onConfirm: () => void
+  confirmText?: React.ReactNode
+  cancelText?: React.ReactNode
 }
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
@@ -18,10 +18,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   message,
   onConfirm,
   confirmText = 'Yes',
-  cancelText = 'No'
+  cancelText = 'No',
 }) => {
   return (
-    <Modal open={open} onClose={onClose} size="xs">
+    <Modal open={open} onClose={onClose} size='xs'>
       <Modal.Header>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
@@ -29,10 +29,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <span>{message}</span>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onClose} appearance="primary" color="red">
+        <Button onClick={onClose} appearance='primary' color='red'>
           {cancelText}
         </Button>
-        <Button onClick={onConfirm} appearance="primary">
+        <Button onClick={onConfirm} appearance='primary'>
           {confirmText}
         </Button>
       </Modal.Footer>

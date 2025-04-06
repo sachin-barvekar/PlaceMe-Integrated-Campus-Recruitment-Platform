@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const placementApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'placementApi',
   tagTypes: ['placement-list'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default placementApi

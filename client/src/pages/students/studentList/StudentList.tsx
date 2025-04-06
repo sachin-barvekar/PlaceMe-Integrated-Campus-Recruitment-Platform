@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { useTableHandlers } from 'hooks/useTableHandlers'
-import { IListApiRequest } from 'api/types'
+import { useTableHandlers } from '../../../hooks/useTableHandlers'
+import { IListApiRequest } from '../../../api/types'
 import { Table, Toolbar } from '../../../shared'
 import '../../../scss/common/list/List.scss'
 import { Students } from '../types'
@@ -15,7 +15,7 @@ const COLUMNS = [
   { key: 'gender', label: 'Gender', flexGrow: 0.7, minWidth: 100 },
   { key: 'dateOfBirth', label: 'Date of Birth', flexGrow: 0.9, minWidth: 140 },
   { key: 'branch', label: 'Branch', flexGrow: 1, minWidth: 120 },
-  { key: 'address', label: 'Address', flexGrow: 1.8, minWidth: 150 }
+  { key: 'address', label: 'Address', flexGrow: 1.8, minWidth: 150 },
 ]
 
 const StudentList: FC = () => {
@@ -23,9 +23,9 @@ const StudentList: FC = () => {
     useTableHandlers<Students, IListApiRequest<Students>>(
       {
         page: { size: 10, number: 0 },
-        filters: []
+        filters: [],
       },
-      'search'
+      'search',
     )
 
   const { data, isFetching } = useFetchStudentsListQuery(requestBody)
@@ -35,18 +35,18 @@ const StudentList: FC = () => {
     {
       label: 'All Students',
       value: 'all',
-      onClick: () => {}
-    }
+      onClick: () => {},
+    },
   ]
 
   return (
-    <div className="list">
+    <div className='list'>
       <Toolbar
         options={options}
         onSearchChange={onSearchChange}
         total={total ?? 0}
       />
-      <div className="list__main-container">
+      <div className='list__main-container'>
         <Table
           data={data?.content ?? []}
           loading={isFetching}
@@ -55,11 +55,10 @@ const StudentList: FC = () => {
           pageSizeOptions={[10, 20, 30]}
           total={total}
           defaultPageSize={data?.size ?? 10}
-          onPageChange={onPageChange}
-        >
+          onPageChange={onPageChange}>
           <Column flexGrow={0.5} fixed>
             <HeaderCell>Profile</HeaderCell>
-            <ProfileIconCell imgKey="profilePhoto" />
+            <ProfileIconCell imgKey='profilePhoto' />
           </Column>
           {COLUMNS.map((column, index) => {
             const { key, label, flexGrow, minWidth } = column
@@ -70,8 +69,7 @@ const StudentList: FC = () => {
                 flexGrow={flexGrow ?? 1}
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
-                sortable
-              >
+                sortable>
                 <HeaderCell>{label}</HeaderCell>
 
                 <Cell dataKey={key} tooltip />

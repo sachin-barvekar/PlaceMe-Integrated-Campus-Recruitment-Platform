@@ -1,25 +1,25 @@
-import studentApi from 'api/studentApi'
-import { IListApiRequest, IListApiResponse } from 'api/types'
+import studentApi from '../../api/studentApi'
+import { IListApiRequest, IListApiResponse } from '../../api/types'
 import { getPaginationQueryParams } from './utils'
 import { Students } from './types'
 
 const StudentApiSlice = studentApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     fetchStudentsList: build.query<
       IListApiResponse<Students>,
       IListApiRequest<Students>
     >({
-      query: (request) => {
+      query: request => {
         const params = getPaginationQueryParams(request)
         return {
           url: '/students',
           method: 'GET',
-          params
+          params,
         }
       },
-      providesTags: ['student-list']
-    })
-  })
+      providesTags: ['student-list'],
+    }),
+  }),
 })
 
 export const { useFetchStudentsListQuery } = StudentApiSlice

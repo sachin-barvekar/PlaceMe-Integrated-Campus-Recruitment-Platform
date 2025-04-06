@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const loginApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'loginApi',
   tagTypes: ['login', 'notifications'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default loginApi

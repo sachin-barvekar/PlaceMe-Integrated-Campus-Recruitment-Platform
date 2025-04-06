@@ -12,6 +12,7 @@ function TextInput<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
     ...rest
   } = props
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fieldValue = (formik?.values as Record<string, any>)[name] ?? ''
 
   return (

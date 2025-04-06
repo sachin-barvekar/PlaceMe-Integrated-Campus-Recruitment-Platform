@@ -13,7 +13,6 @@ const Logout = () => {
           await authContext.logout()
         }
       } catch (error) {
-        // eslint-disable-next-line
         console.error('Logout failed', error)
       } finally {
         navigate('/auth')

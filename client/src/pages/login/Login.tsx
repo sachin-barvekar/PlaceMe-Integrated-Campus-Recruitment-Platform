@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { SelectPicker } from 'rsuite'
-import { notifyError } from 'utils'
+import { notifyError } from '../../utils'
 import { Button, Loader } from '../../shared'
 import { AuthContext } from '../../contexts/AuthContext'
 import { LOGO, LOGIN } from '../../assets/images'
@@ -12,7 +12,7 @@ import PasskeyModal from './PassKey'
 const roles = [
   { label: 'Admin', value: 'admin' },
   { label: 'Student', value: 'student' },
-  { label: 'Recruiter', value: 'recruiter' }
+  { label: 'Recruiter', value: 'recruiter' },
 ]
 
 function LoginPage() {
@@ -25,7 +25,7 @@ function LoginPage() {
     return <Loader />
   }
   if (authContext?.user) {
-    return <Navigate to="/profile" />
+    return <Navigate to='/profile' />
   }
 
   const handleLogin = async () => {
@@ -45,6 +45,7 @@ function LoginPage() {
     try {
       await authContext.login()
       navigate('/')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       notifyError('Login Failed')
     }
@@ -61,28 +62,28 @@ function LoginPage() {
   }
 
   return (
-    <div className="login_page">
-      <div className="left_side">
-        <img src={LOGIN} className="networkLogo__logo" alt="networkLogo" />
+    <div className='login_page'>
+      <div className='left_side'>
+        <img src={LOGIN} className='networkLogo__logo' alt='networkLogo' />
       </div>
-      <div className="right_side">
-        <div className="innner_box">
+      <div className='right_side'>
+        <div className='innner_box'>
           <h1>Welcome</h1>
           <span>to</span>
 
-          <img src={LOGO} className="placeme_logo" alt="placeMe Logo" />
+          <img src={LOGO} className='placeme_logo' alt='placeMe Logo' />
           <SelectPicker
             data={roles}
             searchable={false}
             style={{ width: 224, marginBottom: 20 }}
-            placeholder="Select Role"
-            onChange={(value) => authContext?.setRole(value)}
+            placeholder='Select Role'
+            onChange={value => authContext?.setRole(value)}
             value={authContext?.role}
             block
           />
-          <Button onClick={handleLogin} appearance="primary">
+          <Button onClick={handleLogin} appearance='primary'>
             Login with
-            <img src={GoogleLogo} className="google_logo" alt="google_logo" />
+            <img src={GoogleLogo} className='google_logo' alt='google_logo' />
           </Button>
         </div>
       </div>

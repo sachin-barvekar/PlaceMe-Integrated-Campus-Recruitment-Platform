@@ -1,16 +1,15 @@
-// eslint-disable-next-line
 declare global {
     interface Window {
         fbAsyncInit: () => void,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         FB: any
     }
 }
 
-export const fbAppId = process.env.REACT_APP_FACEBOOK_APP_ID;
+export const fbAppId = import.meta.env.REACT_APP_FACEBOOK_APP_ID;
 
 export const initFacebookSDK = () => {
     return new Promise<void>((resolve) => {
-        // eslint-disable-next-line
         window.fbAsyncInit = function () {
             window.FB.init({
                 appId: fbAppId,

@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const profileApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'profileApi',
   tagTypes: ['student-profile', 'admin-profile', 'recruiter-profile'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default profileApi

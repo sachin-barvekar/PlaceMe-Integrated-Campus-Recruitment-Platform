@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { PieChart as RsuitePieChart } from '@rsuite/charts'
 
 interface PieChartProps {
-  data: Array<any>;
+  data: Array<any>
 }
 
 const PieChart: React.FC<PieChartProps> = ({ data = [], ...rest }) => {
@@ -24,7 +25,7 @@ const PieChart: React.FC<PieChartProps> = ({ data = [], ...rest }) => {
   const chartData = processData(data)
 
   return (
-    <div className="pie-chart-container">
+    <div className='pie-chart-container'>
       <RsuitePieChart
         data={chartData}
         {...rest}

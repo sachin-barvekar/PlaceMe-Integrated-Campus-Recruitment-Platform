@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const studentApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'studentApi',
   tagTypes: ['student-list'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default studentApi

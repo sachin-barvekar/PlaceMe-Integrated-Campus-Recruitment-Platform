@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { BarChart as RsuiteBarChart } from '@rsuite/charts'
 
 interface BarChartProps {
-  data: Array<any>;
+  data: Array<any>
 }
 
 const BarChart: React.FC<BarChartProps> = ({ data = [], ...rest }) => {
@@ -25,7 +26,7 @@ const BarChart: React.FC<BarChartProps> = ({ data = [], ...rest }) => {
   const chartData = processData(data)
 
   return (
-    <div className="pie-chart-container">
+    <div className='pie-chart-container'>
       <RsuiteBarChart data={chartData} {...rest} />
     </div>
   )

@@ -10,8 +10,7 @@ const Button: FC<ButtonProps> = ({
   return (
     <RsuiteButton
       {...props}
-      className={className ? `button ${className}` : 'button'}
-    >
+      className={className ? `button ${className}` : 'button'}>
       {children}
     </RsuiteButton>
   )

@@ -1,5 +1,5 @@
-import { IListApiRequest, IListApiResponse } from 'api/types'
-import jobApi from 'api/jobApi'
+import { IListApiRequest, IListApiResponse } from '../../api/types'
+import jobApi from '../../api/jobApi'
 import { Job } from './types'
 import { getPaginationQueryParams } from './utils'
 
@@ -16,6 +16,7 @@ const jobApiSlice = jobApi.injectEndpoints({
       },
       providesTags: ['job-list']
     }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchJobDetailsById: build.query<any, { jobId: string | undefined }>({
       query: (jobId) => {
         return {
@@ -37,7 +38,6 @@ const jobApiSlice = jobApi.injectEndpoints({
       providesTags: ['job-list']
     }),
     createJob: build.mutation<void, Job>({
-      // eslint-disable-next-line
       query: (Job) => {
         return {
           url: `/jobs/create`,
@@ -47,12 +47,9 @@ const jobApiSlice = jobApi.injectEndpoints({
       },
       invalidatesTags: ['job-list']
     }),
-    // eslint-disable-next-line
     updateJob: build.mutation<void, Job>({
-      // eslint-disable-next-line
       query: (Job) => {
         return {
-          // eslint-disable-next-line
           url: `/jobs/edit/${Job?._id}`,
           method: 'PUT',
           data: Job

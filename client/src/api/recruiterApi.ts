@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const recruiterApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'recruiterApi',
   tagTypes: ['recruiter-list'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default recruiterApi

@@ -2,39 +2,39 @@ import * as Yup from 'yup'
 import {
   AdminProfileResponse,
   RecruiterProfileResponse,
-  StudentProfileResponse
+  StudentProfileResponse,
 } from './types'
 
 export enum Tabs {
   PERSONAL = 'personal',
   ACADEMIC = 'academic',
-  MY_RESUME = 'resume'
+  MY_RESUME = 'resume',
 }
 
 export const genderOptions = [
   { label: 'Male', value: 'Male' },
   { label: 'Female', value: 'Female' },
-  { label: 'Other', value: 'Other' }
+  { label: 'Other', value: 'Other' },
 ]
 
 export const positionOptions = [
   { label: 'TPO', value: 'TPO' },
   { label: 'Assistant TPO', value: 'Assistant TPO' },
-  { label: 'FACULTY', value: 'FACULTY' }
+  { label: 'FACULTY', value: 'FACULTY' },
 ]
 
 export const level = [
   { label: 'SSC', value: 'SSC' },
   { label: 'HSC', value: 'HSC' },
   { label: 'DIPLOMA', value: 'DIPLOMA' },
-  { label: 'BE', value: 'BE' }
+  { label: 'BE', value: 'BE' },
 ]
 
 export const Branch = [
   { label: 'Computer Science', value: 'Computer Science' },
   { label: 'ENTC', value: 'ENTC' },
   { label: 'Mechanical', value: 'Mechanical' },
-  { label: 'Civil', value: 'Civil' }
+  { label: 'Civil', value: 'Civil' },
 ]
 
 export enum STUDENT_FORM_FIELDS {
@@ -47,32 +47,32 @@ export enum STUDENT_FORM_FIELDS {
   ACADEMIC_DETAILS = 'academicDetails',
   SKILLS = 'skills',
   LINKEDIN = 'linkedIn',
-  GITHUB = 'github'
+  GITHUB = 'github',
 }
 
 export enum ACADEMIC_DETAILS {
   LEVEL = 'level',
   INSTITUTION_NAME = 'institutionName',
   MARKS = 'marks',
-  PASSING_YEAR = 'passingYear'
+  PASSING_YEAR = 'passingYear',
 }
 
 export interface IStudentForm {
-  [STUDENT_FORM_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null;
-  [STUDENT_FORM_FIELDS.MOBILE]: string;
-  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: Date | undefined | string;
-  [STUDENT_FORM_FIELDS.BRANCH]: string;
-  [STUDENT_FORM_FIELDS.ADDRESS]: string;
-  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: string | undefined;
+  [STUDENT_FORM_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null
+  [STUDENT_FORM_FIELDS.MOBILE]: string
+  [STUDENT_FORM_FIELDS.DATE_OF_BIRTH]: Date | undefined | string
+  [STUDENT_FORM_FIELDS.BRANCH]: string
+  [STUDENT_FORM_FIELDS.ADDRESS]: string
+  [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: string | undefined
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: {
-    level: 'SSC' | 'HSC' | 'BE' | 'DIPLOMA',
-    institutionName: string,
-    marks: number | null,
+    level: 'SSC' | 'HSC' | 'BE' | 'DIPLOMA'
+    institutionName: string
+    marks: number | null
     passingYear: number | null
-  }[];
-  [STUDENT_FORM_FIELDS.SKILLS]: string;
-  [STUDENT_FORM_FIELDS.LINKEDIN]: string;
-  [STUDENT_FORM_FIELDS.GITHUB]: string;
+  }[]
+  [STUDENT_FORM_FIELDS.SKILLS]: string
+  [STUDENT_FORM_FIELDS.LINKEDIN]: string
+  [STUDENT_FORM_FIELDS.GITHUB]: string
 }
 
 export const defaultStudentFormValues: IStudentForm = {
@@ -83,14 +83,14 @@ export const defaultStudentFormValues: IStudentForm = {
   [STUDENT_FORM_FIELDS.ADDRESS]: '',
   [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: undefined,
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: [
-    { level: 'SSC', institutionName: '', marks: null, passingYear: null }
+    { level: 'SSC', institutionName: '', marks: null, passingYear: null },
   ],
   [STUDENT_FORM_FIELDS.SKILLS]: '',
   [STUDENT_FORM_FIELDS.LINKEDIN]: '',
-  [STUDENT_FORM_FIELDS.GITHUB]: ''
+  [STUDENT_FORM_FIELDS.GITHUB]: '',
 }
 export const getInitialProfileFormValueFromResponse = (
-  profile: StudentProfileResponse
+  profile: StudentProfileResponse,
 ): IStudentForm => ({
   [STUDENT_FORM_FIELDS.GENDER]: profile?.student?.gender ?? null,
   [STUDENT_FORM_FIELDS.MOBILE]: profile?.student?.mobile ?? '',
@@ -101,17 +101,18 @@ export const getInitialProfileFormValueFromResponse = (
   [STUDENT_FORM_FIELDS.PROFILE_PHOTO]:
     profile?.student?.profilePhoto ?? undefined,
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]:
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     profile?.student?.academicDetails?.map((detail: any) => ({
       level: detail.level ?? '',
       institutionName: detail.institutionName ?? '',
       marks: detail.marks ?? null,
-      passingYear: detail.passingYear ?? null
+      passingYear: detail.passingYear ?? null,
     })) ?? [
-      { level: 'SSC', institutionName: '', marks: null, passingYear: null }
+      { level: 'SSC', institutionName: '', marks: null, passingYear: null },
     ],
   [STUDENT_FORM_FIELDS.SKILLS]: profile?.student?.skills ?? '',
   [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.student?.linkedIn ?? '',
-  [STUDENT_FORM_FIELDS.GITHUB]: profile?.student?.github ?? ''
+  [STUDENT_FORM_FIELDS.GITHUB]: profile?.student?.github ?? '',
 })
 
 export const studentValidationSchema = () => {
@@ -134,7 +135,7 @@ export const studentValidationSchema = () => {
       .max(255, 'Address cannot exceed 255 characters'),
 
     [STUDENT_FORM_FIELDS.PROFILE_PHOTO]: Yup.mixed().required(
-      'Profile Picture is required'
+      'Profile Picture is required',
     ),
 
     [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: Yup.array()
@@ -159,12 +160,12 @@ export const studentValidationSchema = () => {
             .min(1950, 'Invalid year')
             .max(new Date().getFullYear(), 'Year cannot be in the future')
             .typeError('Passing year must be a number')
-            .required('Passing year is required')
-        })
+            .required('Passing year is required'),
+        }),
       )
       .min(
         3,
-        'At least three academic details are required. Please click to add button to further add other academic details.'
+        'At least three academic details are required. Please click to add button to further add other academic details.',
       ),
 
     [STUDENT_FORM_FIELDS.SKILLS]: Yup.string()
@@ -176,21 +177,21 @@ export const studentValidationSchema = () => {
       .test(
         'is-valid-linkedin-url',
         'Invalid LinkedIn profile URL. Ensure it starts with https://',
-        (value) => !value || value.startsWith('https://')
+        value => !value || value.startsWith('https://'),
       )
       .test(
         'has-www',
         'URL should contain "www."',
-        (value) => !value || /^(https?:\/\/)?(www\.)/.test(value)
+        value => !value || /^(https?:\/\/)?(www\.)/.test(value),
       )
       .test(
         'has-profile',
         'URL should contain a profile name after "linkedin.com/in/"',
-        (value) => !value || /\/in\/[a-zA-Z0-9_-]+/.test(value)
+        value => !value || /\/in\/[a-zA-Z0-9_-]+/.test(value),
       )
       .matches(
         /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/,
-        'Invalid LinkedIn profile URL'
+        'Invalid LinkedIn profile URL',
       ),
 
     [STUDENT_FORM_FIELDS.GITHUB]: Yup.string()
@@ -198,17 +199,17 @@ export const studentValidationSchema = () => {
       .test(
         'is-valid-github-url',
         'Invalid GitHub profile URL. Ensure it starts with https://',
-        (value) => !value || value.startsWith('https://')
+        value => !value || value.startsWith('https://'),
       )
       .test(
         'has-profile',
         'URL should contain a profile name after "github.com/"',
-        (value) => !value || /\/[a-zA-Z0-9-_]+/.test(value)
+        value => !value || /\/[a-zA-Z0-9-_]+/.test(value),
       )
       .matches(
         /^(https?:\/\/)?github\.com\/[a-zA-Z0-9-_]+$/,
-        'Invalid GitHub profile URL'
-      )
+        'Invalid GitHub profile URL',
+      ),
   })
 }
 
@@ -219,16 +220,16 @@ export enum ADMIN_PROFILE_FIELDS {
   LINKEDIN = 'linkedIn',
   COLLEGE_NAME = 'collegeName',
   COLLEGE_ADDRESS = 'collegeAddress',
-  PROFILE_PHOTO = 'profilePhoto'
+  PROFILE_PHOTO = 'profilePhoto',
 }
 
 export type IAdminProfile = {
-  [ADMIN_PROFILE_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null,
-  [ADMIN_PROFILE_FIELDS.MOBILE]: string,
-  [ADMIN_PROFILE_FIELDS.POSITION]: 'TPO' | 'Assistant TPO' | 'FACULTY' | null,
-  [STUDENT_FORM_FIELDS.LINKEDIN]: string,
-  [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: string,
-  [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: string,
+  [ADMIN_PROFILE_FIELDS.GENDER]: 'Male' | 'Female' | 'Other' | null
+  [ADMIN_PROFILE_FIELDS.MOBILE]: string
+  [ADMIN_PROFILE_FIELDS.POSITION]: 'TPO' | 'Assistant TPO' | 'FACULTY' | null
+  [STUDENT_FORM_FIELDS.LINKEDIN]: string
+  [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: string
+  [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: string
   [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: string
 }
 
@@ -239,11 +240,11 @@ export const defaultAdminProfileValues: IAdminProfile = {
   [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: '',
   [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: '',
   [ADMIN_PROFILE_FIELDS.GENDER]: null,
-  [STUDENT_FORM_FIELDS.LINKEDIN]: ''
+  [STUDENT_FORM_FIELDS.LINKEDIN]: '',
 }
 
 export const getInitialAdminProfileFromResponse = (
-  profile: AdminProfileResponse
+  profile: AdminProfileResponse,
 ): IAdminProfile => ({
   [ADMIN_PROFILE_FIELDS.POSITION]: profile?.admin?.position ?? null,
   [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: profile?.admin?.profilePhoto ?? '',
@@ -251,7 +252,7 @@ export const getInitialAdminProfileFromResponse = (
   [ADMIN_PROFILE_FIELDS.COLLEGE_NAME]: profile?.admin?.collegeName ?? '',
   [ADMIN_PROFILE_FIELDS.COLLEGE_ADDRESS]: profile?.admin?.collegeAddress ?? '',
   [ADMIN_PROFILE_FIELDS.GENDER]: profile?.admin?.gender ?? null,
-  [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.admin?.linkedIn ?? ''
+  [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.admin?.linkedIn ?? '',
 })
 
 export const adminProfileValidationSchema = () => {
@@ -260,7 +261,7 @@ export const adminProfileValidationSchema = () => {
       .oneOf(['Male', 'Female', 'Other'], 'Invalid gender')
       .required('Gender is required'),
     [ADMIN_PROFILE_FIELDS.POSITION]: Yup.string().required(
-      'Position is required'
+      'Position is required',
     ),
     [ADMIN_PROFILE_FIELDS.MOBILE]: Yup.string()
       .required('Mobile number is required')
@@ -278,25 +279,25 @@ export const adminProfileValidationSchema = () => {
       .test(
         'is-valid-linkedin-url',
         'Invalid LinkedIn profile URL. Ensure it starts with https://',
-        (value) => !value || value.startsWith('https://')
+        value => !value || value.startsWith('https://'),
       )
       .test(
         'has-www',
         'URL should contain "www."',
-        (value) => !value || /^(https?:\/\/)?(www\.)/.test(value)
+        value => !value || /^(https?:\/\/)?(www\.)/.test(value),
       )
       .test(
         'has-profile',
         'URL should contain a profile name after "linkedin.com/in/"',
-        (value) => !value || /\/in\/[a-zA-Z0-9_-]+/.test(value)
+        value => !value || /\/in\/[a-zA-Z0-9_-]+/.test(value),
       )
       .matches(
         /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/,
-        'Invalid LinkedIn profile URL'
+        'Invalid LinkedIn profile URL',
       ),
     [ADMIN_PROFILE_FIELDS.PROFILE_PHOTO]: Yup.mixed().required(
-      'Profile Picture is required'
-    )
+      'Profile Picture is required',
+    ),
   })
 }
 
@@ -306,15 +307,15 @@ export enum RECRUITER_PROFILE_FIELDS {
   COMPANY_WEBSITE = 'companyWebsite',
   LINKEDIN = 'linkedIn',
   PROFILE_PHOTO = 'profilePhoto',
-  ADDRESS = 'address'
+  ADDRESS = 'address',
 }
 
 export type IRecruiterProfile = {
-  [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]: string,
-  [RECRUITER_PROFILE_FIELDS.ABOUT_US]: string,
-  [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: string,
-  [RECRUITER_PROFILE_FIELDS.LINKEDIN]: string,
-  [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: string,
+  [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]: string
+  [RECRUITER_PROFILE_FIELDS.ABOUT_US]: string
+  [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: string
+  [RECRUITER_PROFILE_FIELDS.LINKEDIN]: string
+  [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: string
   [RECRUITER_PROFILE_FIELDS.ADDRESS]: string
 }
 
@@ -324,11 +325,11 @@ export const defaultRecruiterProfileValues: IRecruiterProfile = {
   [RECRUITER_PROFILE_FIELDS.COMPANY_WEBSITE]: '',
   [RECRUITER_PROFILE_FIELDS.LINKEDIN]: '',
   [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: '',
-  [RECRUITER_PROFILE_FIELDS.ADDRESS]: ''
+  [RECRUITER_PROFILE_FIELDS.ADDRESS]: '',
 }
 
 export const getInitialRecruiterProfileFromResponse = (
-  profile: RecruiterProfileResponse
+  profile: RecruiterProfileResponse,
 ): IRecruiterProfile => ({
   [RECRUITER_PROFILE_FIELDS.COMPANY_NAME]:
     profile?.recruiter?.companyName ?? '',
@@ -338,7 +339,7 @@ export const getInitialRecruiterProfileFromResponse = (
   [RECRUITER_PROFILE_FIELDS.LINKEDIN]: profile?.recruiter?.linkedIn ?? '',
   [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]:
     profile?.recruiter?.profilePhoto ?? '',
-  [RECRUITER_PROFILE_FIELDS.ADDRESS]: profile?.recruiter?.address ?? ''
+  [RECRUITER_PROFILE_FIELDS.ADDRESS]: profile?.recruiter?.address ?? '',
 })
 
 export const recruiterProfileValidationSchema = () => {
@@ -355,19 +356,19 @@ export const recruiterProfileValidationSchema = () => {
       .nullable()
       .matches(
         /^(https?:\/\/)?([\w\d.-]+)\.([a-z.]{2,6})(\/[\w\d@:%_+.~#?&//=]*)?$/,
-        'Invalid company website URL'
+        'Invalid company website URL',
       ),
 
     [RECRUITER_PROFILE_FIELDS.LINKEDIN]: Yup.string()
       .nullable()
       .matches(
         /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/,
-        'Invalid LinkedIn profile URL'
+        'Invalid LinkedIn profile URL',
       ),
     [RECRUITER_PROFILE_FIELDS.PROFILE_PHOTO]: Yup.mixed().nullable(),
     [RECRUITER_PROFILE_FIELDS.ADDRESS]: Yup.string()
       .required('Address is required')
       .min(2, 'Address at least 2 characters')
-      .max(255, 'Address cannot exceed 255 characters')
+      .max(255, 'Address cannot exceed 255 characters'),
   })
 }

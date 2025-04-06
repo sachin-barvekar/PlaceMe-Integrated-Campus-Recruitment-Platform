@@ -4,11 +4,11 @@ import { baseUrl } from './axiosInstance'
 
 const whatsappApi = createApi({
   baseQuery: axiosBaseQuery({
-    baseUrl
+    baseUrl,
   }),
   reducerPath: 'whatsappApi',
   tagTypes: ['whatsapp-config'],
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export default whatsappApi

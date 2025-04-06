@@ -7,14 +7,10 @@ type RowData = {
 }
 
 type StatusCellProps = {
-  rowData?: RowData,
-  dataKey: string,
-  posDataLabel?: string,
+  rowData?: RowData
+  dataKey: string
+  posDataLabel?: string
   negDataLabel?: string
-}
-
-const defaultProps = {
-  rowData: undefined
 }
 
 const activeLabels = ['Active', 'Live', true, 'Yes']
@@ -22,17 +18,17 @@ const activeLabels = ['Active', 'Live', true, 'Yes']
 const activeStyle = {
   backgroundColor: '#ECFDF3',
   color: '#14BA6D',
-  padding: '3px 10px 3px 5px'
+  padding: '3px 10px 3px 5px',
 }
 
 const inactiveStyle = {
   backgroundColor: '#F2F4F7',
   color: '#6C778B',
-  padding: '3px 10px 3px 5px'
+  padding: '3px 10px 3px 5px',
 }
 
 const StatusCell: React.FC<StatusCellProps> = ({
-  rowData,
+  rowData = undefined,
   dataKey,
   posDataLabel,
   negDataLabel,
@@ -48,11 +44,10 @@ const StatusCell: React.FC<StatusCellProps> = ({
         content={
           <>
             <Badge
-              style={
-                isActive
-                  ? { backgroundColor: '#14BA6D', margin: '0 7px' }
-                  : { backgroundColor: '#6C778B', margin: '0 7px' }
-              }
+              style={{
+                backgroundColor: isActive ? '#14BA6D' : '#6C778B',
+                margin: '0 7px',
+              }}
             />
             {isActive ? posDataLabel : negDataLabel || label}
           </>
@@ -61,7 +56,5 @@ const StatusCell: React.FC<StatusCellProps> = ({
     </Cell>
   )
 }
-
-StatusCell.defaultProps = defaultProps
 
 export default StatusCell

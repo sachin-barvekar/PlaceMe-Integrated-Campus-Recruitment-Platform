@@ -1,21 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Button } from 'rsuite'
 import './CardTable.scss'
 import { CardActionCell } from '../table/cells'
 
 interface CardProps {
-  imageUrl: string;
-  name: string;
-  Branch: string;
-  CompanyName: string;
-  Designation: string;
-  Package: string;
-  CompanyLocation: string;
-  onAction?: (eventKey: string | undefined, rowData: any) => void;
-  data?: any;
-  actionOptions?: string[];
-  handleSelection?: (rowData: any) => void;
-  selected?: boolean;
+  imageUrl: string
+  name: string
+  Branch: string
+  CompanyName: string
+  Designation: string
+  Package: string
+  CompanyLocation: string
+  onAction?: (eventKey: string | undefined, rowData: any) => void
+  data?: any
+  actionOptions?: string[]
+  handleSelection?: (rowData: any) => void
+  selected?: boolean
 }
 
 const Card: React.FC<CardProps> = ({
@@ -30,15 +31,15 @@ const Card: React.FC<CardProps> = ({
   actionOptions,
   CompanyLocation,
   handleSelection,
-  selected = false
+  selected = false,
 }) => {
   return (
     <div className={`card ${selected ? 'selected' : ''}`}>
-      <div className="card-header">
+      <div className='card-header'>
         <img src={imageUrl} alt={name} />
       </div>
 
-      <div className="card-body">
+      <div className='card-body'>
         <h3>{name}</h3>
         <p>{Branch}</p>
         <p>Company: {CompanyName ?? '-'}</p>
@@ -47,20 +48,19 @@ const Card: React.FC<CardProps> = ({
         <p>Package: {Package ?? '-'}</p>
         {handleSelection && (
           <Button
-            className="select-button"
+            className='select-button'
             onClick={() => {
               handleSelection(data)
-            }}
-          >
+            }}>
             {selected ? 'Deselect' : 'Select'}
           </Button>
         )}
       </div>
       {actionOptions && (
-        <div className="card-action">
+        <div className='card-action'>
           <CardActionCell
             rowData={data}
-            dataKey="action"
+            dataKey='action'
             onAction={onAction}
             actionOptions={actionOptions}
           />

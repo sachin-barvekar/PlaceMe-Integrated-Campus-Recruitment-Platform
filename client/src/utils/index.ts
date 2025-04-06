@@ -1,52 +1,53 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToastOptions, toast } from 'react-toastify'
-import { jwtDecode } from 'jwt-decode'
 import { messaging, getToken } from '../config/firebase'
+import { JSX } from 'react'
 
 export const notifySuccess = (
   message: string | JSX.Element,
-  options?: ToastOptions<unknown> | undefined
+  options?: ToastOptions<unknown> | undefined,
 ) =>
   toast.success(message, {
     ...options,
     containerId: options?.containerId ?? 'default',
-    autoClose: 3000
+    autoClose: 3000,
   })
 
 export const notifyInfo = (
   message: string | JSX.Element,
-  options?: ToastOptions<unknown> | undefined
+  options?: ToastOptions<unknown> | undefined,
 ) =>
   toast.info(message, {
     ...options,
     containerId: options?.containerId ?? 'default',
-    autoClose: 3000
+    autoClose: 3000,
   })
 
 export const notifyWarning = (
   message: string | JSX.Element,
-  options?: ToastOptions<unknown> | undefined
+  options?: ToastOptions<unknown> | undefined,
 ) =>
   toast.warning(message, {
     ...options,
     containerId: options?.containerId ?? 'default',
-    autoClose: 3000
+    autoClose: 3000,
   })
 
 export const notifyError = (
   message: string | JSX.Element,
-  options?: ToastOptions<unknown> | undefined
+  options?: ToastOptions<unknown> | undefined,
 ) =>
   toast.error(message, {
     ...options,
     containerId: options?.containerId ?? 'default',
-    autoClose: 3000
+    autoClose: 3000,
   })
 
 export interface FileObject {
-  blobFile: File;
-  name: string;
-  status: string;
-  fileKey: string;
+  blobFile: File
+  name: string
+  status: string
+  fileKey: string
 }
 
 export function isFileObject(value: any): value is FileObject {
@@ -55,7 +56,7 @@ export function isFileObject(value: any): value is FileObject {
 
 export function previewFile(
   file: Blob | undefined,
-  callback: { (value: any): void, (arg0: string | ArrayBuffer | null): void }
+  callback: { (value: any): void; (arg0: string | ArrayBuffer | null): void },
 ) {
   const reader = new FileReader()
   reader.onloadend = () => {
@@ -66,21 +67,6 @@ export function previewFile(
   }
 }
 
-export const decodeToken = (token: string): Record<string, any> | null => {
-  try {
-    return jwtDecode(token)
-  } catch (error) {
-    return null
-  }
-}
-
-export const isTokenExpired = (token: string): boolean => {
-  const decoded = decodeToken(token)
-  if (!decoded || !decoded.exp) return true
-  const currentTime = Date.now() / 1000
-  return decoded.exp < currentTime
-}
-
 export const requestNotificationPermission = async (): Promise<
   string | null
 > => {
@@ -88,11 +74,12 @@ export const requestNotificationPermission = async (): Promise<
     const permission = await Notification.requestPermission()
     if (permission === 'granted') {
       const token = await getToken(messaging, {
-        vapidKey: process.env.REACT_APP_VAPID_KEY
+        vapidKey: process.env.REACT_APP_VAPID_KEY,
       })
       return token
     }
     return null
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return null
   }

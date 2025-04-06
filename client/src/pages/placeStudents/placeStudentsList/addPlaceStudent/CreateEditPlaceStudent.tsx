@@ -2,22 +2,22 @@ import React, { useMemo } from 'react'
 import { ButtonToolbar, Col } from 'rsuite'
 import { Formik, Form, FormikHelpers, FormikProps } from 'formik'
 import '../../../../scss/common/forms/Form.scss'
-import { Placement } from 'pages/placeStudents/types'
-import { useFetchStudentsListQuery } from 'pages/students/studentListApiSlice'
+import { Placement } from '../../types'
+import { useFetchStudentsListQuery } from '../../../students/studentListApiSlice'
 import {
   useCreatePlacementMutation,
-  useUpdatePlacementMutation
-} from 'pages/placeStudents/placeStudentApiSlice'
-import { IListApiRequest } from 'api/types'
-import { useTableHandlers } from 'hooks/useTableHandlers'
-import { Students } from 'pages/students/types'
+  useUpdatePlacementMutation,
+} from '../../placeStudentApiSlice'
+import { IListApiRequest } from '../../../../api/types'
+import { useTableHandlers } from '../../../../hooks/useTableHandlers'
+import { Students } from '../../../students/types'
 import { notifyError, notifySuccess } from '../../../../utils'
 import {
   defaultPlacementFormValues,
   getInitialPlacementFormValueFromResponse,
   IPlacementForm,
   PLACEMENT_FORM_FIELDS,
-  placementValidationSchema
+  placementValidationSchema,
 } from '../../utils'
 
 import {
@@ -28,13 +28,13 @@ import {
   TextInput,
   Modal,
   SelectDropdown,
-  Panel
+  Panel,
 } from '../../../../shared'
 
 type Props = {
-  isOpen: boolean,
-  onClose: () => void,
-  placementData?: Placement | undefined,
+  isOpen: boolean
+  onClose: () => void
+  placementData?: Placement | undefined
   isEditMode: boolean
 }
 
@@ -42,7 +42,7 @@ const CreateEditPlacement: React.FC<Props> = ({
   isOpen,
   onClose,
   placementData,
-  isEditMode
+  isEditMode,
 }) => {
   const {
     STUDENT_NAME,
@@ -50,22 +50,22 @@ const CreateEditPlacement: React.FC<Props> = ({
     COMPANY_NAME,
     JOB_ROLE,
     LOCATION,
-    PACKAGE
+    PACKAGE,
   } = PLACEMENT_FORM_FIELDS
 
   const { requestBody } = useTableHandlers<Students, IListApiRequest<Students>>(
     {
       page: { size: Number.MAX_SAFE_INTEGER, number: 0 },
-      filters: []
-    }
+      filters: [],
+    },
   )
   const { data } = useFetchStudentsListQuery(requestBody)
 
   const studentData =
-    data?.content?.map((student) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?.content?.map((student: { userId: { name: any; _id: any } }) => ({
       label: student.userId.name,
-      // eslint-disable-next-line
-      value: student?.userId._id
+      value: student?.userId._id,
     })) || []
 
   const [createPlacement] = useCreatePlacementMutation()
@@ -79,10 +79,9 @@ const CreateEditPlacement: React.FC<Props> = ({
   }, [placementData])
   const onSubmit = async (
     formValues: IPlacementForm,
-    { setSubmitting }: FormikHelpers<IPlacementForm>
+    { setSubmitting }: FormikHelpers<IPlacementForm>,
   ) => {
     const placementDTO: Placement = {
-      // eslint-disable-next-line
       _id: placementData?._id ?? undefined,
       companyName: formValues.companyName ?? '',
       jobRole: formValues.jobRole ?? '',
@@ -91,7 +90,7 @@ const CreateEditPlacement: React.FC<Props> = ({
       studentId: formValues.studentId ?? '',
       companyId:
         formValues.companyID === 'other' ? undefined : formValues.companyID,
-      status: 'Placed'
+      status: 'Placed',
     }
 
     try {
@@ -103,6 +102,7 @@ const CreateEditPlacement: React.FC<Props> = ({
         notifySuccess('Student Placement Created successfully!')
       }
       onClose()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       notifyError('Failed to update placement')
     } finally {
@@ -115,40 +115,36 @@ const CreateEditPlacement: React.FC<Props> = ({
       {isEditMode ? (
         <>
           <Button
-            className="formButton"
-            id="reset"
+            className='formButton'
+            id='reset'
             onClick={() => {
               formikProps.resetForm()
-            }}
-          >
+            }}>
             Reset
           </Button>
           <Button
-            className="formButton"
-            type="submit"
-            appearance="primary"
-            disabled={formikProps.isValidating || formikProps.isSubmitting}
-          >
+            className='formButton'
+            type='submit'
+            appearance='primary'
+            disabled={formikProps.isValidating || formikProps.isSubmitting}>
             Save changes
           </Button>
         </>
       ) : (
         <>
           <Button
-            className="formButton"
-            id="reset"
+            className='formButton'
+            id='reset'
             onClick={() => {
               formikProps.resetForm()
-            }}
-          >
+            }}>
             Reset
           </Button>
           <Button
-            className="formButton"
-            appearance="primary"
-            type="submit"
-            disabled={formikProps.isValidating || formikProps.isSubmitting}
-          >
+            className='formButton'
+            appearance='primary'
+            type='submit'
+            disabled={formikProps.isValidating || formikProps.isSubmitting}>
             Save
           </Button>
         </>
@@ -162,26 +158,25 @@ const CreateEditPlacement: React.FC<Props> = ({
       open={isOpen}
       onClose={onClose}
       title={isEditMode ? 'Edit Placement Details' : 'Add Placement Details'}
-      size="lg"
+      size='lg'
       body={
         <Formik
           initialValues={initialValues}
           validationSchema={placementValidationSchema}
           enableReinitialize
-          onSubmit={onSubmit}
-        >
+          onSubmit={onSubmit}>
           {(formikProps: FormikProps<IPlacementForm>) => (
-            <Form className="create-edit-form">
+            <Form className='create-edit-form'>
               <Panel bordered={false}>
-                <Section title="Details">
+                <Section title='Details'>
                   <Row>
                     <Col xs={12}>
                       <SelectDropdown
                         name={STUDENT_NAME}
                         data={studentData ?? []}
-                        placeholder="Select Student"
+                        placeholder='Select Student'
                         value={formikProps.values[STUDENT_NAME]}
-                        onChange={(value) =>
+                        onChange={value =>
                           formikProps.setFieldValue(STUDENT_NAME, value)
                         }
                         disabled={isEditMode}
@@ -193,11 +188,11 @@ const CreateEditPlacement: React.FC<Props> = ({
                         name={COMPANY_ID}
                         data={[
                           { label: 'Company A', value: 'CompanyA' },
-                          { label: 'Other', value: 'other' }
+                          { label: 'Other', value: 'other' },
                         ]}
-                        placeholder="Select Company"
+                        placeholder='Select Company'
                         value={formikProps.values[COMPANY_ID]}
-                        onChange={(value) =>
+                        onChange={value =>
                           formikProps.setFieldValue(COMPANY_ID, value)
                         }
                       />
@@ -210,20 +205,20 @@ const CreateEditPlacement: React.FC<Props> = ({
                         <TextInput
                           formik={formikProps}
                           name={COMPANY_NAME}
-                          placeholder="Company Name"
+                          placeholder='Company Name'
                         />
                         <FormikErrorMessage name={COMPANY_NAME} />
                       </Col>
                     </Row>
                   )}
                 </Section>
-                <Section title="Job Description">
+                <Section title='Job Description'>
                   <Row>
                     <Col xs={12}>
                       <TextInput
                         formik={formikProps}
                         name={JOB_ROLE}
-                        placeholder="Job Role"
+                        placeholder='Job Role'
                       />
                       <FormikErrorMessage name={JOB_ROLE} />
                     </Col>
@@ -231,7 +226,7 @@ const CreateEditPlacement: React.FC<Props> = ({
                       <TextInput
                         formik={formikProps}
                         name={PACKAGE}
-                        placeholder="Package"
+                        placeholder='Package'
                       />
                       <FormikErrorMessage name={PACKAGE} />
                     </Col>
@@ -242,7 +237,7 @@ const CreateEditPlacement: React.FC<Props> = ({
                       <TextInput
                         formik={formikProps}
                         name={LOCATION}
-                        placeholder="location"
+                        placeholder='location'
                       />
                       <FormikErrorMessage name={LOCATION} />
                     </Col>

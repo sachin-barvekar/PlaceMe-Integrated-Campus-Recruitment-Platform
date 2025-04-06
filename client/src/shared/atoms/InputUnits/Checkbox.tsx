@@ -5,7 +5,7 @@ function Checkbox<V>(props: Readonly<FormikInputs<V>>): React.ReactElement {
   const { name, isDisabled } = props
   return (
     <Field
-      type="checkbox"
+      type='checkbox'
       name={name}
       data-testid={name}
       disabled={isDisabled}

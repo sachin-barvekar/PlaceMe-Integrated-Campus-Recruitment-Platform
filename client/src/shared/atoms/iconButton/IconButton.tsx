@@ -3,7 +3,7 @@ import { IconButton as RSuiteIconButton, IconButtonProps } from 'rsuite'
 import './iconButton.scss'
 
 interface Props extends IconButtonProps {
-  lighter?: boolean;
+  lighter?: boolean
 }
 
 const IconButton: FC<Props> = ({
@@ -16,8 +16,7 @@ const IconButton: FC<Props> = ({
   return (
     <RSuiteIconButton
       className={`icon-button ${className ?? ''} ${lighterClass}`}
-      {...props}
-    >
+      {...props}>
       {children}
     </RSuiteIconButton>
   )

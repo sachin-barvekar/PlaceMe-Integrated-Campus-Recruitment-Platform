@@ -1,17 +1,17 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import loginApi from 'api/loginApi'
-import profileApi from 'api/profileApi'
-import studentApi from 'api/studentApi'
-import PlacementApi from 'api/placementApi'
-import dashboardApi from 'api/dashboardApi'
-import whatsappApi from 'api/whatsappApi'
-import jobApi from 'api/jobApi'
-import recruiterApi from 'api/recruiterApi'
+import loginApi from '../api/loginApi'
+import profileApi from '../api/profileApi'
+import studentApi from '../api/studentApi'
+import PlacementApi from '../api/placementApi'
+import dashboardApi from '../api/dashboardApi'
+import whatsappApi from '../api/whatsappApi'
+import jobApi from '../api/jobApi'
+import recruiterApi from '../api/recruiterApi'
 import rootReducer, { RootState } from './rootReducer'
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(
       loginApi.middleware,
       profileApi.middleware,
@@ -20,8 +20,8 @@ const store = configureStore({
       dashboardApi.middleware,
       whatsappApi.middleware,
       recruiterApi.middleware,
-      jobApi.middleware
-    )
+      jobApi.middleware,
+    ),
 })
 
 export type AppDispatch = typeof store.dispatch

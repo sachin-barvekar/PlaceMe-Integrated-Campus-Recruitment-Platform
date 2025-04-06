@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, JSX } from 'react'
 import { Stack } from 'rsuite'
 import { DashCard } from '../../atoms'
 import './dashCards.scss'

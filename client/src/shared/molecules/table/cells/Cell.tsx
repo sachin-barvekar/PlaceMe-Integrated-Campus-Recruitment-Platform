@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { JSX } from 'react'
 import { Whisper, Tooltip } from 'rsuite'
 import { Cell as RsuiteCell, RowDataType, RowKeyType } from 'rsuite-table'
 import { InnerCellProps } from 'rsuite-table/lib/Cell'
 
 type CellProps<
   R extends RowDataType<any>,
-  K extends RowKeyType
+  K extends RowKeyType,
 > = InnerCellProps<R, K> & {
-  dataKey: string,
-  rowData?: R,
+  dataKey: string
+  rowData?: R
   tooltip?: boolean
 }
 
@@ -24,10 +26,9 @@ const Cell = <R extends RowDataType<any>, K extends RowKeyType>({
   if (tooltip && cellContent) {
     return (
       <Whisper
-        placement="bottom"
-        trigger="hover"
-        speaker={<Tooltip>{cellContent}</Tooltip>}
-      >
+        placement='bottom'
+        trigger='hover'
+        speaker={<Tooltip>{cellContent}</Tooltip>}>
         <RsuiteCell {...props} style={{ cursor: 'pointer' }}>
           {cellContent}
         </RsuiteCell>

@@ -5,25 +5,25 @@ import {
   MdAssignmentTurnedIn,
   MdWork,
   MdSettings,
-  MdDescription
+  MdDescription,
 } from 'react-icons/md'
 import { FaClipboardList, FaUserGraduate, FaWhatsapp } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
 type SubMenuItemType = {
-  id: string,
-  name: string,
-  link: string,
+  id: string
+  name: string
+  link: string
   icon?: React.FC<HTMLAttributes<SVGElement>>
 }
 
 type MenuItemType = {
-  id: string,
-  name: string,
-  link?: string,
-  icon: React.FC<HTMLAttributes<SVGElement>>,
-  roles: string[],
+  id: string
+  name: string
+  link?: string
+  icon: React.FC<HTMLAttributes<SVGElement>>
+  roles: string[]
   subMenu?: SubMenuItemType[]
 }
 
@@ -33,63 +33,63 @@ const menuItems: MenuItemType[] = [
     name: 'Dashboard',
     link: '/',
     icon: AiOutlineHome,
-    roles: ['admin']
+    roles: ['admin'],
   },
   {
     id: '2',
     name: 'Students',
     link: '/student',
     icon: UserInfoIcon,
-    roles: ['admin']
+    roles: ['admin'],
   },
   {
     id: '3',
     name: 'Recruiters',
     link: '/recruiter',
     icon: MdBusiness,
-    roles: ['admin', 'student']
+    roles: ['admin', 'student'],
   },
   {
     id: '4',
     name: 'Job Openings',
     link: '/job-openings',
     icon: MdWork,
-    roles: ['admin', 'student']
+    roles: ['admin', 'student'],
   },
   {
     id: '5',
     name: 'Applied Jobs',
     link: '/applied-jobs',
     icon: MdAssignmentTurnedIn,
-    roles: ['student']
+    roles: ['student'],
   },
   {
     id: '6',
     name: 'Placed Students',
     link: '/placed-students',
     icon: FaUserGraduate,
-    roles: ['admin', 'student']
+    roles: ['admin', 'student'],
   },
   {
     id: '7',
     name: 'My Jobs',
     link: '/jobs',
     icon: MdWork,
-    roles: ['recruiter']
+    roles: ['recruiter'],
   },
   {
     id: '8',
     name: 'Applications',
     link: '/application',
     icon: FaClipboardList,
-    roles: ['recruiter']
+    roles: ['recruiter'],
   },
   {
     id: '9',
     name: 'Job Offers',
     link: '/job-offers',
     icon: FaUserGraduate,
-    roles: ['recruiter']
+    roles: ['recruiter'],
   },
   {
     id: '10',
@@ -102,20 +102,20 @@ const menuItems: MenuItemType[] = [
         id: '10-1',
         name: 'WhatsApp',
         link: '/settings/WhatsApp',
-        icon: FaWhatsapp
+        icon: FaWhatsapp,
       },
       {
         id: '10-2',
         name: 'Template',
         link: '/settings/template',
-        icon: MdDescription
-      }
-    ]
-  }
+        icon: MdDescription,
+      },
+    ],
+  },
 ]
 
 export const getMenuItemsForRole = (role: string): MenuItemType[] => {
-  return menuItems.filter((item) => item.roles.includes(role))
+  return menuItems.filter(item => item.roles.includes(role))
 }
 
 export const useFilteredMenuItems = (): MenuItemType[] => {

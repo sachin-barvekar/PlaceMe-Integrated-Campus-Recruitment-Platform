@@ -2,8 +2,9 @@ import { FC } from 'react'
 import { SelectPicker, SelectPickerProps } from 'rsuite'
 import './selectDropdown.scss'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface Props extends SelectPickerProps<any> {
-  lighter?: boolean;
+  lighter?: boolean
 }
 
 const SelectDropdown: FC<Props> = ({ className, lighter, ...props }: Props) => {

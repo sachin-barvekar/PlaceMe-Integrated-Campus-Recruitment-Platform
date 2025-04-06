@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AuthContext } from 'contexts/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext'
 import StudentProfilePage from './studentProfile/StudentProfile/StudentProfile'
 import AdminProfilePage from './adminProfile/AdminProfile/AdminProfile'
 import RecruiterProfilePage from './recruiterProfile/RecruiterProfile/RecruiterProfile'
@@ -7,7 +7,7 @@ import RecruiterProfilePage from './recruiterProfile/RecruiterProfile/RecruiterP
 const profileComponents: Record<string, React.FC> = {
   admin: AdminProfilePage,
   student: StudentProfilePage,
-  recruiter: RecruiterProfilePage
+  recruiter: RecruiterProfilePage,
 }
 
 const ProfilePage = () => {

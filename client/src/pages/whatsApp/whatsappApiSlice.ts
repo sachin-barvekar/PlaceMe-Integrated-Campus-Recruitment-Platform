@@ -1,8 +1,8 @@
-import whatsappApi from 'api/whatsappApi'
+import whatsappApi from '../../api/whatsappApi'
 import { FacebookBusinessResponse, TokenRequest } from './types'
 
 const whatsappApiSlice = whatsappApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     facebookExchageToken: build.mutation<
       void,
       { TokenRequestDTO: TokenRequest }
@@ -11,34 +11,34 @@ const whatsappApiSlice = whatsappApi.injectEndpoints({
         return {
           url: `/whatsapp/exchange_token`,
           method: 'POST',
-          data: TokenRequestDTO
+          data: TokenRequestDTO,
         }
       },
-      invalidatesTags: ['whatsapp-config']
+      invalidatesTags: ['whatsapp-config'],
     }),
     getBusinessInfo: build.query<FacebookBusinessResponse, void>({
       query: () => {
         return {
           url: `/whatsapp/business_info`,
-          method: 'GET'
+          method: 'GET',
         }
       },
-      providesTags: ['whatsapp-config']
+      providesTags: ['whatsapp-config'],
     }),
     deleteWhatsAppConfig: build.mutation<void, { whatsappBusinessID: string }>({
       query: ({ whatsappBusinessID }) => ({
         url: `/whatsapp/delete-config/${whatsappBusinessID}`,
-        method: 'DELETE'
+        method: 'DELETE',
       }),
-      invalidatesTags: ['whatsapp-config']
-    })
-  })
+      invalidatesTags: ['whatsapp-config'],
+    }),
+  }),
 })
 
 export const {
   useDeleteWhatsAppConfigMutation,
   useFacebookExchageTokenMutation,
-  useGetBusinessInfoQuery
+  useGetBusinessInfoQuery,
 } = whatsappApiSlice
 
 export default whatsappApiSlice

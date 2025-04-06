@@ -5,12 +5,12 @@ import PlusIcon from '@rsuite/icons/Plus'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import '../../../../scss/common/forms/Form.scss'
-import { Student, StudentProfileResponse } from 'pages/profile/types'
+import { Student, StudentProfileResponse } from '../../types'
 import { MdRemoveCircle } from 'react-icons/md'
 import {
   useCreateProfileMutation,
   useUpdateProfileMutation
-} from 'pages/profile/profileApiSlice'
+} from '../../profileApiSlice'
 import { format, isAfter } from 'date-fns'
 import {
   STUDENT_FORM_FIELDS,
@@ -123,6 +123,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
       }
       onClose()
       setFileInfo(undefined)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       notifyError('Failed to update profile')
     } finally {
@@ -215,6 +216,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                         placeholder="Mobile Number"
                         country="in"
                         value={formikProps.values[MOBILE]}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: any) =>
                           formikProps.setFieldValue(MOBILE, value)
                         }
@@ -299,7 +301,6 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                         <>
                           {formikProps.values[ACADEMIC_DETAILS].map(
                             (type, index) => {
-                              // eslint-disable-next-line @typescript-eslint/no-shadow
                               const filteredLevelOptions = level.filter(
                                 (option) =>
                                   !selectedlevel.includes(
@@ -461,6 +462,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                               fileList.pop()
                               formikProps.setFieldValue(PROFILE_PHOTO, null)
                             } else {
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               previewFile(file.blobFile, (value: any) => {
                                 setFileInfo(value)
                               })

@@ -1,12 +1,12 @@
 import React from 'react'
-import { ReactComponent as LoaderIcon } from '../../../assets/images/loader.svg'
+import { Loader as LoaderIcon } from 'rsuite'
 import './Loader.scss'
 
 const Loader: React.FC = () => {
   return (
-    <div className="loader">
+    <div className='loader'>
       <div>
-        <LoaderIcon className="loader-icon" />
+        <LoaderIcon size='md' className='loader-icon' />
       </div>
       <div>
         <p>Loading...</p>

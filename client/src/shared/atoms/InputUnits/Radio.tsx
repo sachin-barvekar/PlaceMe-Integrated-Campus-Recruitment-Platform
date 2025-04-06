@@ -4,10 +4,10 @@ import { FormikRadioInputs } from './interfaces'
 function Radio<V>(props: Readonly<FormikRadioInputs<V>>): React.ReactElement {
   const { formik, name, inputProps } = props
   const items =
-    inputProps?.allowedValue?.map((value) => {
+    inputProps?.allowedValue?.map(value => {
       return {
         label: value,
-        value
+        value,
       }
     }) || []
 
@@ -15,14 +15,14 @@ function Radio<V>(props: Readonly<FormikRadioInputs<V>>): React.ReactElement {
     <RsRadioGroup
       name={name}
       data-testid={name}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       value={(formik?.values as Record<string, any>)[name]}
       inline
       disabled={inputProps?.isDisabled}
-      onChange={(val) => {
+      onChange={val => {
         formik?.setFieldValue(name, val)
-      }}
-    >
-      {items.map((entry) => {
+      }}>
+      {items.map(entry => {
         return (
           <RsRadio key={entry.value} value={entry.value}>
             {entry?.label}

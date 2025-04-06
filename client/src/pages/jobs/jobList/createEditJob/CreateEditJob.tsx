@@ -2,11 +2,8 @@ import React, { useMemo } from 'react'
 import { ButtonToolbar, Col, DatePicker } from 'rsuite'
 import { Formik, Form, FormikHelpers, FormikProps } from 'formik'
 import '../../../../scss/common/forms/Form.scss'
-import { Job } from 'pages/jobs/types'
-import {
-  useCreateJobMutation,
-  useUpdateJobMutation
-} from 'pages/jobs/jobApiSlice'
+import { Job } from '../../types'
+import { useCreateJobMutation, useUpdateJobMutation } from '../../jobApiSlice'
 import { isBefore, subDays } from 'date-fns'
 import { notifyError, notifySuccess } from '../../../../utils'
 import {
@@ -15,7 +12,7 @@ import {
   IJobForm,
   JOB_FORM_FIELDS,
   JOB_TYPE_OPTION,
-  jobValidationSchema
+  jobValidationSchema,
 } from '../../utils'
 import {
   Button,
@@ -25,13 +22,13 @@ import {
   TextInput,
   Modal,
   SelectDropdown,
-  Panel
+  Panel,
 } from '../../../../shared'
 
 type Props = {
-  isOpen: boolean,
-  onClose: () => void,
-  jobData?: Job | undefined,
+  isOpen: boolean
+  onClose: () => void
+  jobData?: Job | undefined
   isEditMode: boolean
 }
 
@@ -39,7 +36,7 @@ const CreateEditJob: React.FC<Props> = ({
   isOpen,
   onClose,
   jobData,
-  isEditMode
+  isEditMode,
 }) => {
   const {
     ROLE,
@@ -50,7 +47,7 @@ const CreateEditJob: React.FC<Props> = ({
     SKILLS_REQUIRED,
     ELIGIBILITY_CRITERIA,
     LAST_DATE_TO_APPLY,
-    DRIVE_DATE
+    DRIVE_DATE,
   } = JOB_FORM_FIELDS
 
   const [createJob] = useCreateJobMutation()
@@ -64,10 +61,9 @@ const CreateEditJob: React.FC<Props> = ({
 
   const onSubmit = async (
     formValues: IJobForm,
-    { setSubmitting }: FormikHelpers<IJobForm>
+    { setSubmitting }: FormikHelpers<IJobForm>,
   ) => {
     const job: Job = {
-      // eslint-disable-next-line
       _id: jobData?._id ?? undefined,
       role: formValues.role,
       jobDescription: formValues.jobDescription,
@@ -77,7 +73,7 @@ const CreateEditJob: React.FC<Props> = ({
       skillsRequired: formValues.skillsRequired,
       eligibilityCriteria: formValues.eligibilityCriteria,
       lastDateToApply: formValues.lastDateToApply,
-      driveDate: formValues.driveDate
+      driveDate: formValues.driveDate,
     }
 
     try {
@@ -89,6 +85,7 @@ const CreateEditJob: React.FC<Props> = ({
         notifySuccess('Job created successfully!')
       }
       onClose()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       notifyError('Failed to save job')
     } finally {
@@ -99,18 +96,16 @@ const CreateEditJob: React.FC<Props> = ({
   const renderFormButtons = (formikProps: FormikProps<IJobForm>) => (
     <ButtonToolbar>
       <Button
-        className="formButton"
-        id="reset"
-        onClick={() => formikProps.resetForm()}
-      >
+        className='formButton'
+        id='reset'
+        onClick={() => formikProps.resetForm()}>
         Reset
       </Button>
       <Button
-        className="formButton"
-        type="submit"
-        appearance="primary"
-        disabled={formikProps.isSubmitting}
-      >
+        className='formButton'
+        type='submit'
+        appearance='primary'
+        disabled={formikProps.isSubmitting}>
         {isEditMode ? 'Save Changes' : 'Save'}
       </Button>
     </ButtonToolbar>
@@ -122,24 +117,23 @@ const CreateEditJob: React.FC<Props> = ({
       open={isOpen}
       onClose={onClose}
       title={isEditMode ? 'Edit Job Details' : 'Add Job Details'}
-      size="lg"
+      size='lg'
       body={
         <Formik
           initialValues={initialValues}
           validationSchema={jobValidationSchema}
           enableReinitialize
-          onSubmit={onSubmit}
-        >
+          onSubmit={onSubmit}>
           {(formikProps: FormikProps<IJobForm>) => (
-            <Form className="create-edit-form">
+            <Form className='create-edit-form'>
               <Panel bordered={false}>
-                <Section title="Job Details">
+                <Section title='Job Details'>
                   <Row>
                     <Col xs={12}>
                       <TextInput
                         formik={formikProps}
                         name={ROLE}
-                        placeholder="Job Role"
+                        placeholder='Job Role'
                       />
                       <FormikErrorMessage name={ROLE} />
                     </Col>
@@ -147,7 +141,7 @@ const CreateEditJob: React.FC<Props> = ({
                       <TextInput
                         formik={formikProps}
                         name={LOCATION}
-                        placeholder="Location"
+                        placeholder='Location'
                       />
                       <FormikErrorMessage name={LOCATION} />
                     </Col>
@@ -157,7 +151,7 @@ const CreateEditJob: React.FC<Props> = ({
                       <TextInput
                         formik={formikProps}
                         name={PACKAGE}
-                        placeholder="Package"
+                        placeholder='Package'
                       />
                       <FormikErrorMessage name={PACKAGE} />
                     </Col>
@@ -165,13 +159,13 @@ const CreateEditJob: React.FC<Props> = ({
                       <SelectDropdown
                         searchable={false}
                         name={JOB_TYPE_FIELD}
-                        data={Object.values(JOB_TYPE_OPTION).map((type) => ({
+                        data={Object.values(JOB_TYPE_OPTION).map(type => ({
                           label: type,
-                          value: type
+                          value: type,
                         }))}
-                        placeholder="Select Job Type"
+                        placeholder='Select Job Type'
                         value={formikProps.values[JOB_TYPE_FIELD]}
-                        onChange={(value) =>
+                        onChange={value =>
                           formikProps.setFieldValue(JOB_TYPE_FIELD, value)
                         }
                       />
@@ -181,20 +175,20 @@ const CreateEditJob: React.FC<Props> = ({
                   <Row>
                     <Col xs={12}>
                       <TextInput
-                        as="textarea"
+                        as='textarea'
                         formik={formikProps}
                         name={JOB_DESCRIPTION}
-                        placeholder="Job Description"
+                        placeholder='Job Description'
                         rows={5}
                       />
                       <FormikErrorMessage name={JOB_DESCRIPTION} />
                     </Col>
                     <Col xs={12}>
                       <TextInput
-                        as="textarea"
+                        as='textarea'
                         formik={formikProps}
                         name={SKILLS_REQUIRED}
-                        placeholder="Skills Required"
+                        placeholder='Skills Required'
                         rows={5}
                       />
                       <FormikErrorMessage name={SKILLS_REQUIRED} />
@@ -203,33 +197,33 @@ const CreateEditJob: React.FC<Props> = ({
                   <Row>
                     <Col xs={24} md={12}>
                       <TextInput
-                        as="textarea"
+                        as='textarea'
                         formik={formikProps}
                         name={ELIGIBILITY_CRITERIA}
-                        placeholder="Eligibility Criteria"
+                        placeholder='Eligibility Criteria'
                         rows={5}
                       />
                       <FormikErrorMessage name={ELIGIBILITY_CRITERIA} />
                     </Col>
                   </Row>
                 </Section>
-                <Section title="Dates">
+                <Section title='Dates'>
                   <Row>
                     <Col xs={12}>
                       <DatePicker
                         name={DRIVE_DATE}
-                        format="dd/ MMM/ yyyy"
+                        format='dd/ MMM/ yyyy'
                         value={
                           formikProps.values[DRIVE_DATE]
                             ? new Date(formikProps.values[DRIVE_DATE] as string)
                             : null
                         }
-                        onChange={(date) =>
+                        onChange={date =>
                           formikProps.setFieldValue(DRIVE_DATE, date)
                         }
-                        placeholder="Drive Date"
+                        placeholder='Drive Date'
                         oneTap
-                        shouldDisableDate={(date) =>
+                        shouldDisableDate={date =>
                           isBefore(date, subDays(new Date(), 1))
                         }
                       />
@@ -238,20 +232,22 @@ const CreateEditJob: React.FC<Props> = ({
                     <Col xs={12}>
                       <DatePicker
                         name={LAST_DATE_TO_APPLY}
-                        format="dd/ MMM/ yyyy"
+                        format='dd/ MMM/ yyyy'
                         value={
                           formikProps.values[LAST_DATE_TO_APPLY]
                             ? new Date(
-                                formikProps.values[LAST_DATE_TO_APPLY] as string
+                                formikProps.values[
+                                  LAST_DATE_TO_APPLY
+                                ] as string,
                               )
                             : null
                         }
-                        onChange={(date) =>
+                        onChange={date =>
                           formikProps.setFieldValue(LAST_DATE_TO_APPLY, date)
                         }
-                        placeholder="Last Date to Apply"
+                        placeholder='Last Date to Apply'
                         oneTap
-                        shouldDisableDate={(date) =>
+                        shouldDisableDate={date =>
                           isBefore(date, subDays(new Date(), 1))
                         }
                       />

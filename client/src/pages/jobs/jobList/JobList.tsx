@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
-import { useTableHandlers } from 'hooks/useTableHandlers'
-import { IFilter, IListApiRequest, Operator } from 'api/types'
-import { StatusCell } from 'shared/molecules/table/cells'
+import { useTableHandlers } from '../../../hooks/useTableHandlers'
+import { IFilter, IListApiRequest, Operator } from '../../../api/types'
 import { useNavigate } from 'react-router-dom'
 import { Table, Toolbar } from '../../../shared'
 import '../../../scss/common/list/List.scss'
@@ -10,7 +9,7 @@ import CreateEditJob from './createEditJob/CreateEditJob'
 import { useFetchJobByIdQuery } from '../jobApiSlice'
 import { ACTIVE_TAB } from '../utils'
 
-const { Column, HeaderCell, ActionCell, Cell } = Table
+const { Column, HeaderCell, ActionCell, Cell, StatusCell } = Table
 
 const COLUMNS = [
   { key: 'role', label: 'Job Role', flexGrow: 1, minWidth: 150 },
@@ -19,7 +18,7 @@ const COLUMNS = [
   { key: 'location', label: 'Location', flexGrow: 1, minWidth: 150 },
   { key: 'driveDate', label: 'Drive Date', flexGrow: 1, minWidth: 140 },
   { key: 'lastDateToApply', label: 'Deadline', flexGrow: 1, minWidth: 140 },
-  { key: 'createdAt', label: 'Post Date', flexGrow: 1, minWidth: 130 }
+  { key: 'createdAt', label: 'Post Date', flexGrow: 1, minWidth: 130 },
 ]
 
 const JobList: FC = () => {
@@ -31,13 +30,13 @@ const JobList: FC = () => {
     onPageChange,
     onSearchChange,
     onFilterChange,
-    onSortColumn
+    onSortColumn,
   } = useTableHandlers<Job, IListApiRequest<Job>>(
     {
       page: { size: 10, number: 0 },
-      filters: []
+      filters: [],
     },
-    'search'
+    'search',
   )
 
   const Navigate = useNavigate()
@@ -57,7 +56,6 @@ const JobList: FC = () => {
     }
   }
   const handleOnRowClick = (rowData: Job) => {
-    // eslint-disable-next-line
     const jobId = rowData._id
     if (jobId) {
       Navigate(`/job/${jobId}`)
@@ -68,18 +66,18 @@ const JobList: FC = () => {
     {
       label: 'All Jobs',
       value: ACTIVE_TAB.ALL,
-      onClick: () => handleTabChange(ACTIVE_TAB.ALL)
+      onClick: () => handleTabChange(ACTIVE_TAB.ALL),
     },
     {
       label: 'Active',
       value: ACTIVE_TAB.Active,
-      onClick: () => handleTabChange(ACTIVE_TAB.Active)
+      onClick: () => handleTabChange(ACTIVE_TAB.Active),
     },
     {
       label: 'Expired',
       value: ACTIVE_TAB.InActive,
-      onClick: () => handleTabChange(ACTIVE_TAB.InActive)
-    }
+      onClick: () => handleTabChange(ACTIVE_TAB.InActive),
+    },
   ]
   const handleTabChange = (tab: ACTIVE_TAB) => {
     let fieldValue
@@ -100,27 +98,27 @@ const JobList: FC = () => {
     const activeFilter: IFilter<Job> = {
       fieldName: 'active',
       operator: Operator.EQ,
-      fieldValue: fieldValue ?? 'true'
+      fieldValue: fieldValue ?? 'true',
     }
 
     const updatedFilters = [
       activeFilter,
-      ...(requestBody.filters ?? []).filter((f) => f.fieldName !== 'active')
+      ...(requestBody.filters ?? []).filter(f => f.fieldName !== 'active'),
     ]
     onFilterChange(updatedFilters)
   }
 
   return (
-    <div className="list">
+    <div className='list'>
       <Toolbar
         options={options}
         onSearchChange={onSearchChange}
         total={total ?? 0}
-        buttonName="Add Job"
-        searchPlaceholder="Search by Recruiter Name or Address"
+        buttonName='Add Job'
+        searchPlaceholder='Search by Recruiter Name or Address'
         onButtonClick={() => setIsModalOpen(true)}
       />
-      <div className="list__main-container">
+      <div className='list__main-container'>
         <Table
           data={data?.content ?? []}
           loading={isFetching}
@@ -130,8 +128,7 @@ const JobList: FC = () => {
           total={total}
           defaultPageSize={data?.size ?? 10}
           onPageChange={onPageChange}
-          onRowClick={handleOnRowClick}
-        >
+          onRowClick={handleOnRowClick}>
           {COLUMNS.map((column, index) => {
             const { key, label, flexGrow, minWidth } = column
 
@@ -142,27 +139,26 @@ const JobList: FC = () => {
                 key={key}
                 align={index === 0 ? 'left' : 'center'}
                 fixed={index === 0}
-                sortable
-              >
+                sortable>
                 <HeaderCell>{label}</HeaderCell>
 
                 <Cell dataKey={key} tooltip />
               </Column>
             )
           })}
-          <Column flexGrow={1} key="active" minWidth={100}>
+          <Column flexGrow={1} key='active' minWidth={100}>
             <HeaderCell>Status</HeaderCell>
             <StatusCell
-              dataKey="active"
-              posDataLabel="Active"
-              negDataLabel="Inactive"
+              dataKey='active'
+              posDataLabel='Active'
+              negDataLabel='Inactive'
             />
           </Column>
-          <Column flexGrow={1} minWidth={80} key="action">
+          <Column flexGrow={1} minWidth={80} key='action'>
             <HeaderCell>Action</HeaderCell>
             <ActionCell
               tooltip
-              dataKey="action"
+              dataKey='action'
               onAction={handleAction}
               actionOptions={['Edit']}
             />

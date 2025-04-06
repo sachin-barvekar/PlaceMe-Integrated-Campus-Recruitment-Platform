@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosHeaders } from 'axios'
-import { notifySuccess } from 'utils'
+import { notifySuccess } from '../utils'
 
-export const baseUrl = process.env.REACT_APP_BASE_URL ?? ''
+export const baseUrl = import.meta.env.VITE_BASE_URL ?? ''
 
 export const getAccessToken = () => {
   return localStorage.getItem('token')
@@ -10,21 +10,20 @@ export const getAccessToken = () => {
 const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 axiosInstance.interceptors.request.use(
-  (config) => {
+  config => {
     const token = getAccessToken()
 
     if (config.headers.Authorization !== false && token) {
       ;(config.headers as AxiosHeaders).set(
         'Authorization',
-        token ? `Bearer ${token}` : ''
+        token ? `Bearer ${token}` : '',
       )
     } else {
-      // eslint-disable-next-line
       delete config.headers.Authorization
     }
 
@@ -32,11 +31,11 @@ axiosInstance.interceptors.request.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error)
-  }
+  },
 )
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  response => response,
   async (error: AxiosError) => {
     const status = error.response?.status
 
@@ -45,7 +44,7 @@ axiosInstance.interceptors.response.use(
       notifySuccess('Logout Successful')
     }
     throw error
-  }
+  },
 )
 
 export default axiosInstance

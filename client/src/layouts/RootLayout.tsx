@@ -5,7 +5,7 @@ import { Container, Content } from 'rsuite'
 const RootLayout: React.FC = () => {
   return (
     <Container>
-      <Content className="root-outlet">
+      <Content className='root-outlet'>
         <Outlet />
       </Content>
     </Container>

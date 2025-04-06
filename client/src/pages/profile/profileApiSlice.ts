@@ -1,21 +1,21 @@
-import profileApi from 'api/profileApi'
+import profileApi from '../../api/profileApi'
 import {
   AdminProfileResponse,
   AdminProfileSaveRequest,
   RecruiterProfileResponse,
   RecruiterProfileSaveRequest,
   StudentProfileResponse,
-  StudentSaveRequest
+  StudentSaveRequest,
 } from './types'
 
 const profileApiSlice = profileApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     getProfile: build.query<StudentProfileResponse, void>({
       query: () => ({
         url: `/student-profile`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['student-profile']
+      providesTags: ['student-profile'],
     }),
 
     createProfile: build.mutation<void, StudentSaveRequest>({
@@ -30,11 +30,11 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'POST',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['student-profile']
+      invalidatesTags: ['student-profile'],
     }),
 
     updateProfile: build.mutation<void, StudentSaveRequest>({
@@ -49,19 +49,19 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'PUT',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['student-profile']
+      invalidatesTags: ['student-profile'],
     }),
 
     getAdminProfile: build.query<AdminProfileResponse, void>({
       query: () => ({
         url: `/admin-profile`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['admin-profile']
+      providesTags: ['admin-profile'],
     }),
     createAdminProfile: build.mutation<void, AdminProfileSaveRequest>({
       query: ({ adminDTO, file }) => {
@@ -75,11 +75,11 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'POST',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['admin-profile']
+      invalidatesTags: ['admin-profile'],
     }),
     updateAdminProfile: build.mutation<void, AdminProfileSaveRequest>({
       query: ({ adminDTO, file }) => {
@@ -93,18 +93,18 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'POST',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['admin-profile']
+      invalidatesTags: ['admin-profile'],
     }),
     getRecruiterProfile: build.query<RecruiterProfileResponse, void>({
       query: () => ({
         url: `/recruiter-profile`,
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['recruiter-profile']
+      providesTags: ['recruiter-profile'],
     }),
     createRecruiterProfile: build.mutation<void, RecruiterProfileSaveRequest>({
       query: ({ recruiterDTO, file }) => {
@@ -118,11 +118,11 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'POST',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['recruiter-profile']
+      invalidatesTags: ['recruiter-profile'],
     }),
     updateRecruiterProfile: build.mutation<void, RecruiterProfileSaveRequest>({
       query: ({ recruiterDTO, file }) => {
@@ -136,13 +136,13 @@ const profileApiSlice = profileApi.injectEndpoints({
           method: 'PUT',
           data: formData,
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       },
-      invalidatesTags: ['recruiter-profile']
-    })
-  })
+      invalidatesTags: ['recruiter-profile'],
+    }),
+  }),
 })
 
 export const {
@@ -154,5 +154,5 @@ export const {
   useUpdateAdminProfileMutation,
   useGetRecruiterProfileQuery,
   useCreateRecruiterProfileMutation,
-  useUpdateRecruiterProfileMutation
+  useUpdateRecruiterProfileMutation,
 } = profileApiSlice

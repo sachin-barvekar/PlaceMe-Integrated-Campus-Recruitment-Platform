@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup'
-import { IListApiRequest } from 'api/types'
+import { IListApiRequest } from '../../api/types'
 import { Job } from './types'
 
 export enum ACTIVE_TAB {
   ALL = 'all',
   Active = 'true',
-  InActive = 'false'
+  InActive = 'false',
 }
 
 export enum JOB_TYPE_OPTION {
   FULL_TIME = 'Full-Time',
   PART_TIME = 'Part-Time',
-  INTERNSHIP = 'Internship'
+  INTERNSHIP = 'Internship',
 }
 export enum JOB_FORM_FIELDS {
   RECRUITER_ID = 'recruiterId',
@@ -23,20 +24,20 @@ export enum JOB_FORM_FIELDS {
   SKILLS_REQUIRED = 'skillsRequired',
   ELIGIBILITY_CRITERIA = 'eligibilityCriteria',
   LAST_DATE_TO_APPLY = 'lastDateToApply',
-  DRIVE_DATE = 'driveDate'
+  DRIVE_DATE = 'driveDate',
 }
 
 export interface IJobForm {
-  [JOB_FORM_FIELDS.RECRUITER_ID]: any;
-  [JOB_FORM_FIELDS.ROLE]: string;
-  [JOB_FORM_FIELDS.JOB_DESCRIPTION]: string;
-  [JOB_FORM_FIELDS.LOCATION]: string;
-  [JOB_FORM_FIELDS.JOB_TYPE]: JOB_TYPE_OPTION | undefined;
-  [JOB_FORM_FIELDS.PACKAGE]: string;
-  [JOB_FORM_FIELDS.SKILLS_REQUIRED]: string;
-  [JOB_FORM_FIELDS.ELIGIBILITY_CRITERIA]: string;
-  [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: Date | undefined | string;
-  [JOB_FORM_FIELDS.DRIVE_DATE]: Date | undefined | string;
+  [JOB_FORM_FIELDS.RECRUITER_ID]: any
+  [JOB_FORM_FIELDS.ROLE]: string
+  [JOB_FORM_FIELDS.JOB_DESCRIPTION]: string
+  [JOB_FORM_FIELDS.LOCATION]: string
+  [JOB_FORM_FIELDS.JOB_TYPE]: JOB_TYPE_OPTION | undefined
+  [JOB_FORM_FIELDS.PACKAGE]: string
+  [JOB_FORM_FIELDS.SKILLS_REQUIRED]: string
+  [JOB_FORM_FIELDS.ELIGIBILITY_CRITERIA]: string
+  [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: Date | undefined | string
+  [JOB_FORM_FIELDS.DRIVE_DATE]: Date | undefined | string
 }
 
 export const defaultJobFormValues: IJobForm = {
@@ -49,7 +50,7 @@ export const defaultJobFormValues: IJobForm = {
   [JOB_FORM_FIELDS.SKILLS_REQUIRED]: '',
   [JOB_FORM_FIELDS.ELIGIBILITY_CRITERIA]: '',
   [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: undefined,
-  [JOB_FORM_FIELDS.DRIVE_DATE]: undefined
+  [JOB_FORM_FIELDS.DRIVE_DATE]: undefined,
 }
 
 export const getInitialJobFormValueFromResponse = (job: Job): IJobForm => ({
@@ -62,7 +63,7 @@ export const getInitialJobFormValueFromResponse = (job: Job): IJobForm => ({
   [JOB_FORM_FIELDS.SKILLS_REQUIRED]: job?.skillsRequired ?? '',
   [JOB_FORM_FIELDS.ELIGIBILITY_CRITERIA]: job?.eligibilityCriteria ?? '',
   [JOB_FORM_FIELDS.LAST_DATE_TO_APPLY]: job?.lastDateToApply ?? undefined,
-  [JOB_FORM_FIELDS.DRIVE_DATE]: job?.driveDate ?? undefined
+  [JOB_FORM_FIELDS.DRIVE_DATE]: job?.driveDate ?? undefined,
 })
 
 export const jobValidationSchema = () => {
@@ -103,10 +104,10 @@ export const jobValidationSchema = () => {
       .required('Last date to apply is required')
       .max(
         Yup.ref(JOB_FORM_FIELDS.DRIVE_DATE),
-        'Last date to apply must be on or before Drive Date'
+        'Last date to apply must be on or before Drive Date',
       ),
 
-    [JOB_FORM_FIELDS.DRIVE_DATE]: Yup.date().required('Drive Date is required')
+    [JOB_FORM_FIELDS.DRIVE_DATE]: Yup.date().required('Drive Date is required'),
   })
 }
 
@@ -114,7 +115,7 @@ export const getPaginationQueryParams = (request: IListApiRequest<Job>) => {
   const { filters, page } = request
   const params: any = {
     size: page?.size,
-    page: page?.number ? page.number - 1 : 0
+    page: page?.number ? page.number - 1 : 0,
   }
 
   if (filters && filters.length > 0) {

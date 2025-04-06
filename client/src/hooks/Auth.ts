@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   GoogleAuthProvider,
@@ -5,50 +7,49 @@ import {
   signOut,
   onAuthStateChanged,
   browserLocalPersistence,
-  User
+  User,
 } from 'firebase/auth'
-import { useLoginMutation } from 'pages/login/loginApiSlice'
+import { useLoginMutation } from '../pages/login/loginApiSlice'
 import {
   notifyError,
   notifySuccess,
-  requestNotificationPermission
-} from 'utils'
+  requestNotificationPermission,
+} from '../utils'
 import { auth } from '../config/firebase'
 
 interface AuthContextType {
-  user: User | null;
-  dbUser: any | null;
-  loading: boolean;
-  login: () => Promise<void>;
-  logout: () => Promise<void>;
-  token: string | null;
-  isLoggedIn: boolean;
-  role: string | null;
-  setRole: (role: string | null) => void;
+  user: User | null
+  dbUser: any | null
+  loading: boolean
+  login: () => Promise<void>
+  logout: () => Promise<void>
+  token: string | null
+  isLoggedIn: boolean
+  role: string | null
+  setRole: (role: string | null) => void
 }
 
 const useAuth = (): AuthContextType => {
   const hasLoggedOutRef = useRef(false)
   const [user, setUser] = useState<User | null>(null)
   const [dbUser, setDBUser] = useState<any | null>(
-    localStorage.getItem('dbUser')
+    localStorage.getItem('dbUser'),
   )
   const [loading, setLoading] = useState<boolean>(true)
   const [token, setToken] = useState<string | null>(
-    localStorage.getItem('token')
+    localStorage.getItem('token'),
   )
   const [role, setRole] = useState<string | null>(
-    localStorage.getItem('role') || null
+    localStorage.getItem('role') || null,
   )
   const [loginMutation] = useLoginMutation()
 
   useEffect(() => {
-    auth.setPersistence(browserLocalPersistence).catch((error) => {
-      // eslint-disable-next-line
+    auth.setPersistence(browserLocalPersistence).catch(error => {
       console.error('Persistence setting failed:', error)
     })
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async currentUser => {
       setLoading(true)
       if (currentUser) {
         setUser(currentUser)
@@ -87,7 +88,7 @@ const useAuth = (): AuthContextType => {
         name: result.user.displayName ?? '',
         role,
         firebaseUid: result?.user?.uid,
-        fcmToken
+        fcmToken,
       }
       const res = (await loginMutation(loginData)) as unknown as {
         data: { user: any }
@@ -138,14 +139,14 @@ const useAuth = (): AuthContextType => {
     isLoggedIn: !!token,
     role,
     dbUser,
-    setRole: (newRole) => {
+    setRole: newRole => {
       setRole(newRole)
       if (newRole) {
         localStorage.setItem('role', newRole)
       } else {
         localStorage.removeItem('role')
       }
-    }
+    },
   }
 }
 

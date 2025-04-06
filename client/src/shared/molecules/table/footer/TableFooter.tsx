@@ -3,46 +3,47 @@ import { Pagination, SelectPicker } from 'rsuite'
 import './TableFooter.scss'
 
 type TableFooterProps = {
-  children?: ReactNode,
-  total: number,
-  pageSize: number,
-  currentPage: number,
-  pageSizeOptions?: number[],
-  onPageChange: (page: number) => void,
-  onPageSizeChange: (value: number | null, event: React.SyntheticEvent) => void,
+  children?: ReactNode
+  total: number
+  pageSize: number
+  currentPage: number
+  pageSizeOptions?: number[]
+  onPageChange: (page: number) => void
+  onPageSizeChange: (value: number | null, event: React.SyntheticEvent) => void
   maxButtons?: number
 }
+
 const TableFooter: FC<TableFooterProps> = ({
-  children,
+  children = null,
   total,
   pageSize,
   currentPage,
-  pageSizeOptions,
+  pageSizeOptions = [10, 20, 50],
   onPageChange,
   onPageSizeChange,
-  maxButtons,
+  maxButtons = 5,
   ...props
 }) => {
   return (
-    <div {...props} className="table-footer">
-      <div className="table-footer__left">{children}</div>
-      <div className="table-footer__right">
-        {pageSizeOptions && (
-          <div className="table-footer__right__page">
-            <span className="table-footer__rows-per-page-label">
+    <div {...props} className='table-footer'>
+      <div className='table-footer__left'>{children}</div>
+      <div className='table-footer__right'>
+        {pageSizeOptions.length > 0 && (
+          <div className='table-footer__right__page'>
+            <span className='table-footer__rows-per-page-label'>
               Rows per page:
             </span>
             <SelectPicker
-              data={pageSizeOptions.map((size) => ({
+              data={pageSizeOptions.map(size => ({
                 label: size.toString(),
-                value: size
+                value: size,
               }))}
               value={pageSize}
               onChange={onPageSizeChange}
               cleanable={false}
               searchable={false}
-              className="table-footer__select"
-              placement="topEnd"
+              className='table-footer__select'
+              placement='topEnd'
             />
           </div>
         )}
@@ -51,7 +52,7 @@ const TableFooter: FC<TableFooterProps> = ({
           limit={pageSize}
           total={total}
           onChangePage={onPageChange}
-          size="sm"
+          size='sm'
           layout={['pager']}
           prev
           next
@@ -59,13 +60,11 @@ const TableFooter: FC<TableFooterProps> = ({
           first
           last
           ellipsis
-          className="table-footer__pagination"
+          className='table-footer__pagination'
         />
       </div>
     </div>
   )
 }
-TableFooter.defaultProps = {
-  children: null
-}
+
 export default TableFooter

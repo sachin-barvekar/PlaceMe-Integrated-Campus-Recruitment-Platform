@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, JSX } from 'react'
 import { Table as RsuiteTable } from 'rsuite'
 import { TableProps, RowDataType, RowKeyType } from 'rsuite-table'
-import Loader from 'shared/atoms/loader/Loader'
+import Loader from '../../atoms/loader/Loader'
 import {
   HeaderCell,
   Cell,
@@ -9,10 +9,8 @@ import {
   ActionCell,
   CardActionCell,
   ProfileIconCell,
-  UserStatusCell,
   LocationCell,
-  PaymentStatusCell,
-  DateTimeCell
+  DateTimeCell,
 } from './cells'
 import TableFooter from './footer/TableFooter'
 import './Table.scss'
@@ -20,20 +18,21 @@ import './Table.scss'
 const { Column } = RsuiteTable
 
 export interface Pagination {
-  page: number;
-  limit: number;
+  page: number
+  limit: number
 }
 
 const DEFAULT_PAGE_SIZE = 10
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Table<R extends RowDataType<any>, K extends RowKeyType>(
   props: TableProps<R, K> & {
-    paginated?: boolean,
-    pageSizeOptions?: number[],
-    defaultPageSize?: number,
-    total?: number,
-    onPageChange?: (page: number, pageSize: number) => void,
+    paginated?: boolean
+    pageSizeOptions?: number[]
+    defaultPageSize?: number
+    total?: number
+    onPageChange?: (page: number, pageSize: number) => void
     maxButtons?: number
-  }
+  },
 ): JSX.Element {
   const {
     data = [],
@@ -58,7 +57,7 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
 
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
-  const filteredData = data.filter((item) => item !== null)
+  const filteredData = data.filter(item => item !== null)
 
   const handlePageChangeInternal = (page: number) => {
     setCurrentPage(page)
@@ -67,10 +66,7 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
     }
   }
 
-  const handlePageSizeChangeInternal = (
-    value: number | null,
-    _: React.SyntheticEvent
-  ) => {
+  const handlePageSizeChangeInternal = (value: number | null) => {
     if (value !== null) {
       setPageSize(value)
       setCurrentPage(1)
@@ -88,20 +84,19 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
   }, [currentPage, pageSize])
 
   return (
-    <div className="table-container">
-      <div className="table-wrapper">
+    <div className='table-container'>
+      <div className='table-wrapper'>
         {loading && <Loader />}
         {!loading && (
           <RsuiteTable
             loading={false}
             height={400}
-            wordWrap="break-word"
+            wordWrap='break-word'
             hover={hover}
             fillHeight={fillHeight}
             data={filteredData}
             onRowClick={onRowClick}
-            {...rest}
-          >
+            {...rest}>
             {children}
           </RsuiteTable>
         )}
@@ -114,11 +109,10 @@ function Table<R extends RowDataType<any>, K extends RowKeyType>(
           pageSizeOptions={pageSizeOptions}
           onPageChange={handlePageChangeInternal}
           onPageSizeChange={handlePageSizeChangeInternal}
-          maxButtons={maxButtons}
-        >
+          maxButtons={maxButtons}>
           {`${(currentPage - 1) * pageSize + 1}-${Math.min(
             currentPage * pageSize,
-            total
+            total,
           )} of ${total}`}
         </TableFooter>
       )}
@@ -133,9 +127,7 @@ Table.ActionCell = ActionCell
 Table.StatusCell = StatusCell
 Table.CardActionCell = CardActionCell
 Table.ProfileIconCell = ProfileIconCell
-Table.UserStatusCell = UserStatusCell
 Table.LocationCell = LocationCell
-Table.PaymentStatusCell = PaymentStatusCell
 Table.DateTimeCell = DateTimeCell
 Table.DEFAULT_PAGE_SIZE = DEFAULT_PAGE_SIZE
 
