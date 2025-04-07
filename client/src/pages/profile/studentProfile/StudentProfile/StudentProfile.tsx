@@ -59,8 +59,8 @@ const StudentProfilePage: React.FC = () => {
       {!isFetching && (
         <>
           <div className='user-profile-header'>
-            <div className='user-logo-section'>
-              <div className='user-profile-info'>
+            <div className='user-profile-info'>
+              <div className='user-logo-section'>
                 <img
                   src={imgSrc}
                   alt='user Logo'
