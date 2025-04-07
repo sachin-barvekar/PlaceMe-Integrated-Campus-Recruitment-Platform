@@ -1,0 +1,57 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .stat-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 20px;
+    cursor: pointer;
+
+    .stat-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .rs-stat-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .rs-stat-label {
+      font-size: 14px;
+      color: #555;
+    }
+  }
+
+  .report-dash {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .report-item {
+      width: 49%;
+    }
+
+    @media (max-width: 940px) {
+      flex-direction: column;
+      align-items: center;
+
+      .report-item {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

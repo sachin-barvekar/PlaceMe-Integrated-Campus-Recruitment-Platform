@@ -133,9 +133,16 @@
   }
 }
 
-.formButton {
-  margin-top: 0.3rem !important;
-  margin-bottom: 0.3rem !important;
+.form-button {
+  .rs-btn-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  button {
+    width: 48%;
+  }
 }
 #reset {
   background-color: $button-background-color-secondary !important;

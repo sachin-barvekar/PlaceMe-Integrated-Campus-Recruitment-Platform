@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Nav, Input, InputGroup } from 'rsuite'
 import SearchIcon from '@rsuite/icons/Search'
 import PlusIcon from '@rsuite/icons/Plus'
+import ArowBackIcon from '@rsuite/icons/ArowBack'
 import './toolbar.scss'
 import { Button } from '../../atoms'
 
 interface Props {
   options: { label: string; value: string; onClick: () => void }[]
   buttonName?: string
+  backbuttonName?: string
   onButtonClick?: () => void
+  onBackButtonClick?: () => void
   total?: number
   onSearchChange?: (value: string) => void
   searchPlaceholder?: string
@@ -18,6 +21,8 @@ const Toolbar: React.FC<Props> = ({
   options,
   buttonName,
   onButtonClick,
+  backbuttonName,
+  onBackButtonClick,
   total,
   onSearchChange,
   searchPlaceholder = 'Search',
@@ -71,7 +76,7 @@ const Toolbar: React.FC<Props> = ({
             </Nav.Item>
           ))}
         </Nav>
-        <div className='toolbar-totals'>Total {total}</div>
+        {total && <div className='toolbar-totals'>Total {total}</div>}
       </div>
       <div className={panelClass}>
         {onSearchChange && (
@@ -94,6 +99,15 @@ const Toolbar: React.FC<Props> = ({
             startIcon={<PlusIcon />}
             onClick={onButtonClick}>
             {buttonName}
+          </Button>
+        )}
+        {backbuttonName && (
+          <Button
+            className='toolbar-btn'
+            appearance='primary'
+            startIcon={<ArowBackIcon />}
+            onClick={onBackButtonClick}>
+            {backbuttonName}
           </Button>
         )}
       </div>

@@ -66,18 +66,18 @@ const PasskeyModal: React.FC<PasskeyModalProps> = ({
     <ButtonToolbar>
       <Button
         className='formButton'
-        appearance='primary'
-        type='submit'
-        disabled={formikProps.isValidating || formikProps.isSubmitting}>
-        Verify
-      </Button>
-      <Button
-        className='formButton'
         id='reset'
         onClick={() => {
           formikProps.resetForm()
         }}>
         Reset
+      </Button>
+      <Button
+        className='formButton'
+        appearance='primary'
+        type='submit'
+        disabled={formikProps.isValidating || formikProps.isSubmitting}>
+        Verify
       </Button>
     </ButtonToolbar>
   )
@@ -114,7 +114,9 @@ const PasskeyModal: React.FC<PasskeyModalProps> = ({
                       <FormikErrorMessage name='passkey' />
                     </Col>
                   </Row>
-                  {renderFormButtons(formikProps)}
+                  <div className='form-button'>
+                    {renderFormButtons(formikProps)}
+                  </div>
                 </Section>
               </Panel>
             </Form>

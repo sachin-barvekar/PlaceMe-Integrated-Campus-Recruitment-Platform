@@ -243,7 +243,9 @@ const CreateEditPlacement: React.FC<Props> = ({
                     </Col>
                   </Row>
                 </Section>
-                {renderFormButtons(formikProps)}
+                <div className='form-button'>
+                  {renderFormButtons(formikProps)}
+                </div>
               </Panel>
             </Form>
           )}

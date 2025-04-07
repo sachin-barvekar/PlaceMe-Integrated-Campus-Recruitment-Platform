@@ -3,6 +3,11 @@ import * as Yup from 'yup'
 import { IListApiRequest } from '../../api/types'
 import { Job } from './types'
 
+export enum DETAILSPAGEACTIVE_TAB {
+  DETAILS = 'DETAILS',
+  APPLICANTS = 'APPLICANTS',
+}
+
 export enum ACTIVE_TAB {
   ALL = 'all',
   Active = 'true',

@@ -1,53 +1,56 @@
-import { MdBusiness } from 'react-icons/md'
-import { FaUserTie } from 'react-icons/fa'
-import { useNavigate } from 'react-router'
-import { ChartScreen, DashCards, PageHeading } from '../../shared'
-import './Dashboard.scss'
-import '../../scss/common/list/List.scss'
+import { Stat, StatGroup } from 'rsuite'
+import './AdminHome.scss'
+import { ChartScreen, PageHeading } from '../../../shared'
 import {
   useGetDashboardDataQuery,
   useGetRecruiterDashboardDataQuery,
-} from './dashboardApiSlice'
+} from '../dashboardApiSlice'
+import { useNavigate } from 'react-router-dom'
+import { FaUsers, FaUserTie } from 'react-icons/fa'
+import { MdBusiness } from 'react-icons/md'
 
-const Dashboard: React.FC = () => {
+const AdminHome: React.FC = () => {
   const { data: recruiter } = useGetRecruiterDashboardDataQuery()
   const { data } = useGetDashboardDataQuery()
   const navigate = useNavigate()
   const formattedData = data?.branchWisePlacement?.map(
     ({ branch, count }: { branch: string; count: number }) => [branch, count],
   )
-
-  const USER_DATA = [
-    {
-      title: 'Total Students',
-      description: data?.totalStudents ?? 0,
-      icon: <FaUserTie className='dashboard-icon total' />,
-      onClick: () => {
-        navigate('/student')
-      },
-    },
-    {
-      title: 'Total Recruiters',
-      description: recruiter?.totalRecruiters ?? 0,
-      icon: <MdBusiness className='dashboard-icon recruiter' />,
-      onClick: () => {
-        navigate('/recruiter')
-      },
-    },
-    {
-      title: 'Placed Students',
-      description: data?.placedStudents ?? 0,
-      icon: <FaUserTie className='dashboard-icon placed' />,
-      onClick: () => {
-        navigate('/placed-students')
-      },
-    },
-  ]
-
   return (
     <div className='dashboard'>
       <PageHeading title='Welcome Admin' />
-      <DashCards data={USER_DATA} />
+      <StatGroup className='stat-container' columns={3}>
+        <Stat
+          onClick={() => {
+            navigate('/student')
+          }}
+          bordered
+          className='stat-card'
+          icon={<FaUsers color='#2B478B' className='stat-icon' />}>
+          <Stat.Value>{data?.totalStudents ?? 0}</Stat.Value>
+          <Stat.Label>Total Students</Stat.Label>
+        </Stat>
+        <Stat
+          onClick={() => {
+            navigate('/recruiter')
+          }}
+          bordered
+          className='stat-card'
+          icon={<MdBusiness color='#314D63' className='stat-icon' />}>
+          <Stat.Value>{recruiter?.totalRecruiters ?? 0}</Stat.Value>
+          <Stat.Label>Total Recruiters</Stat.Label>
+        </Stat>
+        <Stat
+          bordered
+          onClick={() => {
+            navigate('/placed-students')
+          }}
+          className='stat-card'
+          icon={<FaUserTie color='#FF9800' className='stat-icon' />}>
+          <Stat.Value>{data?.placedStudents ?? 0}</Stat.Value>
+          <Stat.Label>Placed Students</Stat.Label>
+        </Stat>
+      </StatGroup>
       <div className='report-dash'>
         <div className='report-item'>
           <ChartScreen
@@ -87,4 +90,4 @@ const Dashboard: React.FC = () => {
   )
 }
 
-export default Dashboard
+export default AdminHome

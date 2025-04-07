@@ -85,7 +85,7 @@ const CreateEditJob: React.FC<Props> = ({
         notifySuccess('Job created successfully!')
       }
       onClose()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       notifyError('Failed to save job')
     } finally {
@@ -255,7 +255,9 @@ const CreateEditJob: React.FC<Props> = ({
                     </Col>
                   </Row>
                 </Section>
-                {renderFormButtons(formikProps)}
+                <div className='form-button'>
+                  {renderFormButtons(formikProps)}
+                </div>
               </Panel>
             </Form>
           )}

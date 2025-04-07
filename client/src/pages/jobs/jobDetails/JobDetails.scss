@@ -1,16 +1,6 @@
 .job-details {
-  margin: auto;
-  padding: 20px;
-  overflow: auto;
-  height: calc(100vh - 13.5rem);
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  .back-btn {
-    display: flex;
-    justify-content: flex-end;
-  }
+  background: #ffffff;
+  border-radius: 4px;
 
   h2 {
     color: #333;
@@ -21,7 +11,11 @@
     margin: 5px 0;
     color: #555;
   }
-
+  .job-details {
+    height: calc(100vh - 15.5rem);
+    overflow: auto;
+    padding: 1rem 2rem;
+  }
   pre {
     background: #eef;
     padding: 10px;

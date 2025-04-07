@@ -28,7 +28,11 @@ const SideNav: FC<Props> = ({ isMobile, onClose, open }) => {
           <img src={LOGO} className='header__logo' alt='placeMe' />
         </Drawer.Header>
         <Drawer.Body>
-          <Nav activeKey={activeKey} onSelect={setActiveKey} vertical>
+          <Nav
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+            vertical
+            onClick={onClose}>
             {menuItems.map(({ id, name, link, icon: Icon, subMenu }) => (
               <NavItem
                 key={id}

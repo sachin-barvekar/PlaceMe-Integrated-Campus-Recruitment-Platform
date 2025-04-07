@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import AuthGuard from '../guards/AuthGuard'
 import RouteGuard from '../guards/RouteGuard'
-import Dashboard from '../pages/dashboard/Dashboard'
+import HomePage from '../pages/home'
 import StudentList from '../pages/students/studentList/StudentList'
 import ProfilePage from '../pages/profile'
 import RecruitersList from '../pages/recruiters/recruitersList/RecruitersList'
@@ -42,8 +42,8 @@ const appRouter = () =>
             {
               path: '/',
               element: (
-                <RouteGuard requiredRoles={['admin']}>
-                  <Dashboard />
+                <RouteGuard requiredRoles={['admin', 'student', 'recruiter']}>
+                  <HomePage />
                 </RouteGuard>
               ),
             },

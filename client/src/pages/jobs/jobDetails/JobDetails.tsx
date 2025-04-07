@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './JobDetails.scss'
 import { Button } from 'rsuite'
-import { ConfirmModal, Loader } from '../../../shared'
+import { ConfirmModal, Loader, Toolbar } from '../../../shared'
 import { Job } from '../types'
 import { format, isBefore } from 'date-fns'
 import {
@@ -13,6 +13,7 @@ import {
 } from '../jobApiSlice'
 import { notifyError, notifySuccess } from '../../../utils'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { DETAILSPAGEACTIVE_TAB } from '../utils'
 
 const JobDetails = () => {
   const { jobId } = useParams()
@@ -27,8 +28,11 @@ const JobDetails = () => {
   const { data, isFetching } = useFetchJobDetailsByIdQuery({ jobId })
   const navigate = useNavigate()
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-  const [hasApplied, setHasApplied] = useState(false)
-  const [isApplicationOpen, setIsApplicationOpen] = useState(false)
+  const [hasApplied, setHasApplied] = useState<boolean>(false)
+  const [isApplicationOpen, setIsApplicationOpen] = useState<boolean>(false)
+  const [activeTab, handleTabChange] = useState<string>(
+    DETAILSPAGEACTIVE_TAB.DETAILS,
+  )
 
   useEffect(() => {
     if (data?.job) {
@@ -44,7 +48,7 @@ const JobDetails = () => {
           isBefore(new Date(), new Date(selectedJob.lastDateToApply || '')),
       )
     }
-  }, [selectedJob, currentUserId])
+  }, [selectedJob, currentUserId, setIsApplicationOpen])
 
   const formatDate = (date?: string | Date) => {
     if (!date) return '-'
@@ -122,90 +126,118 @@ const JobDetails = () => {
     return <div className='job-details'>No job details available.</div>
   }
 
+  const allOptions = [
+    {
+      label: 'Job Details',
+      value: DETAILSPAGEACTIVE_TAB.DETAILS,
+      onClick: () => handleTabChange(DETAILSPAGEACTIVE_TAB.DETAILS),
+    },
+    {
+      label: 'Job Applicants',
+      value: DETAILSPAGEACTIVE_TAB.APPLICANTS,
+      onClick: () => handleTabChange(DETAILSPAGEACTIVE_TAB.APPLICANTS),
+    },
+  ]
+
+  const isStudent = role === 'student'
+  const options = isStudent
+    ? allOptions.filter(
+        option => option.value === DETAILSPAGEACTIVE_TAB.DETAILS,
+      )
+    : allOptions
+
   return (
     <div className='job-details'>
       <div className='back-btn'>
-        <Button appearance='primary' onClick={() => navigate(-1)}>
-          Back
-        </Button>
+        <Toolbar
+          options={options}
+          onSearchChange={() => {}}
+          backbuttonName='Back'
+          onBackButtonClick={() => navigate(-1)}
+        />
       </div>
-      {isFetching && <Loader />}
-      {selectedJob && (
-        <div>
-          <h2>{selectedJob.role}</h2>
-          <p>
-            <strong>Company:</strong> {selectedJob.recruiterId?.companyName}
-          </p>
-          <p>
-            <strong>Location:</strong> {selectedJob.location}
-          </p>
-          <p>
-            <strong>Job Type:</strong> {selectedJob.jobType}
-          </p>
-          <p>
-            <strong>Package:</strong> {selectedJob.package}
-          </p>
-          <p>
-            <strong>Job Description:</strong>
-          </p>
-          <pre>{selectedJob.jobDescription}</pre>
-          <p>
-            <strong>Skills Required:</strong>
-          </p>
-          <pre>{selectedJob.skillsRequired}</pre>
-          {selectedJob.eligibilityCriteria && (
-            <p>
-              <strong>Eligibility:</strong> {selectedJob.eligibilityCriteria}
-            </p>
-          )}
-          <p>
-            <strong>Drive Date:</strong> {formatDate(selectedJob.driveDate)}
-          </p>
-          <p>
-            <strong>Last Date to Apply:</strong>{' '}
-            {formatDate(selectedJob.lastDateToApply)}
-          </p>
-          <p className={selectedJob.active ? 'active' : 'inactive'}>
-            <strong>Status:</strong>{' '}
-            {selectedJob.active ? 'Active' : 'Inactive'}
-          </p>
-          <div className='btn-container'>
-            {role === 'student' && (
-              <div>
-                <Button
-                  appearance='primary'
-                  color={hasApplied ? 'red' : undefined}
-                  onClick={() =>
-                    openConfirmModal(
-                      hasApplied ? 'Withdraw Application' : 'Apply for Job',
-                      hasApplied
-                        ? 'Are you sure you want to withdraw your application?'
-                        : 'Are you sure you want to apply?',
-                      hasApplied ? 'Yes, Withdraw' : 'Yes, Apply',
-                      handleApplyOrWithdraw,
-                    )
-                  }
-                  disabled={!isApplicationOpen && !hasApplied}>
-                  {buttonText}
-                </Button>
+      {activeTab === DETAILSPAGEACTIVE_TAB.DETAILS && (
+        <div className='job-details'>
+          {isFetching && <Loader />}
+          {selectedJob && (
+            <div>
+              <h2>{selectedJob.role}</h2>
+              <p>
+                <strong>Company:</strong> {selectedJob.recruiterId?.companyName}
+              </p>
+              <p>
+                <strong>Location:</strong> {selectedJob.location}
+              </p>
+              <p>
+                <strong>Job Type:</strong> {selectedJob.jobType}
+              </p>
+              <p>
+                <strong>Package:</strong> {selectedJob.package}
+              </p>
+              <p>
+                <strong>Job Description:</strong>
+              </p>
+              <pre>{selectedJob.jobDescription}</pre>
+              <p>
+                <strong>Skills Required:</strong>
+              </p>
+              <pre>{selectedJob.skillsRequired}</pre>
+              {selectedJob.eligibilityCriteria && (
+                <p>
+                  <strong>Eligibility:</strong>{' '}
+                  {selectedJob.eligibilityCriteria}
+                </p>
+              )}
+              <p>
+                <strong>Drive Date:</strong> {formatDate(selectedJob.driveDate)}
+              </p>
+              <p>
+                <strong>Last Date to Apply:</strong>{' '}
+                {formatDate(selectedJob.lastDateToApply)}
+              </p>
+              <p className={selectedJob.active ? 'active' : 'inactive'}>
+                <strong>Status:</strong>{' '}
+                {selectedJob.active ? 'Active' : 'Inactive'}
+              </p>
+              <div className='btn-container'>
+                {role === 'student' && (
+                  <div>
+                    <Button
+                      appearance='primary'
+                      color={hasApplied ? 'red' : undefined}
+                      onClick={() =>
+                        openConfirmModal(
+                          hasApplied ? 'Withdraw Application' : 'Apply for Job',
+                          hasApplied
+                            ? 'Are you sure you want to withdraw your application?'
+                            : 'Are you sure you want to apply?',
+                          hasApplied ? 'Yes, Withdraw' : 'Yes, Apply',
+                          handleApplyOrWithdraw,
+                        )
+                      }
+                      disabled={!isApplicationOpen && !hasApplied}>
+                      {buttonText}
+                    </Button>
+                  </div>
+                )}
+                {role === 'recruiter' && (
+                  <Button
+                    appearance='primary'
+                    color='red'
+                    onClick={() =>
+                      openConfirmModal(
+                        'Delete Job',
+                        'Are you sure you want to delete this job? This action cannot be undone.',
+                        'Yes, Delete',
+                        handleDeleteJob,
+                      )
+                    }>
+                    Delete
+                  </Button>
+                )}
               </div>
-            )}
-            {role === 'recruiter' && (
-              <Button
-                appearance='primary'
-                color='red'
-                onClick={() =>
-                  openConfirmModal(
-                    'Delete Job',
-                    'Are you sure you want to delete this job? This action cannot be undone.',
-                    'Yes, Delete',
-                    handleDeleteJob,
-                  )
-                }>
-                Delete
-              </Button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
       <ConfirmModal
