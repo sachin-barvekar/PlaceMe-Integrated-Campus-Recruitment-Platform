@@ -45,7 +45,13 @@ const JobList: FC = () => {
   const total = data?.totalElements ?? data?.content?.length ?? 0
 
   const handleAction = (action: string | undefined, rowData: Job) => {
+    const jobId = rowData._id
     switch (action) {
+      case '1':
+        if (jobId) {
+          Navigate(`/job/${jobId}`)
+        }
+        break
       case '2':
         setIsEditMode(true)
         setSelectedJobData(rowData)
@@ -160,7 +166,7 @@ const JobList: FC = () => {
               tooltip
               dataKey='action'
               onAction={handleAction}
-              actionOptions={['Edit']}
+              actionOptions={['View', 'Edit']}
             />
           </Column>
         </Table>

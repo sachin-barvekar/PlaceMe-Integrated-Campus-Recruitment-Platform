@@ -7,7 +7,7 @@ import {
   MdSettings,
   MdDescription,
 } from 'react-icons/md'
-import { FaClipboardList, FaUserGraduate, FaWhatsapp } from 'react-icons/fa'
+import { FaUserGraduate, FaWhatsapp } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
@@ -33,7 +33,7 @@ const menuItems: MenuItemType[] = [
     name: 'Dashboard',
     link: '/',
     icon: AiOutlineHome,
-    roles: ['admin'],
+    roles: ['admin', 'student', 'recruiter'],
   },
   {
     id: '2',
@@ -79,33 +79,26 @@ const menuItems: MenuItemType[] = [
   },
   {
     id: '8',
-    name: 'Applications',
-    link: '/application',
-    icon: FaClipboardList,
-    roles: ['recruiter'],
-  },
-  {
-    id: '9',
     name: 'Job Offers',
     link: '/job-offers',
     icon: FaUserGraduate,
     roles: ['recruiter'],
   },
   {
-    id: '10',
+    id: '9',
     name: 'Configuration',
     link: '/settings',
     icon: MdSettings,
     roles: ['admin___'],
     subMenu: [
       {
-        id: '10-1',
+        id: '9-1',
         name: 'WhatsApp',
         link: '/settings/WhatsApp',
         icon: FaWhatsapp,
       },
       {
-        id: '10-2',
+        id: '9-2',
         name: 'Template',
         link: '/settings/template',
         icon: MdDescription,

@@ -14,6 +14,7 @@ const {
   addOrEditStudentProfile,
   getAllStudents,
   getStudentQueries,
+  getStudentProfileById,
 } = require('../controller/student.controller')
 const {
   addOrEditAdminProfile,
@@ -40,6 +41,7 @@ const {
   getAppliedJobs,
   withdrawApplication,
   getJobOpeningById,
+  getJobApplicantsById,
 } = require('../controller/jobs.controller')
 const {
   getUserNotifications,
@@ -50,6 +52,11 @@ router.post('/login', login)
 router.get('/student-profile', verifyFirebaseToken, StudentProfileCompletion)
 router.post('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
 router.put('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
+router.get(
+  '/student/profile/:userId',
+  verifyFirebaseToken,
+  getStudentProfileById,
+)
 
 router.get('/students', verifyFirebaseToken, getAllStudents)
 router.get('/student-count', verifyFirebaseToken, getStudentQueries)
@@ -94,6 +101,7 @@ router.delete('/jobs/delete/:jobId', verifyFirebaseToken, deleteJob)
 router.patch('/jobs/apply/:jobId', verifyFirebaseToken, applyJob)
 router.get('/jobs/applied', verifyFirebaseToken, getAppliedJobs)
 router.delete('/jobs/withdraw/:jobId', verifyFirebaseToken, withdrawApplication)
+router.get('/job/:jobId/applicants', verifyFirebaseToken, getJobApplicantsById)
 
 router.get('/notifications', verifyFirebaseToken, getUserNotifications)
 

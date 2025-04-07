@@ -4,6 +4,7 @@ import EditIcon from '@rsuite/icons/Edit'
 import TrashIcon from '@rsuite/icons/Trash'
 import VisibleIcon from '@rsuite/icons/Visible'
 import { MdDownload } from 'react-icons/md'
+import CheckOutlineIcon from '@rsuite/icons/CheckOutline'
 import { Whisper, Tooltip } from 'rsuite'
 import './ActionCell.scss'
 
@@ -22,6 +23,7 @@ const defaultOptions = [
   { label: 'Edit', eventKey: '2', icon: <EditIcon /> },
   { label: 'Delete', eventKey: '3', icon: <TrashIcon /> },
   { label: 'Download', eventKey: '4', icon: <MdDownload /> },
+  { label: 'Select', eventKey: '5', icon: <CheckOutlineIcon /> },
 ]
 
 const ActionCell: React.FC<Props> = ({

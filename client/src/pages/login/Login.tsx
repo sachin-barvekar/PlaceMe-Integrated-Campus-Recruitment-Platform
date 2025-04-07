@@ -25,7 +25,7 @@ function LoginPage() {
     return <Loader />
   }
   if (authContext?.user) {
-    return <Navigate to='/profile' />
+    return <Navigate to='/' />
   }
 
   const handleLogin = async () => {

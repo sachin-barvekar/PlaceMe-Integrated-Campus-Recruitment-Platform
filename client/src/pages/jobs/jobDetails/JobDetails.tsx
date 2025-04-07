@@ -2,19 +2,28 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './JobDetails.scss'
 import { Button } from 'rsuite'
-import { ConfirmModal, Loader, Toolbar } from '../../../shared'
+import { ConfirmModal, Loader, Table, Toolbar } from '../../../shared'
 import { Job } from '../types'
 import { format, isBefore } from 'date-fns'
 import {
   useApplyJobMutation,
   useDeleteJobMutation,
+  useFetchJobApplicantsByIdQuery,
   useFetchJobDetailsByIdQuery,
   useWithdrawJobApplicationMutation,
 } from '../jobApiSlice'
 import { notifyError, notifySuccess } from '../../../utils'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { DETAILSPAGEACTIVE_TAB } from '../utils'
+import { IListApiRequest } from '../../../api/types'
+import { useTableHandlers } from '../../../hooks/useTableHandlers'
 
+const COLUMNS = [
+  { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 130 },
+  { key: 'email', label: 'Email', flexGrow: 2, minWidth: 120 },
+  { key: 'appliedAt', label: 'Applied Date', flexGrow: 1.2, minWidth: 120 },
+]
+const { Column, HeaderCell, Cell, ActionCell } = Table
 const JobDetails = () => {
   const { jobId } = useParams()
   const { dbUser, role } = useContext(AuthContext) || {}
@@ -40,6 +49,20 @@ const JobDetails = () => {
     }
   }, [data])
 
+  const { requestBody, onPageChange, onSearchChange, onSortColumn } =
+    useTableHandlers<Job, IListApiRequest<Job>>(
+      {
+        page: { size: 10, number: 0 },
+        filters: [],
+      },
+      'search',
+    )
+
+  const { data: applicant } = useFetchJobApplicantsByIdQuery({
+    jobId: jobId!,
+    query: requestBody,
+  })
+  const total = applicant?.totalElements ?? applicant?.content?.length ?? 0
   useEffect(() => {
     if (selectedJob) {
       setHasApplied(selectedJob.applicants?.includes(currentUserId) ?? false)
@@ -145,13 +168,23 @@ const JobDetails = () => {
         option => option.value === DETAILSPAGEACTIVE_TAB.DETAILS,
       )
     : allOptions
-
+  const handleAction = (action: string | undefined, rowData: Job) => {
+    switch (action) {
+      case '1':
+        navigate(`/job/student/${rowData._id}`)
+        break
+      case '2':
+        break
+      default:
+        break
+    }
+  }
   return (
     <div className='job-details'>
       <div className='back-btn'>
         <Toolbar
           options={options}
-          onSearchChange={() => {}}
+          onSearchChange={onSearchChange}
           backbuttonName='Back'
           onBackButtonClick={() => navigate(-1)}
         />
@@ -238,6 +271,51 @@ const JobDetails = () => {
               </div>
             </div>
           )}
+        </div>
+      )}
+      {activeTab === DETAILSPAGEACTIVE_TAB.APPLICANTS && (
+        <div className='list'>
+          <div className='list__main-container'>
+            <Table
+              data={applicant?.content ?? []}
+              loading={isFetching}
+              onSortColumn={onSortColumn}
+              paginated
+              pageSizeOptions={[10, 20, 30]}
+              total={total}
+              defaultPageSize={applicant?.size ?? 10}
+              onPageChange={onPageChange}
+              onRowClick={data => {
+                navigate(`/job/student/${data._id}`)
+              }}>
+              {COLUMNS.map((column, index) => {
+                const { key, label, flexGrow, minWidth } = column
+
+                return (
+                  <Column
+                    flexGrow={flexGrow ?? 1}
+                    minWidth={minWidth ?? 100}
+                    key={key}
+                    align={index === 0 ? 'left' : 'center'}
+                    sortable
+                    fixed={index === 0}>
+                    <HeaderCell>{label}</HeaderCell>
+
+                    <Cell dataKey={key} tooltip />
+                  </Column>
+                )
+              })}
+              <Column flexGrow={1} minWidth={80} key='action'>
+                <HeaderCell>Action</HeaderCell>
+                <ActionCell
+                  tooltip
+                  dataKey='action'
+                  onAction={handleAction}
+                  actionOptions={['View', 'Select']}
+                />
+              </Column>
+            </Table>
+          </div>
         </div>
       )}
       <ConfirmModal

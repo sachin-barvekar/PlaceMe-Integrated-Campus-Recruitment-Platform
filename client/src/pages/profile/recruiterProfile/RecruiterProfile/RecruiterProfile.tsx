@@ -55,24 +55,26 @@ const RecruiterProfilePage: React.FC = () => {
       {!isFetching && (
         <>
           <div className='user-profile-header'>
-            <div className='user-logo-section'>
-              <img
-                src={imgSrc}
-                alt='user Logo'
-                onError={handleImageError}
-                className='user-logo'
-              />
-              <IconButton
-                icon={<EditIcon className='edit-icon' />}
-                appearance='subtle'
-                className='edit-button'
-                onClick={() => data && handleEditClick(data)}
-              />
-            </div>
-            <div className='user-name'>
-              <span className='user-name-text'>
-                {data?.recruiter?.companyName ?? '-'}
-              </span>
+            <div className='user-profile-info'>
+              <div className='user-logo-section'>
+                <img
+                  src={imgSrc}
+                  alt='user Logo'
+                  onError={handleImageError}
+                  className='user-logo'
+                />
+                <IconButton
+                  icon={<EditIcon className='edit-icon' />}
+                  appearance='subtle'
+                  className='edit-button'
+                  onClick={() => data && handleEditClick(data)}
+                />
+              </div>
+              <div className='user-name'>
+                <span className='user-name-text'>
+                  {data?.recruiter?.companyName ?? '-'}
+                </span>
+              </div>
             </div>
           </div>
           <div className='user-profile-body'>

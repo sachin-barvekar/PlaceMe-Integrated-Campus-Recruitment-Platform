@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton } from 'rsuite'
 import {
   FaUser,
   FaBirthdayCake,
@@ -10,23 +9,21 @@ import {
   FaEnvelope,
   FaLightbulb,
 } from 'react-icons/fa'
-import { MdCall } from 'react-icons/md'
-import { Edit as EditIcon } from '@rsuite/icons'
+import { MdCall, MdKeyboardBackspace } from 'react-icons/md'
 import '../../Profile.scss'
-import { useGetProfileQuery } from '../../profileApiSlice'
-import { StudentProfileResponse } from '../../types'
+import { useGetProfilebyIdQuery } from '../../profileApiSlice'
 import { format } from 'date-fns'
 import { Loader } from '../../../../shared'
 import { Tabs } from '../../utils'
-import CreateEditStudentProfile from '../createEditStudentProfile/CreateEditStudentProfile'
 import PROFILE from '../../../../assets/images/profile.png'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Button } from 'rsuite'
 
-const StudentProfilePage: React.FC = () => {
+const ViewStudent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.PERSONAL)
-  const { data, isFetching } = useGetProfileQuery()
-  const [profileData, setProfileData] = useState<StudentProfileResponse>()
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const { userId } = useParams()
+  const navigate = useNavigate()
+  const { data, isFetching } = useGetProfilebyIdQuery(userId || '')
   const education = data?.student?.academicDetails
   const [imgSrc, setImgSrc] = useState<string | undefined>(
     data?.student?.profilePhoto,
@@ -42,36 +39,27 @@ const StudentProfilePage: React.FC = () => {
   const handleImageError = () => {
     setImgSrc(PROFILE)
   }
-  const handleEditClick = (ProfileData: StudentProfileResponse) => {
-    setProfileData(ProfileData)
-    setIsModalOpen(true)
-    setIsEditMode(true)
-  }
 
-  useEffect(() => {
-    if (data?.profileCompletion !== undefined) {
-      setIsModalOpen(!data.profileCompletion)
-    }
-  }, [data?.profileCompletion])
   return (
     <div className='user-profile'>
       {isFetching && <Loader />}
       {!isFetching && (
         <>
           <div className='user-profile-header'>
-            <div className='user-logo-section'>
-              <div className='user-profile-info'>
+            <Button
+              appearance='default'
+              className='back-btn'
+              startIcon={<MdKeyboardBackspace />}
+              onClick={() => navigate(-1)}>
+              Back
+            </Button>
+            <div className='user-profile-info'>
+              <div className='user-logo-section'>
                 <img
                   src={imgSrc}
                   alt='user Logo'
                   onError={handleImageError}
                   className='user-logo'
-                />
-                <IconButton
-                  icon={<EditIcon className='edit-icon' />}
-                  appearance='subtle'
-                  className='edit-button'
-                  onClick={() => data && handleEditClick(data)}
                 />
               </div>
               <div className='user-name'>
@@ -123,7 +111,7 @@ const StudentProfilePage: React.FC = () => {
                     setActiveTab(Tabs.MY_RESUME)
                   }
                 }}>
-                My Resume
+                Resume
               </div>
             </div>
 
@@ -291,20 +279,10 @@ const StudentProfilePage: React.FC = () => {
               )}
             </div>
           </div>
-          <CreateEditStudentProfile
-            profileData={profileData}
-            isOpen={isModalOpen}
-            isEditMode={isEditMode}
-            onClose={() => {
-              setIsModalOpen(false)
-              setIsEditMode(false)
-              setProfileData(undefined)
-            }}
-          />
         </>
       )}
     </div>
   )
 }
 
-export default StudentProfilePage
+export default ViewStudent

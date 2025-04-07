@@ -17,7 +17,13 @@ const profileApiSlice = profileApi.injectEndpoints({
       }),
       providesTags: ['student-profile'],
     }),
-
+    getProfilebyId: build.query<StudentProfileResponse, string>({
+      query: userId => ({
+        url: `/student/profile/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['student-profile'],
+    }),
     createProfile: build.mutation<void, StudentSaveRequest>({
       query: ({ studentDTO, file }) => {
         const formData = new FormData()
@@ -155,4 +161,5 @@ export const {
   useGetRecruiterProfileQuery,
   useCreateRecruiterProfileMutation,
   useUpdateRecruiterProfileMutation,
+  useGetProfilebyIdQuery,
 } = profileApiSlice

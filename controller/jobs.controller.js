@@ -506,16 +506,77 @@ exports.withdrawApplication = async (req, res) => {
 
 exports.getJobOpeningById = async (req, res) => {
   try {
-    const { jobId } = req.params;
+    const { jobId } = req.params
 
-    const job = await Job.findById(jobId).populate('recruiterId');
+    const job = await Job.findById(jobId).populate('recruiterId')
     if (!job) {
-      return res.status(404).json({ success: false, message: "Job not found" });
+      return res.status(404).json({ success: false, message: 'Job not found' })
     }
 
-    res.status(200).json({ success: true, job });
+    res.status(200).json({ success: true, job })
   } catch (error) {
-    console.error("Error fetching job by ID:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.error('Error fetching job by ID:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
   }
-};
+}
+
+exports.getJobApplicantsById = async (req, res) => {
+  const { jobId } = req.params
+  let { page = 0, size = 10, search = '' } = req.query
+
+  try {
+    page = parseInt(page)
+    size = parseInt(size)
+
+    const limit = size === 0 ? 0 : size
+    const skip = page * size
+
+    const job = await Job.findById(jobId)
+
+    if (!job) {
+      return res.status(404).json({ success: false, message: 'Job not found' })
+    }
+
+    const applicantIds = job.applicants.map(app => app._id)
+
+    const searchFilter = search
+      ? {
+          _id: { $in: applicantIds },
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { email: { $regex: search, $options: 'i' } },
+            { mobile: { $regex: search, $options: 'i' } },
+          ],
+        }
+      : { _id: { $in: applicantIds } }
+
+    const totalApplicantsCount = await User.countDocuments(searchFilter)
+
+    const applicants = await User.find(searchFilter)
+      .skip(skip)
+      .limit(limit)
+      .select('name email createdAt')
+
+    const totalPages = size === 0 ? 1 : Math.ceil(totalApplicantsCount / size)
+
+    res.status(200).json({
+      jobId: job._id,
+      role: job.role,
+      content: applicants.map(applicant => ({
+        ...applicant.toObject(),
+        appliedAt: format(new Date(applicant.createdAt), 'dd-MMM-yyyy'),
+      })),
+      totalElements: totalApplicantsCount,
+      totalPages,
+      size,
+      number: page,
+      numberOfElements: applicants.length,
+      first: page === 0,
+      last: page + 1 >= totalPages,
+      empty: applicants.length === 0,
+    })
+  } catch (err) {
+    console.error('Error fetching applicants:', err)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+}

@@ -1,3 +1,5 @@
+import { IListApiRequest } from '../../api/types'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Job {
   _id?: any
@@ -14,4 +16,9 @@ export interface Job {
   active?: boolean
   search?: string
   applicants?: any[]
+}
+
+export interface FetchJobApplicantsRequest {
+  jobId: string
+  query: IListApiRequest<Job>
 }

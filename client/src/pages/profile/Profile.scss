@@ -1,5 +1,5 @@
 @use '../../scss/abstracts/' as *;
-@use "sass:color";
+@use 'sass:color';
 
 .user-profile {
     background-color: $color-white;
@@ -12,12 +12,16 @@
         background: linear-gradient(135deg,
                 $primary-color,
                 color.adjust($primary-color, $lightness: -10%));
-        padding: 1.5rem;
+        padding: 1.2rem;
         color: $color-white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+
+        .user-profile-info {
+            align-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
 
         .user-logo-section {
             position: relative;
@@ -32,8 +36,8 @@
 
             .edit-button {
                 position: absolute;
-                right: 0;
-                bottom: 0;
+                right: 10px;
+                bottom: 5px;
                 background: $color-white;
                 border-radius: 50%;
                 padding: 8px;
@@ -105,8 +109,6 @@
             .personal-details {
                 background: $color-white;
                 padding: 2rem;
-                border-radius: 8px;
-                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
                 .details-header {
                     font-size: 1.5rem;
@@ -166,8 +168,6 @@
                 justify-content: center;
                 background: $color-white;
                 padding: 1rem;
-                border-radius: 8px;
-                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
                 min-height: 8rem;
 
                 .education-timeline {
@@ -182,7 +182,6 @@
                         background: $color-white;
                         border-radius: 8px;
                         padding: 1.5rem;
-                        box-shadow: 2px 4px 8px rgba(33, 33, 33, 0.1);
                         flex: 1 1 300px;
                         min-width: 300px;
                         position: relative;
@@ -264,7 +263,6 @@
                 background: $color-white;
                 padding: 1.5rem;
                 border-radius: 8px;
-                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
                 margin-top: 2rem;
 
                 .section-title {
@@ -279,7 +277,6 @@
                     background: color.adjust($primary-color, $lightness: 40%);
                     padding: 1.5rem;
                     border-radius: 10px;
-                    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
                     transition: all 0.3s ease-in-out;
 
                     &:hover {
