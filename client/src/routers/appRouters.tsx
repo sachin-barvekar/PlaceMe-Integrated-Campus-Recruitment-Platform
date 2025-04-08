@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import AuthGuard from '../guards/AuthGuard'
 import RouteGuard from '../guards/RouteGuard'
 import HomePage from '../pages/home'
@@ -15,6 +15,7 @@ import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
 import RootLayout from '../layouts/RootLayout'
+import Unauth from '../pages/unauthorized'
 
 const appRouter = () =>
   createBrowserRouter([
@@ -28,10 +29,6 @@ const appRouter = () =>
         {
           path: '/logout',
           element: <LogoutPage />,
-        },
-        {
-          path: '*',
-          element: <Navigate to='/auth' replace />,
         },
         {
           element: (
@@ -120,7 +117,19 @@ const appRouter = () =>
                 </RouteGuard>
               ),
             },
+            {
+              path: '*',
+              element: (
+                <RouteGuard requiredRoles={['admin', 'student', 'recruiter']}>
+                  <HomePage />
+                </RouteGuard>
+              ),
+            },
           ],
+        },
+        {
+          path: '/home',
+          element: <Unauth />,
         },
       ],
     },
