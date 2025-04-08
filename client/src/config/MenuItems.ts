@@ -1,13 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { AiOutlineHome } from 'react-icons/ai'
-import {
-  MdBusiness,
-  MdAssignmentTurnedIn,
-  MdWork,
-  MdSettings,
-  MdDescription,
-} from 'react-icons/md'
-import { FaUserGraduate, FaWhatsapp } from 'react-icons/fa'
+import { MdBusiness, MdAssignmentTurnedIn, MdWork } from 'react-icons/md'
+import { FaUserGraduate } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import useAuth from '../hooks/Auth'
 
@@ -83,27 +77,6 @@ const menuItems: MenuItemType[] = [
     link: '/job-offers',
     icon: FaUserGraduate,
     roles: ['recruiter'],
-  },
-  {
-    id: '9',
-    name: 'Configuration',
-    link: '/settings',
-    icon: MdSettings,
-    roles: ['admin___'],
-    subMenu: [
-      {
-        id: '9-1',
-        name: 'WhatsApp',
-        link: '/settings/WhatsApp',
-        icon: FaWhatsapp,
-      },
-      {
-        id: '9-2',
-        name: 'Template',
-        link: '/settings/template',
-        icon: MdDescription,
-      },
-    ],
   },
 ]
 

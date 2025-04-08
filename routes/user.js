@@ -21,17 +21,11 @@ const {
   AdminProfileCompletion,
 } = require('../controller/admin.controller')
 const {
-  exchangeToken,
-  getBusinessInfo,
-  deleteWhatsAppBusinessAccount,
-} = require('../controller/whatsapp.controller')
-const {
   RecruiterProfileCompletion,
   addOrEditRecruiterProfile,
   getAllRecruiters,
   getRecruiterStats,
 } = require('../controller/recruiter.controller')
-
 const {
   addOrEditJob,
   getJobsByRecruiterId,
@@ -46,6 +40,7 @@ const {
 const {
   getUserNotifications,
 } = require('../controller/notification.controller')
+
 
 router.post('/login', login)
 
@@ -69,14 +64,6 @@ router.delete('/placements/delete/:_id', verifyFirebaseToken, deletePlacement)
 router.get('/admin-profile', verifyFirebaseToken, AdminProfileCompletion)
 router.post('/admin-profile', verifyFirebaseToken, addOrEditAdminProfile)
 router.put('/admin-profile', verifyFirebaseToken, addOrEditAdminProfile)
-
-router.post('/whatsapp/exchange_token', verifyFirebaseToken, exchangeToken)
-router.get('/whatsapp/business_info', verifyFirebaseToken, getBusinessInfo)
-router.delete(
-  '/whatsapp/delete-config/:whatsappBusinessID',
-  verifyFirebaseToken,
-  deleteWhatsAppBusinessAccount,
-)
 
 router.get('/recruiters', verifyFirebaseToken, getAllRecruiters)
 router.get('/recruiter-count', verifyFirebaseToken, getRecruiterStats)
