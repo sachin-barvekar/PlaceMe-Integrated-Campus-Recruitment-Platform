@@ -18,6 +18,11 @@ const placementSchema = new mongoose.Schema(
       trim: true,
       maxlength: [100, 'Company name must not exceed 100 characters'],
     },
+    jobId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Job',
+      required: false,
+    },
     jobRole: {
       type: String,
       required: [true, 'Job role is required'],

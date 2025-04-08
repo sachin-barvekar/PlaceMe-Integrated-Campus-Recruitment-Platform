@@ -1,6 +1,11 @@
 const Placement = require('../models/Placement')
 const Student = require('../models/Student')
+const Recruiter = require('../models/Recruiter')
 const User = require('../models/User')
+const Job = require('../models/Job')
+const { sendEmail } = require('../utils/sendEmail')
+const Notification = require('../models/Notification')
+const admin = require('../config/firebaseAdmin')
 
 exports.createPlacement = async (req, res) => {
   try {
@@ -110,7 +115,7 @@ exports.getAllPlacements = async (req, res) => {
 
         return {
           _id: placement._id,
-          studentId:placement.studentId._id,
+          studentId: placement.studentId._id,
           studentName: placement.studentId?.name || '-',
           studentEmail: placement.studentId?.email || '-',
           branch: student?.branch || '-',
@@ -177,5 +182,91 @@ exports.deletePlacement = async (req, res) => {
     res.status(200).json({ message: 'Placement deleted successfully' })
   } catch (error) {
     res.status(500).json({ error: error.message })
+  }
+}
+
+exports.addPlacementbyRecruiter = async (req, res) => {
+  try {
+    const { studentId, jobRole, jobId, package, location } = req.body
+    const student = await User.findById(studentId)
+    const job = await Job.findById(jobId)
+    if (!job) return res.status(404).json({ error: 'Job not found' })
+    if (!student) return res.status(404).json({ error: 'Student not found' })
+    const firebaseUid = req.user.user_id
+    const user = await User.findOne({ firebaseUid })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    const companyId = user?._id
+    let recruiter = await Recruiter.findOne({ userId: companyId })
+    const { companyName } = recruiter
+    const existingPlacement = await Placement.findOne({
+      studentId,
+      jobId,
+      status: 'Placed',
+    })
+    if (existingPlacement) {
+      return res.status(400).json({
+        success: false,
+        message: 'Student is already selected for this job.',
+      })
+    }
+    const newPlacement = await Placement.create({
+      jobId,
+      studentId,
+      companyId,
+      jobRole,
+      package,
+      location,
+      status: 'Placed',
+    })
+
+    const subject = `🎉 You're placed at ${companyName}!`
+    const message = `
+Hi ${student.name},
+
+Congratulations! You’ve been placed at ${companyName} for the role of ${jobRole} with a package of ${package}.
+
+Best wishes for your journey ahead!
+
+Regards,  
+Team TechThinker`
+
+    await sendEmail({
+      to: student.email,
+      subject,
+      text: message,
+    })
+
+    if (student.fcmToken) {
+      const fcmMessage = {
+        notification: {
+          title: '🎉 Congratulations! You’ve Been Selected!',
+          body: `🎉 Congratulations! You’ve Been Selected! at ${companyName} as ${jobRole}.`,
+        },
+        token: student.fcmToken,
+      }
+
+      await admin.messaging().send(fcmMessage)
+
+      const placementNotification = new Notification({
+        title: '🎉 Congratulations! You’ve Been Selected!',
+        message: `🎉 Congratulations! You’ve Been Selected! at ${companyName} as ${jobRole}.`,
+        createdBy: companyId,
+        recipientIds: [student._id],
+      })
+      await placementNotification.save()
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Student has been successfully selected and notified via email.',
+      placement: newPlacement,
+    })
+  } catch (error) {
+    console.error('Placement error:', error)
+    res.status(500).json({ success: false, error: 'Internal server error' })
   }
 }

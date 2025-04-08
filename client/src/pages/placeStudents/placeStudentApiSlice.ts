@@ -29,6 +29,16 @@ const placementApiSlice = PlacementApi.injectEndpoints({
       },
       invalidatesTags: ['placement-list'],
     }),
+    addPlacementByRecruiter: build.mutation<void, PlacementSaveRequest>({
+      query: ({ placementDTO }) => {
+        return {
+          url: `/placement-by-recruiter`,
+          method: 'POST',
+          data: placementDTO,
+        }
+      },
+      invalidatesTags: ['placement-list'],
+    }),
     updatePlacement: build.mutation<void, PlacementSaveRequest>({
       query: ({ placementDTO }) => {
         return {
@@ -56,6 +66,7 @@ export const {
   useCreatePlacementMutation,
   useUpdatePlacementMutation,
   useDeletePlacementMutation,
+  useAddPlacementByRecruiterMutation,
 } = placementApiSlice
 
 export default placementApiSlice

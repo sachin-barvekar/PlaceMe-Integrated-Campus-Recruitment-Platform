@@ -17,6 +17,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DETAILSPAGEACTIVE_TAB } from '../utils'
 import { IListApiRequest } from '../../../api/types'
 import { useTableHandlers } from '../../../hooks/useTableHandlers'
+import { useAddPlacementByRecruiterMutation } from '../../placeStudents/placeStudentApiSlice'
 
 const COLUMNS = [
   { key: 'name', label: 'Full Name', flexGrow: 1, minWidth: 130 },
@@ -34,6 +35,7 @@ const JobDetails = () => {
   const [applyJob] = useApplyJobMutation()
   const [deleteJob] = useDeleteJobMutation()
   const [withdrawJob] = useWithdrawJobApplicationMutation()
+  const [addPlacementByRecruiter] = useAddPlacementByRecruiterMutation()
   const { data, isFetching } = useFetchJobDetailsByIdQuery({ jobId })
   const navigate = useNavigate()
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
@@ -135,6 +137,26 @@ const JobDetails = () => {
       notifyError(`Error ${hasApplied ? 'withdrawing' : 'applying'} for job.`)
     }
   }
+  const handleSelectStudent = async (studentId: string) => {
+    const placementDTO = {
+      jobId: selectedJob?._id,
+      studentId,
+      companyId: selectedJob?._id,
+      jobRole: selectedJob?.role || '-',
+      package: selectedJob?.package || '-',
+      location: selectedJob?.location || '-',
+    }
+
+    try {
+      await addPlacementByRecruiter({ placementDTO }).unwrap()
+      notifySuccess(
+        'Student has been successfully selected and notified via email.',
+      )
+    } catch {
+      console.error('Error while select the student.')
+    }
+  }
+
   let buttonText = ''
 
   if (hasApplied) {
@@ -168,12 +190,20 @@ const JobDetails = () => {
         option => option.value === DETAILSPAGEACTIVE_TAB.DETAILS,
       )
     : allOptions
-  const handleAction = (action: string | undefined, rowData: Job) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleAction = (action: string | undefined, rowData: any) => {
+    const studentId = rowData._id
     switch (action) {
       case '1':
-        navigate(`/job/student/${rowData._id}`)
+        navigate(`/job/student/${studentId}`)
         break
-      case '2':
+      case '5':
+        openConfirmModal(
+          'Select Student',
+          'Are you sure you want to mark this student as placed in your company?',
+          'Yes, Select',
+          () => handleSelectStudent(studentId),
+        )
         break
       default:
         break

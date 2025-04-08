@@ -8,6 +8,7 @@ const {
   getAllPlacements,
   updatePlacement,
   deletePlacement,
+  addPlacementbyRecruiter,
 } = require('../controller/placement.controller')
 const {
   StudentProfileCompletion,
@@ -41,7 +42,6 @@ const {
   getUserNotifications,
 } = require('../controller/notification.controller')
 
-
 router.post('/login', login)
 
 router.get('/student-profile', verifyFirebaseToken, StudentProfileCompletion)
@@ -60,6 +60,11 @@ router.get('/placements', verifyFirebaseToken, getAllPlacements)
 router.post('/placements/create', verifyFirebaseToken, createPlacement)
 router.put('/placements/edit/:_id', verifyFirebaseToken, updatePlacement)
 router.delete('/placements/delete/:_id', verifyFirebaseToken, deletePlacement)
+router.post(
+  '/placement-by-recruiter',
+  verifyFirebaseToken,
+  addPlacementbyRecruiter,
+)
 
 router.get('/admin-profile', verifyFirebaseToken, AdminProfileCompletion)
 router.post('/admin-profile', verifyFirebaseToken, addOrEditAdminProfile)
