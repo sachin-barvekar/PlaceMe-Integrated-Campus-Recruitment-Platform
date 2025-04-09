@@ -270,3 +270,95 @@ Team TechThinker`
     res.status(500).json({ success: false, error: 'Internal server error' })
   }
 }
+
+exports.getAllPlacementsByRecruiter = async (req, res) => {
+  try {
+    let { page = 0, size = 10, search = '' } = req.query
+    const firebaseUid = req.user.user_id
+    const user = await User.findOne({ firebaseUid })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    const recruiterId = user?._id
+    page = parseInt(page)
+    size = parseInt(size)
+
+    const limit = size === 0 ? 0 : size
+    const skip = page * size
+
+    const matchingStudents = await User.find({
+      name: { $regex: search, $options: 'i' },
+    }).select('_id')
+
+    const matchingCompanies = await Placement.find({
+      name: { $regex: search, $options: 'i' },
+    }).select('_id')
+
+    let placementQuery = {
+      $or: [
+        { studentId: { $in: matchingStudents.map(s => s._id) } },
+        { companyId: { $in: matchingCompanies.map(c => c._id) } },
+        { companyName: { $regex: search, $options: 'i' } },
+      ],
+    }
+
+    if (recruiterId) {
+      placementQuery.companyId = recruiterId
+    }
+
+    const placements = await Placement.find(placementQuery)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('studentId', 'name email')
+      .populate('companyId', 'name email')
+
+    const formattedPlacements = await Promise.all(
+      placements.map(async placement => {
+        const student = await Student.findOne({
+          userId: placement.studentId._id,
+        })
+
+        return {
+          _id: placement._id,
+          studentId: placement.studentId._id,
+          studentName: placement.studentId?.name || '-',
+          studentEmail: placement.studentId?.email || '-',
+          branch: student?.branch || '-',
+          profilePhoto: student?.profilePhoto || '-',
+          companyName: placement.companyName,
+          jobRole: placement.jobRole,
+          package: placement.package,
+          location: placement.location,
+          status: placement.status,
+          createdAt: placement.createdAt,
+        }
+      }),
+    )
+
+    const totalElements = await Placement.countDocuments(placementQuery)
+    const totalPages = Math.ceil(totalElements / size)
+
+    res.status(200).json({
+      content: formattedPlacements,
+      totalElements,
+      totalPages,
+      last: page + 1 === totalPages,
+      size,
+      number: page,
+      sort: {
+        sorted: false,
+        empty: placements.length === 0,
+        unsorted: true,
+      },
+      numberOfElements: placements.length,
+      first: page === 0,
+      empty: placements.length === 0,
+    })
+  } catch (error) {
+    console.error('Error fetching placements:', error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+}

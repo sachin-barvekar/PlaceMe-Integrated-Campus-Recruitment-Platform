@@ -19,6 +19,20 @@ const placementApiSlice = PlacementApi.injectEndpoints({
       },
       providesTags: ['placement-list'],
     }),
+    fetchPlacementListByRecruiter: build.query<
+      IListApiResponse<Placement>,
+      IListApiRequest<Placement>
+    >({
+      query: request => {
+        const params = getPaginationQueryParams(request)
+        return {
+          url: '/placement-by-recruiter',
+          method: 'GET',
+          params,
+        }
+      },
+      providesTags: ['placement-list'],
+    }),
     createPlacement: build.mutation<void, PlacementSaveRequest>({
       query: ({ placementDTO }) => {
         return {
@@ -67,6 +81,7 @@ export const {
   useUpdatePlacementMutation,
   useDeletePlacementMutation,
   useAddPlacementByRecruiterMutation,
+  useFetchPlacementListByRecruiterQuery,
 } = placementApiSlice
 
 export default placementApiSlice

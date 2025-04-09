@@ -9,6 +9,7 @@ const {
   updatePlacement,
   deletePlacement,
   addPlacementbyRecruiter,
+  getAllPlacementsByRecruiter,
 } = require('../controller/placement.controller')
 const {
   StudentProfileCompletion,
@@ -57,6 +58,11 @@ router.get('/students', verifyFirebaseToken, getAllStudents)
 router.get('/student-count', verifyFirebaseToken, getStudentQueries)
 
 router.get('/placements', verifyFirebaseToken, getAllPlacements)
+router.get(
+  '/placement-by-recruiter',
+  verifyFirebaseToken,
+  getAllPlacementsByRecruiter,
+)
 router.post('/placements/create', verifyFirebaseToken, createPlacement)
 router.put('/placements/edit/:_id', verifyFirebaseToken, updatePlacement)
 router.delete('/placements/delete/:_id', verifyFirebaseToken, deletePlacement)

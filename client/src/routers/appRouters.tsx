@@ -10,6 +10,7 @@ import AppliedJobList from '../pages/jobs/appliedJob/AppliedJobList'
 import PlaceStudentList from '../pages/placeStudents/placeStudentsList/PlaceStudentsList'
 import JobList from '../pages/jobs/jobList/JobList'
 import JobDetails from '../pages/jobs/jobDetails/JobDetails'
+import PlaceStudentByRecruiterList from '../pages/placeStudents/placeStudentListByRecruiter/PlacementListByRecruiter'
 import ViewStudent from '../pages/profile/studentProfile/viewStudent/ViewStudent'
 import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
@@ -114,6 +115,14 @@ const appRouter = () =>
               element: (
                 <RouteGuard requiredRoles={['admin', 'student', 'recruiter']}>
                   <ProfilePage />
+                </RouteGuard>
+              ),
+            },
+            {
+              path: '/job-offers',
+              element: (
+                <RouteGuard requiredRoles={['recruiter']}>
+                  <PlaceStudentByRecruiterList />
                 </RouteGuard>
               ),
             },
