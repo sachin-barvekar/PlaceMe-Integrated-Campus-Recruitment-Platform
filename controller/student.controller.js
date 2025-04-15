@@ -335,3 +335,43 @@ exports.getStudentProfileById = async (req, res) => {
     })
   }
 }
+exports.uploadStudentResume = async (req, res) => {
+  try {
+    const firebaseUid = req.user.user_id
+    const resumeFile = req.files?.resume
+
+    if (!resumeFile) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'No resume file provided' })
+    }
+
+    const user = await User.findOne({ firebaseUid })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    const student = await Student.findOne({ userId: user._id })
+    if (!student) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Student profile not found' })
+    }
+
+    const uploadedResume = await uploadImageToCloudinary(
+      resumeFile,
+      process.env.RESUMEFOLDER_NAME,
+    )
+
+    student.resume = uploadedResume.secure_url
+    await student.save()
+
+    return res.status(200).json({
+      success: true,
+      message: 'Resume uploaded successfully',
+      resumeUrl: student.resume,
+    })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
+}

@@ -127,7 +127,7 @@
                         display: flex;
                         align-items: center;
                         gap: 1rem;
-                        background: #f9f9f9;
+                        background: #f8f4f4;
                         padding: 1rem;
                         border-radius: 6px;
                         transition: all 0.3s ease;
@@ -163,12 +163,52 @@
             }
 
             .education-section {
-                display: flex;
-                align-items: center;
-                justify-content: center;
                 background: $color-white;
-                padding: 1rem;
                 min-height: 8rem;
+
+                .resume-uploader {
+                    height: 250px;
+                    display: flex;
+                    justify-content: center;
+                    border: 1px dotted gray;
+
+                    .no-resume {
+                        display: flex;
+                        align-items: center;
+                        background-color: #f8f4f4;
+                        width: 100%;
+                        justify-content: center;
+                        cursor: pointer;
+                    }
+
+                    .resume-edit {
+                        width: 100%;
+
+                        .option {
+                            display: flex;
+                            position: relative;
+                            bottom: 100%;
+                            justify-content: flex-end;
+                            margin-right: 1rem;
+                            gap: 10px;
+                            color: $color-white;
+
+                            .edit-icon {
+                                cursor: pointer;
+                                background-color: $primary-color;
+                                padding: 0.5rem;
+                                width: 18px;
+                                height: 18px;
+                                font-size: 18px;
+                                border-radius: 30%;
+                            }
+                        }
+                    }
+                }
+
+                .rs-uploader-text .rs-uploader-file-item {
+                    border: 1px dotted gray;
+                }
 
                 .education-timeline {
                     display: flex;
@@ -179,7 +219,7 @@
                     position: relative;
 
                     .education-item {
-                        background: $color-white;
+                        background: #f8f4f4;
                         border-radius: 8px;
                         padding: 1.5rem;
                         flex: 1 1 300px;

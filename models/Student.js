@@ -51,6 +51,7 @@ const studentSchema = new mongoose.Schema(
       type: String,
     },
 
+    resume: { type: String },
     profileCompletion: { type: Boolean, default: false },
   },
   { timestamps: true },

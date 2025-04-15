@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton } from 'rsuite'
+import { IconButton, Uploader } from 'rsuite'
 import {
   FaUser,
   FaBirthdayCake,
@@ -9,17 +9,22 @@ import {
   FaHome,
   FaEnvelope,
   FaLightbulb,
+  FaPencilAlt,
 } from 'react-icons/fa'
 import { MdCall } from 'react-icons/md'
 import { Edit as EditIcon } from '@rsuite/icons'
 import '../../Profile.scss'
-import { useGetProfileQuery } from '../../profileApiSlice'
+import {
+  useGetProfileQuery,
+  useUploadResumeMutation,
+} from '../../profileApiSlice'
 import { StudentProfileResponse } from '../../types'
 import { format } from 'date-fns'
 import { Loader } from '../../../../shared'
 import { Tabs } from '../../utils'
 import CreateEditStudentProfile from '../createEditStudentProfile/CreateEditStudentProfile'
 import PROFILE from '../../../../assets/images/profile.png'
+import { notifySuccess } from '../../../../utils'
 
 const StudentProfilePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.PERSONAL)
@@ -31,6 +36,24 @@ const StudentProfilePage: React.FC = () => {
   const [imgSrc, setImgSrc] = useState<string | undefined>(
     data?.student?.profilePhoto,
   )
+  const [fileList, setFileList] = useState<File[]>([])
+  const [uploadResume] = useUploadResumeMutation()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = async (newFileList: any[]) => {
+    const latestFile = newFileList[newFileList.length - 1]?.blobFile
+    setFileList(latestFile ? [latestFile] : [])
+
+    try {
+      const uploaded = await uploadResume(latestFile).unwrap()
+      if (uploaded.resumeUrl) {
+        notifySuccess('Resume updated successfully')
+      }
+    } catch (err) {
+      console.error('Upload failed:', err)
+    }
+  }
+
   useEffect(() => {
     if (data?.student?.profilePhoto) {
       setImgSrc(data.student.profilePhoto)
@@ -285,8 +308,43 @@ const StudentProfilePage: React.FC = () => {
                 </section>
               )}
               {activeTab === Tabs.MY_RESUME && (
-                <section id='resume' className='education-section'>
-                  <div className='education-timeline'>No data found</div>
+                <section id='resume' className='education-section relative'>
+                  <Uploader
+                    fileList={fileList}
+                    onChange={handleChange}
+                    fileListVisible={false}
+                    action='http://localhost'
+                    draggable
+                    autoUpload={false}
+                    multiple={false}>
+                    <div className='resume-uploader'>
+                      {fileList.length > 0 || data?.student?.resume ? (
+                        <>
+                          <div className='resume-edit'>
+                            <iframe
+                              src={
+                                fileList.length > 0
+                                  ? URL.createObjectURL(fileList[0])
+                                  : data?.student?.resume
+                              }
+                              width='100%'
+                              height='100%'
+                              title='PDF Preview'
+                            />
+                            <div className='option'>
+                              <div className='edit-icon'>
+                                <FaPencilAlt />
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className='no-resume'>
+                          <span>Upload a resume file</span>
+                        </div>
+                      )}
+                    </div>
+                  </Uploader>
                 </section>
               )}
             </div>

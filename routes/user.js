@@ -17,6 +17,7 @@ const {
   getAllStudents,
   getStudentQueries,
   getStudentProfileById,
+  uploadStudentResume,
 } = require('../controller/student.controller')
 const {
   addOrEditAdminProfile,
@@ -53,6 +54,7 @@ router.get(
   verifyFirebaseToken,
   getStudentProfileById,
 )
+router.patch('/student/upload-resume', verifyFirebaseToken, uploadStudentResume)
 
 router.get('/students', verifyFirebaseToken, getAllStudents)
 router.get('/student-count', verifyFirebaseToken, getStudentQueries)

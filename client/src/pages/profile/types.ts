@@ -18,6 +18,7 @@ export interface Student {
   skills: string
   linkedIn?: string
   github?: string
+  resume?: string
   createdAt?: Date
   updatedAt?: Date
 }

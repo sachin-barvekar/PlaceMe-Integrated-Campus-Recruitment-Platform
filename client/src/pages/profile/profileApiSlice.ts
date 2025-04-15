@@ -42,7 +42,22 @@ const profileApiSlice = profileApi.injectEndpoints({
       },
       invalidatesTags: ['student-profile'],
     }),
+    uploadResume: build.mutation<{ resumeUrl: string; message: string }, File>({
+      query: resume => {
+        const formData = new FormData()
+        formData.append('resume', resume)
 
+        return {
+          url: `/student/upload-resume`,
+          method: 'PATCH',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      },
+      invalidatesTags: ['student-profile'],
+    }),
     updateProfile: build.mutation<void, StudentSaveRequest>({
       query: ({ studentDTO, file }) => {
         const formData = new FormData()
@@ -162,4 +177,5 @@ export const {
   useCreateRecruiterProfileMutation,
   useUpdateRecruiterProfileMutation,
   useGetProfilebyIdQuery,
+  useUploadResumeMutation,
 } = profileApiSlice
