@@ -1,0 +1,137 @@
+{
+  "Backend Developer": [
+    "REST APIs",
+    "SQL",
+    "Express",
+    "Node.js",
+    "MongoDB"
+  ],
+  "Frontend Developer": [
+    "CSS",
+    "React",
+    "JavaScript",
+    "Redux",
+    "HTML"
+  ],
+  "Full Stack Developer": [
+    "CSS",
+    "MongoDB",
+    "React",
+    "Node.js",
+    "HTML",
+    "Express.js"
+  ],
+  "MERN Stack Developer": [
+    "React.js",
+    "Express.js",
+    "MongoDB",
+    "Node.js"
+  ],
+  "MEAN Stack Developer": [
+    "Express.js",
+    "MongoDB",
+    "Angular",
+    "Node.js"
+  ],
+  "Java Full Stack Developer": [
+    "MySQL",
+    "React/Angular",
+    "Hibernate",
+    "Java",
+    "Spring Boot"
+  ],
+  "Python Full Stack Developer": [
+    "REST APIs",
+    "Python",
+    "Django/Flask",
+    "React/Angular",
+    "PostgreSQL"
+  ],
+  "Data Scientist": [
+    "NumPy",
+    "Matplotlib",
+    "Python",
+    "Scikit-learn",
+    "Pandas",
+    "TensorFlow"
+  ],
+  "Machine Learning Engineer": [
+    "Keras",
+    "Python",
+    "Scikit-learn",
+    "Data Preprocessing",
+    "TensorFlow"
+  ],
+  "DevOps Engineer": [
+    "Kubernetes",
+    "Linux",
+    "Terraform",
+    "Docker",
+    "AWS",
+    "Jenkins"
+  ],
+  "Mobile App Developer": [
+    "Dart",
+    "Swift (iOS)",
+    "Java (Android)",
+    "React Native",
+    "Flutter"
+  ],
+  "Cloud Engineer": [
+    "Linux",
+    "CI/CD",
+    "Terraform",
+    "Azure",
+    "AWS",
+    "GCP"
+  ],
+  "Cybersecurity Analyst": [
+    "Network Security",
+    "SIEM",
+    "Python",
+    "Firewalls",
+    "Vulnerability Assessment"
+  ],
+  "UI/UX Designer": [
+    "User Research",
+    "Figma",
+    "Prototyping",
+    "Wireframing",
+    "Adobe XD"
+  ],
+  "QA Engineer": [
+    "JIRA",
+    "Automation Testing",
+    "Test Cases",
+    "Postman",
+    "Selenium"
+  ],
+  "Blockchain Developer": [
+    "Solidity",
+    "Smart Contracts",
+    "Web3.js",
+    "Truffle",
+    "Ethereum"
+  ],
+  "AI Engineer": [
+    "Neural Networks",
+    "Python",
+    "OpenCV",
+    "PyTorch",
+    "Deep Learning"
+  ],
+  "System Administrator": [
+    "Linux",
+    "Networking",
+    "User Management",
+    "Bash Scripting",
+    "Monitoring Tools"
+  ],
+  "Technical Support Engineer": [
+    "Networking",
+    "Customer Service",
+    "Windows/Linux",
+    "Troubleshooting",
+    "Documentation"
+  ]
+}

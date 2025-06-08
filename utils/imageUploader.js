@@ -1,11 +1,10 @@
 const cloudinary = require('cloudinary').v2
-exports.uploadImageToCloudinary = async (file, folder) => {
-  const fileName = file.name.replace(/\.[^/.]+$/, '')
+
+exports.uploadImageToCloudinary = async (filePath, folder, fileName) => {
   const options = {
     folder,
     resource_type: 'auto',
-    public_id: `${fileName}`,
+    public_id: fileName,
   }
-
-  return cloudinary.uploader.upload(file.tempFilePath, options)
+  return cloudinary.uploader.upload(filePath, options)
 }

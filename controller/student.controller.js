@@ -3,6 +3,10 @@ const User = require('../models/User')
 const Placement = require('../models/Placement')
 const { format } = require('date-fns')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
+const { spawn } = require('child_process')
+const predictPlacementScore = require('../ml/run_predictor')
+const path = require('path')
+const fs = require('fs')
 
 exports.getAllStudents = async (req, res) => {
   try {
@@ -102,7 +106,7 @@ exports.StudentProfileCompletion = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills
+      !!student.CGPA
 
     if (student.profileCompletion !== isComplete) {
       student.profileCompletion = isComplete
@@ -133,7 +137,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
       branch,
       address,
       academicDetails,
-      skills,
+      CGPA,
       linkedIn,
       github,
     } = studentData
@@ -147,10 +151,15 @@ exports.addOrEditStudentProfile = async (req, res) => {
     let student = await Student.findOne({ userId: uid })
 
     let uploadedImage
+    let tempPath
     if (profilePhoto) {
+      tempPath = path.join(__dirname, '../temp', profilePhoto?.name)
+      await profilePhoto.mv(tempPath)
+      const fileName = profilePhoto.name.replace(/\.[^/.]+$/, '')
       uploadedImage = await uploadImageToCloudinary(
-        profilePhoto,
+        tempPath,
         process.env.FOLDER_NAME,
+        fileName,
       )
     }
 
@@ -164,7 +173,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
         address,
         profilePhoto: uploadedImage ? uploadedImage.secure_url : '',
         academicDetails,
-        skills,
+        CGPA,
         linkedIn,
         github,
       })
@@ -176,7 +185,7 @@ exports.addOrEditStudentProfile = async (req, res) => {
       student.address = address
       if (uploadedImage) student.profilePhoto = uploadedImage.secure_url
       student.academicDetails = academicDetails
-      student.skills = skills
+      student.CGPA = CGPA
       student.linkedIn = linkedIn
       student.github = github
     }
@@ -189,11 +198,14 @@ exports.addOrEditStudentProfile = async (req, res) => {
       !!student.address &&
       !!student.profilePhoto &&
       student.academicDetails.length > 0 &&
-      !!student.skills
+      !!student.CGPA
 
     student.profileCompletion = isComplete
     await student.save()
 
+    if (fs.existsSync(tempPath) && profilePhoto) {
+      fs.unlinkSync(tempPath)
+    }
     return res.status(200).json({
       success: true,
       profileCompletion: isComplete,
@@ -335,16 +347,102 @@ exports.getStudentProfileById = async (req, res) => {
     })
   }
 }
+
 exports.uploadStudentResume = async (req, res) => {
   try {
-    const firebaseUid = req.user.user_id
     const resumeFile = req.files?.resume
-
     if (!resumeFile) {
       return res
         .status(400)
-        .json({ success: false, message: 'No resume file provided' })
+        .json({ success: false, message: 'No resume file uploaded' })
     }
+
+    const tempPath = path.join(__dirname, '../temp', resumeFile.name)
+    await resumeFile.mv(tempPath)
+    const fileName = resumeFile.name.replace(/\.[^/.]+$/, '')
+    const uploadedResume = await uploadImageToCloudinary(
+      tempPath,
+      process.env.RESUMEFOLDER_NAME,
+      fileName,
+    )
+    const py = spawn('python', ['ml/extract_skills.py', tempPath])
+    let data = ''
+    let errorData = ''
+
+    py.stdout.on('data', chunk => {
+      data += chunk.toString()
+    })
+
+    py.stderr.on('data', err => {
+      errorData += err.toString()
+    })
+
+    py.on('close', async code => {
+      try {
+        fs.unlinkSync(tempPath)
+
+        if (errorData) {
+          return res.status(500).json({
+            success: false,
+            message: 'Error extracting skills from resume',
+          })
+        }
+
+        if (!data) {
+          return res
+            .status(500)
+            .json({ success: false, message: 'No output from Python script' })
+        }
+
+        const parsed = JSON.parse(data)
+        const skills = parsed.skills || []
+
+        const firebaseUid = req.user.user_id
+
+        const user = await User.findOne({ firebaseUid })
+        if (!user) {
+          return res
+            .status(404)
+            .json({ success: false, message: 'User not found' })
+        }
+
+        const student = await Student.findOne({ userId: user._id })
+        if (!student) {
+          return res
+            .status(404)
+            .json({ success: false, message: 'Student not found' })
+        }
+
+        student.skills = skills
+        student.resume = uploadedResume.secure_url
+        await student.save()
+
+        return res.status(200).json({
+          success: true,
+          message: 'Resume uploaded and skills extracted',
+          skills,
+        })
+      } catch (err) {
+        console.error('DEBUG 20: Error after Python close:', err)
+        return res.status(500).json({ success: false, message: err.message })
+      }
+    })
+
+    py.on('error', err => {
+      console.error('DEBUG 21: Python process failed to start:', err)
+      return res
+        .status(500)
+        .json({ success: false, message: 'Failed to run Python script' })
+    })
+  } catch (err) {
+    console.error('DEBUG 22: Unexpected error:', err)
+    return res.status(500).json({ success: false, message: err.message })
+  }
+}
+
+exports.calculatePlacementScoreForStudent = async (req, res) => {
+  try {
+    const firebaseUid = req.user.user_id
 
     const user = await User.findOne({ firebaseUid })
     if (!user) {
@@ -355,23 +453,29 @@ exports.uploadStudentResume = async (req, res) => {
     if (!student) {
       return res
         .status(404)
-        .json({ success: false, message: 'Student profile not found' })
+        .json({ success: false, message: 'Student not found' })
     }
 
-    const uploadedResume = await uploadImageToCloudinary(
-      resumeFile,
-      process.env.RESUMEFOLDER_NAME,
-    )
+    // Prepare input for ML model
+    const input = {
+      cgpa: student.CGPA ?? 0,
+      skills: student.skills ?? [],
+    }
 
-    student.resume = uploadedResume.secure_url
-    await student.save()
+    const { placementScore, role, reason, suggestions } =
+      await predictPlacementScore(input)
 
-    return res.status(200).json({
-      success: true,
-      message: 'Resume uploaded successfully',
-      resumeUrl: student.resume,
+    res.status(200).json({
+      placementScore,
+      role,
+      reason,
+      suggestions,
+      skills: student?.skills,
     })
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message })
+    console.error('Error in calculatePlacementScoreForStudent:', error)
+    res
+      .status(500)
+      .json({ error: 'Failed to calculate placement score for student' })
   }
 }

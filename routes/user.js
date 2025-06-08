@@ -18,6 +18,7 @@ const {
   getStudentQueries,
   getStudentProfileById,
   uploadStudentResume,
+  calculatePlacementScoreForStudent,
 } = require('../controller/student.controller')
 const {
   addOrEditAdminProfile,
@@ -48,7 +49,7 @@ router.post('/login', login)
 
 router.get('/student-profile', verifyFirebaseToken, StudentProfileCompletion)
 router.post('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
-router.put('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
+router.patch('/student-profile', verifyFirebaseToken, addOrEditStudentProfile)
 router.get(
   '/student/profile/:userId',
   verifyFirebaseToken,
@@ -104,5 +105,11 @@ router.delete('/jobs/withdraw/:jobId', verifyFirebaseToken, withdrawApplication)
 router.get('/job/:jobId/applicants', verifyFirebaseToken, getJobApplicantsById)
 
 router.get('/notifications', verifyFirebaseToken, getUserNotifications)
+
+router.get(
+  '/placement-score',
+  verifyFirebaseToken,
+  calculatePlacementScoreForStudent,
+)
 
 module.exports = router

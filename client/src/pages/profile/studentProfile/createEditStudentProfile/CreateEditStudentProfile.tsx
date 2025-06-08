@@ -60,7 +60,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
     BRANCH,
     ADDRESS,
     PROFILE_PHOTO,
-    SKILLS,
+    CGPA,
     ACADEMIC_DETAILS,
     LINKEDIN,
     GITHUB,
@@ -98,7 +98,7 @@ const CreateEditStudentProfile: React.FC<Props> = ({
       branch: formValues.branch,
       address: formValues.address,
       academicDetails: formValues.academicDetails,
-      skills: formValues.skills,
+      CGPA: formValues.CGPA,
       linkedIn: formValues.linkedIn,
       github: formValues.github,
     }
@@ -427,14 +427,19 @@ const CreateEditStudentProfile: React.FC<Props> = ({
                     )}
                   <Row>
                     <Col xs={24} md={11}>
-                      <TextInput
-                        formik={formikProps}
-                        name={SKILLS}
-                        placeholder='Skills'
-                        as='textarea'
-                        rows={5}
+                      <Input
+                        type='number'
+                        name={CGPA}
+                        value={formikProps.values[CGPA] ?? ''}
+                        onChange={value => {
+                          formikProps.setFieldValue(
+                            STUDENT_FORM_FIELDS.CGPA,
+                            value,
+                          )
+                        }}
+                        placeholder='Current CGPA'
                       />
-                      <FormikErrorMessage name={SKILLS} />
+                      <FormikErrorMessage name={CGPA} />
                     </Col>
                   </Row>
                 </Section>

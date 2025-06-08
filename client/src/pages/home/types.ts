@@ -12,3 +12,11 @@ export type StudentQueriesResponse = {
     company: string | null
   }[]
 }
+
+export type PlacementScoreData = {
+  placementScore: number
+  role: string
+  reason: [string]
+  suggestions: [string]
+  skills: [string]
+}

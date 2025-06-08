@@ -15,7 +15,8 @@ export interface Student {
   address: string
   profilePhoto?: string | undefined
   academicDetails: IAcademicDetail[]
-  skills: string
+  skills?: [string]
+  CGPA: number | null
   linkedIn?: string
   github?: string
   resume?: string

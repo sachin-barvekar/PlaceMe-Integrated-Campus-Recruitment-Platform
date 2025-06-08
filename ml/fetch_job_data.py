@@ -1,0 +1,22 @@
+def fetch_job_data():
+    return [
+        {"role": "Backend Developer", "skills": ["Node.js", "Express", "MongoDB", "SQL", "REST APIs"]},
+        {"role": "Frontend Developer", "skills": ["React", "HTML", "CSS", "JavaScript", "Redux"]},
+        {"role": "Full Stack Developer", "skills": ["Node.js", "React", "MongoDB", "Express", "HTML", "CSS"]},
+        {"role": "MERN Stack Developer", "skills": ["MongoDB", "Express.js", "React.js", "Node.js"]},
+        {"role": "MEAN Stack Developer", "skills": ["MongoDB", "Express.js", "Angular", "Node.js"]},
+        {"role": "Java Full Stack Developer", "skills": ["Java", "Spring Boot", "Hibernate", "React/Angular", "MySQL"]},
+        {"role": "Python Full Stack Developer", "skills": ["Python", "Django/Flask", "React/Angular", "PostgreSQL", "REST APIs"]},
+        {"role": "Data Scientist", "skills": ["Python", "Pandas", "Scikit-learn", "NumPy", "Matplotlib", "TensorFlow"]},
+        {"role": "Machine Learning Engineer", "skills": ["Python", "TensorFlow", "Keras", "Scikit-learn", "Data Preprocessing"]},
+        {"role": "DevOps Engineer", "skills": ["AWS", "Docker", "Kubernetes", "Jenkins", "Terraform", "Linux"]},
+        {"role": "Mobile App Developer", "skills": ["Flutter", "React Native", "Dart", "Java (Android)", "Swift (iOS)"]},
+        {"role": "Cloud Engineer", "skills": ["AWS", "Azure", "GCP", "CI/CD", "Terraform", "Linux"]},
+        {"role": "Cybersecurity Analyst", "skills": ["Network Security", "Firewalls", "Vulnerability Assessment", "SIEM", "Python"]},
+        {"role": "UI/UX Designer", "skills": ["Figma", "Adobe XD", "Wireframing", "User Research", "Prototyping"]},
+        {"role": "QA Engineer", "skills": ["Selenium", "Postman", "Test Cases", "JIRA", "Automation Testing"]},
+        {"role": "Blockchain Developer", "skills": ["Solidity", "Ethereum", "Smart Contracts", "Web3.js", "Truffle"]},
+        {"role": "AI Engineer", "skills": ["Deep Learning", "Neural Networks", "Python", "PyTorch", "OpenCV"]},
+        {"role": "System Administrator", "skills": ["Linux", "Bash Scripting", "Networking", "User Management", "Monitoring Tools"]},
+        {"role": "Technical Support Engineer", "skills": ["Troubleshooting", "Networking", "Windows/Linux", "Customer Service", "Documentation"]},
+    ]

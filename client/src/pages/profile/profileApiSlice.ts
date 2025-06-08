@@ -42,7 +42,13 @@ const profileApiSlice = profileApi.injectEndpoints({
       },
       invalidatesTags: ['student-profile'],
     }),
-    uploadResume: build.mutation<{ resumeUrl: string; message: string }, File>({
+    uploadResume: build.mutation<
+      {
+        success: boolean
+        message: string
+      },
+      File
+    >({
       query: resume => {
         const formData = new FormData()
         formData.append('resume', resume)
@@ -67,7 +73,7 @@ const profileApiSlice = profileApi.injectEndpoints({
         }
         return {
           url: `/student-profile`,
-          method: 'PUT',
+          method: 'PATCH',
           data: formData,
           headers: {
             'Content-Type': 'multipart/form-data',

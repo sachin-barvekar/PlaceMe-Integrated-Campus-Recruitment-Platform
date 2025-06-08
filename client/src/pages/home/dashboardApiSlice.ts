@@ -1,5 +1,5 @@
 import dashboardApi from '../../api/dashboardApi'
-import { StudentQueriesResponse } from './types'
+import { PlacementScoreData, StudentQueriesResponse } from './types'
 
 const dashboardApiSlice = dashboardApi.injectEndpoints({
   endpoints: build => ({
@@ -19,8 +19,18 @@ const dashboardApiSlice = dashboardApi.injectEndpoints({
       }),
       providesTags: ['dashboard-data'],
     }),
+    getPlacementScore: build.query<PlacementScoreData, void>({
+      query: () => ({
+        url: `/placement-score`,
+        method: 'GET',
+      }),
+      providesTags: ['placement-score'],
+    }),
   }),
 })
 
-export const { useGetDashboardDataQuery, useGetRecruiterDashboardDataQuery } =
-  dashboardApiSlice
+export const {
+  useGetDashboardDataQuery,
+  useGetRecruiterDashboardDataQuery,
+  useGetPlacementScoreQuery,
+} = dashboardApiSlice

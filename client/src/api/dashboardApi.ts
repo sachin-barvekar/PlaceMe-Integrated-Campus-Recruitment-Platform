@@ -7,7 +7,7 @@ const dashboardApi = createApi({
     baseUrl,
   }),
   reducerPath: 'dashboard',
-  tagTypes: ['dashboard-data'],
+  tagTypes: ['dashboard-data', 'placement-score'],
   endpoints: () => ({}),
 })
 

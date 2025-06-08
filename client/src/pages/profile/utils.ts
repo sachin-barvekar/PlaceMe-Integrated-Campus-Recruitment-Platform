@@ -45,7 +45,7 @@ export enum STUDENT_FORM_FIELDS {
   ADDRESS = 'address',
   PROFILE_PHOTO = 'profilePhoto',
   ACADEMIC_DETAILS = 'academicDetails',
-  SKILLS = 'skills',
+  CGPA = 'CGPA',
   LINKEDIN = 'linkedIn',
   GITHUB = 'github',
 }
@@ -70,7 +70,7 @@ export interface IStudentForm {
     marks: number | null
     passingYear: number | null
   }[]
-  [STUDENT_FORM_FIELDS.SKILLS]: string
+  [STUDENT_FORM_FIELDS.CGPA]: number | null
   [STUDENT_FORM_FIELDS.LINKEDIN]: string
   [STUDENT_FORM_FIELDS.GITHUB]: string
 }
@@ -85,7 +85,7 @@ export const defaultStudentFormValues: IStudentForm = {
   [STUDENT_FORM_FIELDS.ACADEMIC_DETAILS]: [
     { level: 'SSC', institutionName: '', marks: null, passingYear: null },
   ],
-  [STUDENT_FORM_FIELDS.SKILLS]: '',
+  [STUDENT_FORM_FIELDS.CGPA]: null,
   [STUDENT_FORM_FIELDS.LINKEDIN]: '',
   [STUDENT_FORM_FIELDS.GITHUB]: '',
 }
@@ -110,7 +110,7 @@ export const getInitialProfileFormValueFromResponse = (
     })) ?? [
       { level: 'SSC', institutionName: '', marks: null, passingYear: null },
     ],
-  [STUDENT_FORM_FIELDS.SKILLS]: profile?.student?.skills ?? '',
+  [STUDENT_FORM_FIELDS.CGPA]: profile?.student?.CGPA ?? null,
   [STUDENT_FORM_FIELDS.LINKEDIN]: profile?.student?.linkedIn ?? '',
   [STUDENT_FORM_FIELDS.GITHUB]: profile?.student?.github ?? '',
 })
@@ -168,9 +168,10 @@ export const studentValidationSchema = () => {
         'At least three academic details are required. Please click to add button to further add other academic details.',
       ),
 
-    [STUDENT_FORM_FIELDS.SKILLS]: Yup.string()
-      .required('Skills are required')
-      .max(500, 'Skills cannot exceed 500 characters'),
+    [STUDENT_FORM_FIELDS.CGPA]: Yup.number()
+      .required('CGPA is required')
+      .min(0, 'CGPA must be at least 0')
+      .max(10, 'CGPA cannot exceed 10'),
 
     [STUDENT_FORM_FIELDS.LINKEDIN]: Yup.string()
       .nullable()

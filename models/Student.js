@@ -42,8 +42,12 @@ const studentSchema = new mongoose.Schema(
       },
     ],
 
-    skills: { type: String, required: true, maxlength: 500 },
-
+    skills: { type: [String], default: [] },
+    CGPA: {
+      type: Number,
+      min: [0, 'CGPA must be at least 0'],
+      max: [10, 'CGPA cannot exceed 10']
+    },
     linkedIn: {
       type: String,
     },

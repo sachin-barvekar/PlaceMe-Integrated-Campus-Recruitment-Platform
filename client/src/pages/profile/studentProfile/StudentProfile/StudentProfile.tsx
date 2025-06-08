@@ -46,7 +46,7 @@ const StudentProfilePage: React.FC = () => {
 
     try {
       const uploaded = await uploadResume(latestFile).unwrap()
-      if (uploaded.resumeUrl) {
+      if (uploaded?.success) {
         notifySuccess('Resume updated successfully')
       }
     } catch (err) {
@@ -265,7 +265,7 @@ const StudentProfilePage: React.FC = () => {
                       <div className='text'>
                         <span className='label'>Skills</span>
                         <span className='value'>
-                          {data?.student?.skills ?? '-'}
+                          {data?.student?.skills?.join(', ') ?? '-'}
                         </span>
                       </div>
                     </div>
