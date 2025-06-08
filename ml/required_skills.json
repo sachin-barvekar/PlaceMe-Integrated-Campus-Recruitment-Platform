@@ -1,137 +1,137 @@
 {
   "Backend Developer": [
+    "MongoDB",
     "REST APIs",
-    "SQL",
     "Express",
-    "Node.js",
-    "MongoDB"
+    "SQL",
+    "Node.js"
   ],
   "Frontend Developer": [
+    "Redux",
     "CSS",
     "React",
     "JavaScript",
-    "Redux",
     "HTML"
   ],
   "Full Stack Developer": [
     "CSS",
-    "MongoDB",
     "React",
-    "Node.js",
+    "MongoDB",
     "HTML",
-    "Express.js"
+    "Express",
+    "Node.js"
   ],
   "MERN Stack Developer": [
     "React.js",
+    "Node.js",
     "Express.js",
-    "MongoDB",
-    "Node.js"
+    "MongoDB"
   ],
   "MEAN Stack Developer": [
-    "Express.js",
-    "MongoDB",
+    "Node.js",
     "Angular",
-    "Node.js"
+    "Express.js",
+    "MongoDB"
   ],
   "Java Full Stack Developer": [
-    "MySQL",
     "React/Angular",
+    "MySQL",
     "Hibernate",
     "Java",
     "Spring Boot"
   ],
   "Python Full Stack Developer": [
-    "REST APIs",
-    "Python",
     "Django/Flask",
     "React/Angular",
-    "PostgreSQL"
+    "REST APIs",
+    "PostgreSQL",
+    "Python"
   ],
   "Data Scientist": [
+    "TensorFlow",
     "NumPy",
+    "Scikit-learn",
     "Matplotlib",
     "Python",
-    "Scikit-learn",
-    "Pandas",
-    "TensorFlow"
+    "Pandas"
   ],
   "Machine Learning Engineer": [
-    "Keras",
-    "Python",
-    "Scikit-learn",
     "Data Preprocessing",
-    "TensorFlow"
+    "TensorFlow",
+    "Scikit-learn",
+    "Python",
+    "Keras"
   ],
   "DevOps Engineer": [
-    "Kubernetes",
     "Linux",
-    "Terraform",
-    "Docker",
     "AWS",
+    "Docker",
+    "Kubernetes",
+    "Terraform",
     "Jenkins"
   ],
   "Mobile App Developer": [
-    "Dart",
-    "Swift (iOS)",
     "Java (Android)",
+    "Dart",
     "React Native",
+    "Swift (iOS)",
     "Flutter"
   ],
   "Cloud Engineer": [
-    "Linux",
     "CI/CD",
-    "Terraform",
-    "Azure",
+    "Linux",
     "AWS",
+    "Azure",
+    "Terraform",
     "GCP"
   ],
   "Cybersecurity Analyst": [
     "Network Security",
-    "SIEM",
+    "Vulnerability Assessment",
     "Python",
     "Firewalls",
-    "Vulnerability Assessment"
+    "SIEM"
   ],
   "UI/UX Designer": [
+    "Adobe XD",
     "User Research",
-    "Figma",
-    "Prototyping",
     "Wireframing",
-    "Adobe XD"
+    "Prototyping",
+    "Figma"
   ],
   "QA Engineer": [
     "JIRA",
-    "Automation Testing",
-    "Test Cases",
     "Postman",
-    "Selenium"
+    "Automation Testing",
+    "Selenium",
+    "Test Cases"
   ],
   "Blockchain Developer": [
+    "Ethereum",
     "Solidity",
     "Smart Contracts",
     "Web3.js",
-    "Truffle",
-    "Ethereum"
+    "Truffle"
   ],
   "AI Engineer": [
     "Neural Networks",
-    "Python",
-    "OpenCV",
     "PyTorch",
-    "Deep Learning"
+    "Deep Learning",
+    "OpenCV",
+    "Python"
   ],
   "System Administrator": [
     "Linux",
     "Networking",
     "User Management",
-    "Bash Scripting",
-    "Monitoring Tools"
+    "Monitoring Tools",
+    "Bash Scripting"
   ],
   "Technical Support Engineer": [
-    "Networking",
     "Customer Service",
+    "Networking",
+    "Documentation",
     "Windows/Linux",
-    "Troubleshooting",
-    "Documentation"
+    "Troubleshooting"
   ]
 }
