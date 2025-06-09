@@ -113,8 +113,8 @@ const JobDetails = () => {
     }
     try {
       await deleteJob({ jobId: selectedJob._id }).unwrap()
-      notifySuccess('Job deleted successfully.')
       navigate(-1)
+      notifySuccess('Job deleted successfully.')
     } catch {
       notifyError('Error while deleting job.')
     }

@@ -1,14 +1,15 @@
 @use '../../../scss/abstracts' as *;
 
-.dashboard-content{
-    min-height: 40vh;
-    background: $color-white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.dashboard-content {
+  min-height: 40vh;
+  background: $color-white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .placement-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -55,7 +56,6 @@
       font-weight: 700;
     }
   }
-
 
   .skills-box {
     margin-top: 1.5rem;

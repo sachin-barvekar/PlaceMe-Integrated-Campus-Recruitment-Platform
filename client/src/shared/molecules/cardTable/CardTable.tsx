@@ -5,7 +5,6 @@ import { Loader } from '../../atoms'
 import TableFooter from '../table/footer/TableFooter'
 import Card from './Card'
 import './CardTable.scss'
-import NoData from '../../../assets/images/no-data.svg'
 
 export interface Pagination {
   page: number
@@ -83,7 +82,6 @@ function CardTable<R extends RowDataType<any>, K extends RowKeyType>(
     <div className='card-container'>
       {data.length === 0 && !loading && (
         <div className='no-data'>
-          <NoData />
           <div>No Data Found</div>
         </div>
       )}

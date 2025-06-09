@@ -5,9 +5,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  onAuthStateChanged,
   browserLocalPersistence,
   User,
+  onIdTokenChanged,
 } from 'firebase/auth'
 import { useLoginMutation } from '../pages/login/loginApiSlice'
 import {
@@ -49,10 +49,13 @@ const useAuth = (): AuthContextType => {
       console.error('Persistence setting failed:', error)
     })
 
-    const unsubscribe = onAuthStateChanged(auth, async currentUser => {
+    const unsubscribe = onIdTokenChanged(auth, async currentUser => {
       setLoading(true)
       if (currentUser) {
+        const newToken = await currentUser.getIdToken()
         setUser(currentUser)
+        setToken(newToken)
+        localStorage.setItem('token', newToken)
       } else {
         clearAuthState()
       }

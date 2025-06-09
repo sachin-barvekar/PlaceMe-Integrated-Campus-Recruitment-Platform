@@ -1,18 +1,128 @@
 {
   "Backend Developer": [
-    "express",
     "node.js",
+    "microservices",
     "mongodb",
-    "paint",
-    "excel",
+    "sql",
+    "docker",
     "rest apis",
-    "sql"
+    "kubernetes",
+    "express"
   ],
   "Frontend Developer": [
+    "redux",
     "javascript",
-    "css",
-    "react",
     "html",
-    "redux"
+    "webpack",
+    "typescript",
+    "react",
+    "css"
+  ],
+  "Full Stack Developer": [
+    "node.js",
+    "mongodb",
+    "sql",
+    "docker",
+    "rest apis",
+    "react",
+    "graphql",
+    "express"
+  ],
+  "DevOps Engineer": [
+    "azure",
+    "ci/cd",
+    "aws",
+    "linux",
+    "terraform",
+    "docker",
+    "jenkins",
+    "kubernetes"
+  ],
+  "Mobile App Developer": [
+    "firebase",
+    "kotlin",
+    "swift",
+    "rest apis",
+    "flutter",
+    "react native"
+  ],
+  "Data Scientist": [
+    "pytorch",
+    "scikit-learn",
+    "sql",
+    "numpy",
+    "tensorflow",
+    "pandas",
+    "r",
+    "python",
+    "machine learning"
+  ],
+  "Data Analyst": [
+    "data visualization",
+    "sql",
+    "tableau",
+    "power bi",
+    "excel",
+    "python"
+  ],
+  "Cloud Engineer": [
+    "azure",
+    "aws",
+    "linux",
+    "terraform",
+    "networking",
+    "docker",
+    "kubernetes",
+    "gcp"
+  ],
+  "Cybersecurity Analyst": [
+    "ids/ips",
+    "network security",
+    "ethical hacking",
+    "firewalls",
+    "siem",
+    "python"
+  ],
+  "UI/UX Designer": [
+    "design thinking",
+    "sketch",
+    "html/css",
+    "figma",
+    "prototyping",
+    "adobe xd",
+    "wireframing"
+  ],
+  "QA Engineer": [
+    "automation testing",
+    "junit",
+    "postman",
+    "manual testing",
+    "testng",
+    "selenium",
+    "cypress"
+  ],
+  "AI/ML Engineer": [
+    "deep learning",
+    "scikit-learn",
+    "tensorflow",
+    "nlp",
+    "python",
+    "pytorch",
+    "opencv"
+  ],
+  "Blockchain Developer": [
+    "truffle",
+    "smart contracts",
+    "solidity",
+    "web3.js",
+    "ethereum",
+    "hardhat"
+  ],
+  "Game Developer": [
+    "3d modeling",
+    "game physics",
+    "unreal engine",
+    "unity",
+    "c#"
   ]
 }

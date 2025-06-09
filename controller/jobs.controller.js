@@ -192,9 +192,7 @@ exports.getJobsByRecruiterId = async (req, res) => {
     const recruiter = await Recruiter.findOne({ userId })
 
     if (!recruiter) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Recruiter not found' })
+      return res.status(404).json({ success: false, message: 'Jobs not found' })
     }
 
     const recruiterId = recruiter._id
@@ -281,12 +279,6 @@ exports.deleteJob = async (req, res) => {
     const job = await Job.findById(jobId)
     if (!job) {
       return res.status(404).json({ success: false, message: 'Job not found' })
-    }
-
-    if (job.recruiterId.toString() !== recruiterId.toString()) {
-      return res
-        .status(403)
-        .json({ success: false, message: 'Unauthorized to delete this job' })
     }
 
     await Job.findByIdAndDelete(jobId)

@@ -1,6 +1,7 @@
 const Recruiter = require('../models/Recruiter')
 const User = require('../models/User')
 const { format } = require('date-fns')
+const path = require('path')
 const { uploadImageToCloudinary } = require('../utils/imageUploader')
 
 exports.getAllRecruiters = async (req, res) => {
@@ -130,10 +131,15 @@ exports.addOrEditRecruiterProfile = async (req, res) => {
     let recruiter = await Recruiter.findOne({ userId: uid })
 
     let uploadedImage
+    let tempPath
     if (profilePhoto) {
+      tempPath = path.join(__dirname, '../temp', profilePhoto?.name)
+      await profilePhoto.mv(tempPath)
+      const fileName = profilePhoto.name.replace(/\.[^/.]+$/, '')
       uploadedImage = await uploadImageToCloudinary(
-        profilePhoto,
+        tempPath,
         process.env.FOLDER_NAME,
+        fileName,
       )
     }
 
@@ -159,8 +165,11 @@ exports.addOrEditRecruiterProfile = async (req, res) => {
     const isComplete = !!recruiter.companyName && !!recruiter.address
 
     recruiter.profileCompletion = isComplete
-    await recruiter.save()
 
+    await recruiter.save()
+    if (fs.existsSync(tempPath) && profilePhoto) {
+      fs.unlinkSync(tempPath)
+    }
     return res.status(200).json({
       success: true,
       profileCompletion: isComplete,

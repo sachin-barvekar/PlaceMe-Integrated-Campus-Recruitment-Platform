@@ -67,10 +67,15 @@ exports.addOrEditAdminProfile = async (req, res) => {
     let admin = await Admin.findOne({ userId: uid })
 
     let uploadedImage
+    let tempPath
     if (profilePhoto) {
+      tempPath = path.join(__dirname, '../temp', profilePhoto?.name)
+      await profilePhoto.mv(tempPath)
+      const fileName = profilePhoto.name.replace(/\.[^/.]+$/, '')
       uploadedImage = await uploadImageToCloudinary(
-        profilePhoto,
+        tempPath,
         process.env.FOLDER_NAME,
+        fileName,
       )
     }
 
@@ -105,7 +110,9 @@ exports.addOrEditAdminProfile = async (req, res) => {
 
     admin.profileCompletion = isComplete
     await admin.save()
-
+    if (fs.existsSync(tempPath) && profilePhoto) {
+      fs.unlinkSync(tempPath)
+    }
     return res.status(200).json({
       success: true,
       profileCompletion: isComplete,
