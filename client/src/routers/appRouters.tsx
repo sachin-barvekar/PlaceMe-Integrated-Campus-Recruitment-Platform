@@ -12,6 +12,7 @@ import JobList from '../pages/jobs/jobList/JobList'
 import JobDetails from '../pages/jobs/jobDetails/JobDetails'
 import PlaceStudentByRecruiterList from '../pages/placeStudents/placeStudentListByRecruiter/PlacementListByRecruiter'
 import ViewStudent from '../pages/profile/studentProfile/viewStudent/ViewStudent'
+import RoleSkillMapping from '../pages/settings/roleSkillMapping/RoleSkillMapping'
 import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
@@ -123,6 +124,14 @@ const appRouter = () =>
               element: (
                 <RouteGuard requiredRoles={['recruiter']}>
                   <PlaceStudentByRecruiterList />
+                </RouteGuard>
+              ),
+            },
+            {
+              path: '/settings',
+              element: (
+                <RouteGuard requiredRoles={['admin']}>
+                  <RoleSkillMapping />
                 </RouteGuard>
               ),
             },

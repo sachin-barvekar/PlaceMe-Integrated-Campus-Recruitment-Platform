@@ -23,6 +23,7 @@ const {
 const {
   addOrEditAdminProfile,
   AdminProfileCompletion,
+  skillMappingByAdmin,
 } = require('../controller/admin.controller')
 const {
   RecruiterProfileCompletion,
@@ -112,4 +113,5 @@ router.get(
   calculatePlacementScoreForStudent,
 )
 
+router.post('/skill-mapping-by-admin', verifyFirebaseToken, skillMappingByAdmin)
 module.exports = router

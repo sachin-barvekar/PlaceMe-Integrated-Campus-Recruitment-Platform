@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react'
-import { AiOutlineHome } from 'react-icons/ai'
+import { AiOutlineHome, AiFillSetting } from 'react-icons/ai'
 import { MdBusiness, MdAssignmentTurnedIn, MdWork } from 'react-icons/md'
 import { FaUserGraduate } from 'react-icons/fa'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
@@ -77,6 +77,13 @@ const menuItems: MenuItemType[] = [
     link: '/job-offers',
     icon: FaUserGraduate,
     roles: ['recruiter'],
+  },
+  {
+    id: '9',
+    name: 'Settings',
+    link: '/settings',
+    icon: AiFillSetting,
+    roles: ['admin'],
   },
 ]
 

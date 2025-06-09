@@ -1,22 +1,34 @@
-def fetch_job_data():
-    return [
-        {"role": "Backend Developer", "skills": ["Node.js", "Express", "MongoDB", "SQL", "REST APIs"]},
-        {"role": "Frontend Developer", "skills": ["React", "HTML", "CSS", "JavaScript", "Redux"]},
-        {"role": "Full Stack Developer", "skills": ["Node.js", "React", "MongoDB", "Express", "HTML", "CSS"]},
-        {"role": "MERN Stack Developer", "skills": ["MongoDB", "Express.js", "React.js", "Node.js"]},
-        {"role": "MEAN Stack Developer", "skills": ["MongoDB", "Express.js", "Angular", "Node.js"]},
-        {"role": "Java Full Stack Developer", "skills": ["Java", "Spring Boot", "Hibernate", "React/Angular", "MySQL"]},
-        {"role": "Python Full Stack Developer", "skills": ["Python", "Django/Flask", "React/Angular", "PostgreSQL", "REST APIs"]},
-        {"role": "Data Scientist", "skills": ["Python", "Pandas", "Scikit-learn", "NumPy", "Matplotlib", "TensorFlow"]},
-        {"role": "Machine Learning Engineer", "skills": ["Python", "TensorFlow", "Keras", "Scikit-learn", "Data Preprocessing"]},
-        {"role": "DevOps Engineer", "skills": ["AWS", "Docker", "Kubernetes", "Jenkins", "Terraform", "Linux"]},
-        {"role": "Mobile App Developer", "skills": ["Flutter", "React Native", "Dart", "Java (Android)", "Swift (iOS)"]},
-        {"role": "Cloud Engineer", "skills": ["AWS", "Azure", "GCP", "CI/CD", "Terraform", "Linux"]},
-        {"role": "Cybersecurity Analyst", "skills": ["Network Security", "Firewalls", "Vulnerability Assessment", "SIEM", "Python"]},
-        {"role": "UI/UX Designer", "skills": ["Figma", "Adobe XD", "Wireframing", "User Research", "Prototyping"]},
-        {"role": "QA Engineer", "skills": ["Selenium", "Postman", "Test Cases", "JIRA", "Automation Testing"]},
-        {"role": "Blockchain Developer", "skills": ["Solidity", "Ethereum", "Smart Contracts", "Web3.js", "Truffle"]},
-        {"role": "AI Engineer", "skills": ["Deep Learning", "Neural Networks", "Python", "PyTorch", "OpenCV"]},
-        {"role": "System Administrator", "skills": ["Linux", "Bash Scripting", "Networking", "User Management", "Monitoring Tools"]},
-        {"role": "Technical Support Engineer", "skills": ["Troubleshooting", "Networking", "Windows/Linux", "Customer Service", "Documentation"]},
-    ]
+import sys
+import json
+import csv
+
+def parse_csv(file_path):
+    role_skills = {}
+    try:
+        with open(file_path, encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                role = row.get("role")
+                skills = row.get("skills")
+                if role and skills:
+                    skill_list = [s.strip().lower() for s in skills.split(",")]
+                    role = role.strip()
+                    if role in role_skills:
+                        role_skills[role].extend(skill_list)
+                    else:
+                        role_skills[role] = skill_list
+    except Exception as e:
+        print(json.dumps({"error": str(e)}), file=sys.stderr)
+        exit(1)
+
+    return role_skills
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(json.dumps({"error": "CSV path missing"}), file=sys.stderr)
+        exit(1)
+
+    file_path = sys.argv[1]
+    parsed_roles = parse_csv(file_path)
+    output = [{"role": k, "skills": v} for k, v in parsed_roles.items()]
+    print(json.dumps(output))

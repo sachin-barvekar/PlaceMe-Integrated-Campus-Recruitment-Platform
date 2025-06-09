@@ -1,137 +1,18 @@
 {
   "Backend Developer": [
-    "MongoDB",
-    "REST APIs",
-    "Express",
-    "SQL",
-    "Node.js"
+    "express",
+    "node.js",
+    "mongodb",
+    "paint",
+    "excel",
+    "rest apis",
+    "sql"
   ],
   "Frontend Developer": [
-    "Redux",
-    "CSS",
-    "React",
-    "JavaScript",
-    "HTML"
-  ],
-  "Full Stack Developer": [
-    "CSS",
-    "React",
-    "MongoDB",
-    "HTML",
-    "Express",
-    "Node.js"
-  ],
-  "MERN Stack Developer": [
-    "React.js",
-    "Node.js",
-    "Express.js",
-    "MongoDB"
-  ],
-  "MEAN Stack Developer": [
-    "Node.js",
-    "Angular",
-    "Express.js",
-    "MongoDB"
-  ],
-  "Java Full Stack Developer": [
-    "React/Angular",
-    "MySQL",
-    "Hibernate",
-    "Java",
-    "Spring Boot"
-  ],
-  "Python Full Stack Developer": [
-    "Django/Flask",
-    "React/Angular",
-    "REST APIs",
-    "PostgreSQL",
-    "Python"
-  ],
-  "Data Scientist": [
-    "TensorFlow",
-    "NumPy",
-    "Scikit-learn",
-    "Matplotlib",
-    "Python",
-    "Pandas"
-  ],
-  "Machine Learning Engineer": [
-    "Data Preprocessing",
-    "TensorFlow",
-    "Scikit-learn",
-    "Python",
-    "Keras"
-  ],
-  "DevOps Engineer": [
-    "Linux",
-    "AWS",
-    "Docker",
-    "Kubernetes",
-    "Terraform",
-    "Jenkins"
-  ],
-  "Mobile App Developer": [
-    "Java (Android)",
-    "Dart",
-    "React Native",
-    "Swift (iOS)",
-    "Flutter"
-  ],
-  "Cloud Engineer": [
-    "CI/CD",
-    "Linux",
-    "AWS",
-    "Azure",
-    "Terraform",
-    "GCP"
-  ],
-  "Cybersecurity Analyst": [
-    "Network Security",
-    "Vulnerability Assessment",
-    "Python",
-    "Firewalls",
-    "SIEM"
-  ],
-  "UI/UX Designer": [
-    "Adobe XD",
-    "User Research",
-    "Wireframing",
-    "Prototyping",
-    "Figma"
-  ],
-  "QA Engineer": [
-    "JIRA",
-    "Postman",
-    "Automation Testing",
-    "Selenium",
-    "Test Cases"
-  ],
-  "Blockchain Developer": [
-    "Ethereum",
-    "Solidity",
-    "Smart Contracts",
-    "Web3.js",
-    "Truffle"
-  ],
-  "AI Engineer": [
-    "Neural Networks",
-    "PyTorch",
-    "Deep Learning",
-    "OpenCV",
-    "Python"
-  ],
-  "System Administrator": [
-    "Linux",
-    "Networking",
-    "User Management",
-    "Monitoring Tools",
-    "Bash Scripting"
-  ],
-  "Technical Support Engineer": [
-    "Customer Service",
-    "Networking",
-    "Documentation",
-    "Windows/Linux",
-    "Troubleshooting"
+    "javascript",
+    "css",
+    "react",
+    "html",
+    "redux"
   ]
 }

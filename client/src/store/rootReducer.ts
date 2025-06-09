@@ -6,6 +6,7 @@ import dashboardApi from '../api/dashboardApi'
 import studentApi from '../api/studentApi'
 import recruiterApi from '../api/recruiterApi'
 import jobApi from '../api/jobApi'
+import settingsApi from '../api/settingsApi'
 
 const rootReducer = combineSlices(
   loginApi,
@@ -15,6 +16,7 @@ const rootReducer = combineSlices(
   dashboardApi,
   recruiterApi,
   jobApi,
+  settingsApi,
 )
 
 export type RootState = ReturnType<typeof rootReducer>

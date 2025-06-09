@@ -1,0 +1,73 @@
+@use '../../../scss/abstracts' as *;
+
+.role-skill-mapping-container {
+  padding: 1.5rem;
+  border-radius: 2px;
+  height: calc(100vh - 12rem);
+  color: $color-black;
+  background-color: $color-white;
+  overflow-y: auto;
+  .intro-section,
+  .note-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-section {
+    margin: 1.5rem 0;
+    .csv-uploader {
+      cursor: pointer;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      border: 1px dotted gray;
+      padding: 1rem;
+      .no-csv {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        background-color: #f8f4f4;
+        width: 100%;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .option {
+        display: flex;
+        position: relative;
+        bottom: 100%;
+        justify-content: flex-end;
+        margin-right: 1rem;
+        gap: 10px;
+        color: $color-white;
+
+        .edit-icon {
+          cursor: pointer;
+          background-color: $primary-color;
+          padding: 0.5rem;
+          width: 16px;
+          height: 16px;
+          font-size: 18px;
+          border-radius: 30%;
+        }
+      }
+    }
+  }
+
+  .note-section {
+    pre {
+      background-color: $color-white;
+      border-left: 4px solid #f0ad4e;
+      padding: 1rem;
+      white-space: pre-wrap;
+      margin-top: 0.5rem;
+      color: #8a6d3b;
+    }
+
+    ul {
+      margin: 0.5rem 0 0.75rem 1.25rem;
+      li {
+        margin-bottom: 0.4rem;
+      }
+    }
+  }
+}
