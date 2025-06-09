@@ -33,6 +33,7 @@ exports.getAllRecruiters = async (req, res) => {
       const { userId, ...recruiterData } = recruiter.toObject()
       return {
         ...recruiterData,
+        recruiterId: userId._id,
         name: userId?.name || '',
         email: userId?.email || '',
         companyName: recruiter.companyName || '-',

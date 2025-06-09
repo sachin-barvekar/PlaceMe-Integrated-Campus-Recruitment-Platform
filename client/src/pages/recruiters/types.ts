@@ -11,6 +11,7 @@ export interface Recruiter {
   name: string
   email: string
   search?: string
+  recruiterId?: string
 }
 
 export interface RecruitersListParams {

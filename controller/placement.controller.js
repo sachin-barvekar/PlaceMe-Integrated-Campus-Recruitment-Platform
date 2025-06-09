@@ -121,6 +121,7 @@ exports.getAllPlacements = async (req, res) => {
           branch: student?.branch || '-',
           profilePhoto: student?.profilePhoto || '-',
           companyName: placement.companyName,
+          companyId: placement?.companyId?._id,
           jobRole: placement.jobRole,
           package: placement.package,
           location: placement.location,

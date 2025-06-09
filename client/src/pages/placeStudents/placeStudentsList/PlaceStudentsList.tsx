@@ -11,6 +11,8 @@ import {
 } from '../placeStudentApiSlice'
 import { Placement } from '../types'
 import CreateEditPlacement from './addPlaceStudent/CreateEditPlaceStudent'
+import { useFetchRecruiterListQuery } from '../../recruiters/recruiterListApiSlice'
+import { Recruiter } from '../../recruiters/types'
 
 const PlaceStudentList: FC = () => {
   const authContext = useContext(AuthContext)
@@ -31,6 +33,33 @@ const PlaceStudentList: FC = () => {
   const { data, isFetching } = useFetchPlacementListQuery(requestBody)
 
   const total = data?.totalElements ?? data?.content?.length ?? 0
+  const { requestBody: recruiterReq } = useTableHandlers<
+    Recruiter,
+    IListApiRequest<Recruiter>
+  >({
+    page: { size: Number.MAX_SAFE_INTEGER, number: 0 },
+    filters: [],
+  })
+
+  const { data: recruiterData } = useFetchRecruiterListQuery(recruiterReq)
+  const recruiterMapData = [
+    ...(recruiterData?.content?.map(recruiter => ({
+      label: recruiter.companyName,
+      value: recruiter.recruiterId,
+    })) || []),
+    { label: 'Other', value: 'other' },
+  ]
+
+  const companyIdToNameMap = new Map(
+    recruiterMapData?.map(recruiter => [recruiter.value, recruiter.label]),
+  )
+
+  const formattedPlacementData =
+    data?.content?.map((placement: Placement) => ({
+      ...placement,
+      companyName:
+        companyIdToNameMap.get(placement.companyId) || placement.companyName, // fallback
+    })) || []
   const options = [
     {
       label: 'Placed Students',
@@ -86,7 +115,7 @@ const PlaceStudentList: FC = () => {
       />
       <div className='card-list__main-container'>
         <CardTable
-          data={data?.content ?? []}
+          data={formattedPlacementData ?? []}
           loading={isFetching}
           onSortColumn={onSortColumn}
           paginated
@@ -108,6 +137,7 @@ const PlaceStudentList: FC = () => {
         }}
         isEditMode={isEditMode}
         placementData={selectedPlacementData}
+        recruiterMapData={recruiterMapData}
       />
     </div>
   )

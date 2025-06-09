@@ -341,7 +341,9 @@ const JobDetails = () => {
                   tooltip
                   dataKey='action'
                   onAction={handleAction}
-                  actionOptions={['View', 'Select']}
+                  actionOptions={
+                    role == 'admin' ? ['View'] : ['View', 'Select']
+                  }
                 />
               </Column>
             </Table>

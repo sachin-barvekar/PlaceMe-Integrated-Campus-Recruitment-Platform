@@ -36,6 +36,8 @@ type Props = {
   onClose: () => void
   placementData?: Placement | undefined
   isEditMode: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  recruiterMapData?: any[]
 }
 
 const CreateEditPlacement: React.FC<Props> = ({
@@ -43,6 +45,7 @@ const CreateEditPlacement: React.FC<Props> = ({
   onClose,
   placementData,
   isEditMode,
+  recruiterMapData,
 }) => {
   const {
     STUDENT_NAME,
@@ -59,8 +62,8 @@ const CreateEditPlacement: React.FC<Props> = ({
       filters: [],
     },
   )
-  const { data } = useFetchStudentsListQuery(requestBody)
 
+  const { data } = useFetchStudentsListQuery(requestBody)
   const studentData =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?.content?.map((student: { userId: { name: any; _id: any } }) => ({
@@ -186,10 +189,7 @@ const CreateEditPlacement: React.FC<Props> = ({
                     <Col xs={12}>
                       <SelectDropdown
                         name={COMPANY_ID}
-                        data={[
-                          { label: 'Company A', value: 'CompanyA' },
-                          { label: 'Other', value: 'other' },
-                        ]}
+                        data={recruiterMapData ?? []}
                         placeholder='Select Company'
                         value={formikProps.values[COMPANY_ID]}
                         onChange={value =>
