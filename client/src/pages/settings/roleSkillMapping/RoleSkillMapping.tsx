@@ -106,7 +106,7 @@ const RoleSkillMapping: React.FC = () => {
             <p>Example CSV content:</p>
             <pre>
               {`role,skills
-Backend Developer,"Node.js, Express, MongoDB, SQL, REST APIs, excel, paint"
+Backend Developer,"Node.js, Express, MongoDB, SQL, REST APIs"
 Frontend Developer,"React, HTML, CSS, JavaScript, Redux"`}
             </pre>
           </div>
