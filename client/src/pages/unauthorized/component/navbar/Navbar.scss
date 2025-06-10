@@ -1,0 +1,33 @@
+.transparent-navbar {
+// background-color: rgb(199.2472527473, 210.478021978, 237.7527472527) !important;
+background-color: #2b478b !important;
+    color: #fff;
+// border: 1px solid red;
+  .rs-navbar-brand,
+  .rs-nav-item {
+    color: black !important; // Change to dark if needed
+  }
+
+ 
+}
+.navbar-overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+//   background: black;
+}
+
+.transparent-navbar {
+//   background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+.navbar-overlay{
+    // border: 1px solid red;
+   
+}

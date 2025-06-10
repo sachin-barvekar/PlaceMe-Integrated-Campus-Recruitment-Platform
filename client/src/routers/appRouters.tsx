@@ -26,18 +26,46 @@ const appRouter = () =>
       children: [
         {
           path: '/auth',
-          element: <LoginPage />,
+           element: (
+    <>
+      <Navbar />
+     <HeroSection />
+     <Footer/>
+    
+       
+    
+    </>
+           )
+          
+
+            
+        },
+          {
+          path: '/about',
+          element: <About/>,
+        },
+         {
+          path: '/contact',
+          element: <Contact/>,
+        },
+           {
+          path: '/services',
+          element: <Services/>,
         },
         {
           path: '/logout',
           element: <LogoutPage />,
         },
-        {
-          element: (
-            <AuthGuard>
-              <AuthLayout />
-            </AuthGuard>
-          ),
+         {
+          path: '/login',
+          element:  <LoginPage />,
+        },
+      {
+  element: (
+    <AuthGuard>
+      <AuthLayout />
+    </AuthGuard>
+  ),
           children: [
             {
               path: '/',
@@ -151,6 +179,6 @@ const appRouter = () =>
         },
       ],
     },
-  ])
+  ]);
 
-export default appRouter
+export default appRouter;

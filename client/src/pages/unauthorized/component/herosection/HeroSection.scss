@@ -1,0 +1,130 @@
+.hero-carousel {
+  .hero-swiper {
+    // width: 100%;
+    // height: 100%;
+    
+    // border: 1px solid red;
+  }
+
+  .hero-slide {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0;
+    position: relative;
+    // border: 1px solid red;
+    background: linear-gradient(-90deg, transparent, #273044 65%);
+        position: relative !important;
+    background-size: cover !important;
+    // overflow: hidden !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    // padding-top: 30px;
+
+    .overlay {
+    //   background: rgba(0, 0, 0, 0.5);
+      padding: 60px 0;
+
+      .container1 {
+        .content {
+          max-width: 700px;
+          color: white;
+          text-align: left;
+
+          span {
+            font-size: 20px;
+            color: #ccc;
+          }
+
+          h1 {
+            font-size: 50px;
+            font-weight: 800;
+            margin: 20px 0;
+          }
+
+          .buttons {
+            display: flex;
+            gap: 15px;
+
+            .btn {
+              padding: 12px 24px;
+              border-radius: 30px;
+              text-decoration: none;
+              font-weight: 600;
+              transition: all 0.3s ease;
+
+              &.primary {
+                background: #007bff;
+                color: #fff;
+
+                &:hover {
+                  background: #0056b3;
+                }
+              }
+
+              &.white {
+                background: #fff;
+                color: #000;
+
+                &:hover {
+                  background: #ddd;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.logo {
+    margin-top: -10px;
+  height: 45px;
+  padding-left: 100px;
+//   padding: 30px;
+//   width: auto;
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.nav-item {
+  color: white !important;
+  font-weight: bold;
+  padding: 0 55px !important;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+.overlay .container1 .content{
+    // border: 1px solid red;
+    // padding: 100px;
+    padding-left: 160px;
+    padding-top: 30px;
+}
+.overlay span{
+    
+
+    font-weight: 500;
+    animation-delay: 0.5s;
+    display: block;
+    position: relative;
+        color: #ff7029 !important;
+}
+.overlay h1{
+    // --bs-text-opacity: 1;
+    // color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+    color: white;
+    font-weight: 800;
+    font-size: 5rem !important;
+    line-height: 1.2;
+
+
+}
