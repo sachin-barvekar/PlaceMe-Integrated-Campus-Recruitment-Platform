@@ -1,9 +1,8 @@
 .about-section {
   background: #f9f9f9;
-//   color: #333;
   font-family: 'Segoe UI', sans-serif;
   padding-bottom: 60px;
-   padding-top: 80px;
+  padding-top: 80px;
 
   .fade-in {
     opacity: 0;
@@ -21,10 +20,10 @@
 }
 
 .about-hero {
-//   background: linear-gradient(to right, #4e54c8, #8f94fb);
+  //   background: linear-gradient(to right, #4e54c8, #8f94fb);
   padding: 70px 20px;
   text-align: center;
-//   color: #fff;
+  //   color: #fff;
 
   h1 {
     font-size: 2.8rem;
@@ -147,7 +146,6 @@
   }
 }
 
-
 .styled-separator {
   margin: 60px auto 40px auto;
   width: 80%;
@@ -157,7 +155,6 @@
   background: linear-gradient(to right, #4e54c8, #8f94fb);
   position: relative;
   animation: glow 1s infinite alternate;
-
 }
 
 @keyframes glow {

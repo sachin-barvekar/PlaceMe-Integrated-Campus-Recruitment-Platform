@@ -15,7 +15,7 @@ const Logout = () => {
       } catch (error) {
         console.error('Logout failed', error)
       } finally {
-        navigate('/auth')
+        navigate('/')
       }
     }
 

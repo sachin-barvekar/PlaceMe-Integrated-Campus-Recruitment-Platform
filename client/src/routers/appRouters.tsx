@@ -17,7 +17,10 @@ import LogoutPage from '../pages/login/Logout'
 import LoginPage from '../pages/login/Login'
 import AuthLayout from '../layouts/AuthLayout'
 import RootLayout from '../layouts/RootLayout'
-import Unauth from '../pages/unauthorized'
+import About from '../pages/unauthorized/navbar/About'
+import HeroCarousel from '../pages/unauthorized/herosection/HeroSection'
+import Services from '../pages/unauthorized/navbar/Services'
+import Contact from '../pages/unauthorized/navbar/Contact'
 
 const appRouter = () =>
   createBrowserRouter([
@@ -25,47 +28,35 @@ const appRouter = () =>
       element: <RootLayout />,
       children: [
         {
-          path: '/auth',
-           element: (
-    <>
-      <Navbar />
-     <HeroSection />
-     <Footer/>
-    
-       
-    
-    </>
-           )
-          
-
-            
-        },
-          {
-          path: '/about',
-          element: <About/>,
-        },
-         {
-          path: '/contact',
-          element: <Contact/>,
-        },
-           {
-          path: '/services',
-          element: <Services/>,
+          path: '/',
+          element: <HeroCarousel />,
         },
         {
-          path: '/logout',
+          path: '/about',
+          element: <About />,
+        },
+        {
+          path: 'services',
+          element: <Services />,
+        },
+        {
+          path: 'contact',
+          element: <Contact />,
+        },
+        {
+          path: 'login',
+          element: <LoginPage />,
+        },
+        {
+          path: 'logout',
           element: <LogoutPage />,
         },
-         {
-          path: '/login',
-          element:  <LoginPage />,
-        },
-      {
-  element: (
-    <AuthGuard>
-      <AuthLayout />
-    </AuthGuard>
-  ),
+        {
+          element: (
+            <AuthGuard>
+              <AuthLayout />
+            </AuthGuard>
+          ),
           children: [
             {
               path: '/',
@@ -173,12 +164,8 @@ const appRouter = () =>
             },
           ],
         },
-        {
-          path: '/home',
-          element: <Unauth />,
-        },
       ],
     },
-  ]);
+  ])
 
-export default appRouter;
+export default appRouter

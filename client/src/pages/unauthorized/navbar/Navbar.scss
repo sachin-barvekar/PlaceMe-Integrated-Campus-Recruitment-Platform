@@ -1,0 +1,27 @@
+$navbar-bg: #2b4687;
+$navbar-text-color: white;
+$navbar-hover-color: #1f3261;
+
+.transparent-navbar {
+  background-color: $navbar-bg !important;
+  color: $navbar-text-color;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  align-items: center;
+
+  .rs-navbar-item,
+  .rs-navbar-nav > .rs-dropdown,
+  .rs-navbar-nav > .rs-dropdown .rs-dropdown-toggle {
+    color: $navbar-text-color;
+  }
+
+  .logo {
+    max-height: 30px;
+  }
+
+  .rs-nav {
+    display: flex;
+    gap: 1rem;
+  }
+}

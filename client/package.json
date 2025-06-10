@@ -27,6 +27,7 @@
     "react-toastify": "^11.0.5",
     "rsuite": "^5.79.1",
     "store_rating": "file:..",
+    "swiper": "^11.2.8",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-toastify": "^4.1.0",
+    "@types/swiper": "^5.4.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
