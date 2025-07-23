@@ -7,12 +7,12 @@
 .app {
   --rs-text-link: #{$text-color-primary};
   --rs-sidenav-subtle-text: #{$text-color-primary};
-  --rs-dropdown-divider: #{$dropdown-divider-color};
+  --rs-dropdown-divider: #{$divider-color}; // Updated to use the correct variable
   --rs-border-primary: #{$divider-color};
   // Tabs
   --rs-navs-selected: #{$text-color-primary};
   --rs-navs-selected-color: #{$text-color-primary};
-  --rs-navs-text: #{$text-color-lighter-2};
+  --rs-navs-text: #{$text-color-lighter-2}; // This variable might also be outdated
   // divider
   --rs-divider-border: #{$divider-color};
 
