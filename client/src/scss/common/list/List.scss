@@ -5,18 +5,70 @@
     background-color: $color-white;
     box-sizing: border-box;
     text-align: left;
-    color: var(--gray-700);
+    color: $text-color-content; // Use defined text color
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    border: 1px solid $border-color-light; // Add a light border around the container
+    border-radius: 4px; // Add a subtle border radius
+    overflow: hidden; // Hide overflowing content
   }
-  .rs-table-cell-content {
-    white-space: nowrap !important;
-    overflow: hidden;
-    text-overflow: ellipsis !important;
-    overflow: hidden;
-    align-items: center;
-    display: flex;
-    justify-content: flex-start !important;
+
+  // Styling for RSuite Table component
+  .rs-table {
+    border: none; // Remove default table border
+
+    .rs-table-header-cell {
+      background-color: $background-color-lighter; // Use lighter background for header
+      color: $text-color-heading; // Use heading text color for header
+      font-weight: 600; // Slightly bolder font weight
+      padding: 12px 15px; // Adjust padding
+      border-bottom: 1px solid $border-color; // Add bottom border to header cells
+    }
+
+    .rs-table-cell {
+      padding: 10px 15px; // Adjust padding
+      border-bottom: 1px solid $border-color-light; // Add light bottom border to cells
+      color: $text-color-content; // Use defined text color
+
+      &.rs-table-cell-first,
+      &.rs-table-cell-last {
+        border-right: none; // Remove right border for first and last cells
+      }
+    }
+
+    .rs-table-row-even {
+      background-color: $background-color-light; // Add light background to even rows for striping
+    }
+
+    .rs-table-row-hover {
+      background-color: $background-color-lighter; // Highlight row on hover
+    }
+
+    .rs-table-cell-content {
+      white-space: nowrap !important;
+      overflow: hidden;
+      text-overflow: ellipsis !important;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start !important;
+    }
+  }
+
+  // Optional: Add some basic styling for a simple list if needed
+  &__simple-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 10px 0;
+      border-bottom: 1px solid $border-color-light;
+      color: $text-color-content;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }

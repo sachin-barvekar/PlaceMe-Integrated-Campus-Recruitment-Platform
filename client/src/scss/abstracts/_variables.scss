@@ -4,46 +4,54 @@
 $primary-color: #2b478b; // Define your primary color (blue)
 $secondary-color: #f99746; // Define your secondary color (orange)
 
-// Text Colors (Dynamic)
-$text-color-primary: #304d70;
-$text-color-secondary: #181818;
-$text-color-lighter: #829cbb;
-$dropdown-divider-color: color.adjust($primary-color, $lightness: 90%);
-$text-color-lighter-2: #4b6c94;
-$text-color-heading: #243757;
-$text-color-content: #417fc9;
-$text-light-grey: #cbd1ea;
-$text-dark-grey: #a0aec3;
-$text-color-light: #464f60;
-$text-color-lighter-3: #6e759f;
-$text-color-background: #f8f9fa;
-$text-color-helper: #496381;
-$text-color-green: #5ea650;
-$text-color-orange: #ff9e3d;
-$text-color-green-2: #e3ffe7;
+// Grayscale colors
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
 
-// Button Colors (Dynamic)
-$button-color-primary-gradient-start: color.adjust($primary-color, $lightness: 10%);
-$button-color-primary: $primary-color;
-$button-background-color-subtle: color.adjust($primary-color, $lightness: 85%);
-$button-background-color-lighter: color.adjust($primary-color, $lightness: 60%);
-$button-color-subtle: color.adjust($primary-color, $lightness: 30%);
-$button-background-color-primary: $primary-color;
-$button-background-color-secondary: $secondary-color;
-$button-color-primary-default: color.adjust($primary-color, $lightness: 75%);
-$button-border-color: color.adjust($primary-color, $lightness: 70%);
+// Text Colors
+$text-color-primary: $gray-800;
+$text-color-secondary: $gray-600;
+$text-color-light: $gray-500;
+$text-color-heading: $gray-900;
+$text-color-content: $gray-700;
+$text-color-helper: $gray-600;
+$text-color-background: $gray-100;
 
-// Background Colors (Dynamic)
-$background-color-darker: #e9edf5;
-$background-color-lighter-200: #f3f6f8;
-$background-color-lighter: color.adjust($primary-color, $lightness: 50%);
-$background-color-darker-2: color.adjust($primary-color, $lightness: -20%);
+// Brand Colors
+$brand-primary: $primary-color;
+$brand-secondary: $secondary-color;
+$brand-success: #28a745;
+$brand-info: #17a2b8;
+$brand-warning: #ffc107;
+$brand-danger: #dc3545;
 
-// Divider and Border Colors (Dynamic)
-$divider-color: var(--rs-gray-400);
-$toolbar-border-bottom-color: color.adjust($primary-color, $lightness: 85%);
-$border-color: color.adjust($primary-color, $lightness: 50%);
-$border-color-darker: color.adjust($primary-color, $lightness: -30%);
+// Background Colors
+$background-color-light: $gray-100;
+$background-color-lighter: $gray-200;
+$background-color-darker: $gray-300;
+
+// Border Colors
+$border-color: $gray-300;
+$border-color-light: $gray-200;
+$border-color-darker: $gray-400;
+
+// Divider Color
+$divider-color: $gray-300;
+
+// Button Colors
+$button-color-primary: $brand-primary;
+$button-color-secondary: $brand-secondary;
+$button-color-success: $brand-success;
+$button-color-danger: $brand-danger;
+$button-background-color-subtle: $gray-200;
+$button-color-subtle: $gray-700;
 
 // Additional Variables
 $color-white: #fff;
