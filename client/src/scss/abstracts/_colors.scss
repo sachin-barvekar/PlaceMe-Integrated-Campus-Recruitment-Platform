@@ -3,21 +3,21 @@
 :root {
   --text-color: #{$text-color-primary};
   --text-color-secondary: #{$text-color-secondary};
-  --background-color-lighter-200: #{$background-color-lighter-200};
+  --background-color-lighter: #{$background-color-lighter}; // Updated to use the new variable name
   --background-color-darker: #{$background-color-darker};
-  --border-color: #d4e2ef;
+  --border-color: #d4e2ef; // This might need adjustment based on the new palette
   /* Global colors */
   --color-white: #fff;
   --color-dark: #212a2e;
   --color-steelblue-100: #6e759f;
   --color-steelblue-200: #304d70;
-  --gray-50: #e9edf5;
-  --gray-700: #464f60;
+  --gray-50: #e9edf5; // This might be redundant with the new grayscale palette
+  --gray-700: #464f60; // This might be redundant with the new grayscale palette
   --white: #fff;
   --san-juan: #304c6f;
-  --alabaster: #f8f9fa;
-  --athens-gray: #eef1f5;
-  --wild-sand: #f2f4f5;
+  --alabaster: #f8f9fa; // This might be redundant with $gray-100
+  --athens-gray: #eef1f5; // This might be redundant with the new grayscale palette
+  --wild-sand: #f2f4f5; // This might be redundant with the new grayscale palette
 
   /* font sizes */
   --caption-size: 12px;
